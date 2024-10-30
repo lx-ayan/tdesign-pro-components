@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import {ElButton} from 'element-plus';
 defineOptions({
   name: 'ProTable'
 })
@@ -6,4 +7,5 @@ defineOptions({
 
 <template>
   <button>Hello</button>
+  <ElButton>Hello World</ElButton>
 </template>
