@@ -51,7 +51,6 @@ jobs:
           name: docs
           path: ./docs/.vitepress/dist
 
-
   deploy:
     name: Deploy to Github Pages
     runs-on: ubuntu-latest
