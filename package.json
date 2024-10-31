@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo Hello Test",
-    "dev": "pnpm --filter @element-pro-component/play dev"
+    "dev": "pnpm --filter @element-pro-component/play dev",
+    "docs:build": "pnpm --filter @element-pro-component/docs docs:build"
   },
   "keywords": [],
   "author": "",
