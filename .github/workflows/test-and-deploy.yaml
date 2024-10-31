@@ -42,9 +42,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: cd Doc
-        run: cd docs
-
       - name: Build doc
         run: npm run docs:build
 
