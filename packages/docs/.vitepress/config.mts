@@ -2,9 +2,9 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "element-pro-component",
+  title: "tdesign-pro-components",
   description: "基于 ElementUI 二次封装的高级组件",
-  base: "/element-pro-component/",
+  base: "/tdesign-pro-components/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

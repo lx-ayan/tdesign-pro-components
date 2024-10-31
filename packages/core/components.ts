@@ -1,6 +1,6 @@
-import {ProTable} from '@element-pro-component/components';
+import {ProFormSelect} from '@tdesign-pro-components/components';
 import {Plugin} from 'vue';
 
 export default [
-    ProTable
+
 ] as Plugin[]
