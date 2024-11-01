@@ -1,7 +1,8 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
 import { warn } from '@tdesign-pro-components/utils/log';
-import { ProFormSelectProps } from './types';
+import { CustomOptionInfo, ProFormSelectProps } from './types';
+import { SelectDataOption, isFunction } from '@tdesign-pro-components/utils';
 
 defineOptions({ name: 'ProFormSelect' });
 
@@ -16,28 +17,52 @@ const emits = defineEmits<{
 }>();
 
 
-const options = ref<any[]>([]);
+const options = ref<SelectDataOption[]>([]);
+
+const innerLoading = ref(false);
 
 const innerValue = ref<any>(props.modelValue);
 
-function handleChange(value: any) {
-    console.log('value',value);
-}
-
-watch(() => props.modelValue, (val) => innerValue.value = val)
-
 onMounted(() => {
     if (!props.name) {
-        warn('name is empty')
+        warn('name is empty');
     }
-})
+    initData();
+});
+
+function initData() {
+    if (isFunction(props.data)) {
+        innerLoading.value = true;
+        (props.data as Function)().then((res: any) => {
+            options.value = res.map((item: any) => ({ label: item[props.labelName], value: item[props.valueName], disabled: item.disabled }))
+        }).finally(() => {
+            innerLoading.value = false;
+        })
+    } else {
+        options.value = (props.data as CustomOptionInfo[]).map((item: any) => ({ label: item[props.labelName], value: item[props.valueName], disabled: item.disabled }))
+    }
+}
+
+function handleChange(value: any) {
+    emits('change', value);
+}
+
+watch(() => props.modelValue, (value) => innerValue.value = value)
+
+watch(innerValue, (value) => {
+    emits('update:modelValue', value);
+});
+
+watch(() => props.loading, (value) => innerLoading.value = value);
+
+
 </script>
 
 <template>
     <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules">
-        <t-select v-bind="$attrs" :multiple="multiple" :disabled="disabled"
-            :readonly="props.readonly" @change="handleChange" v-model="innerValue"
-            :placeholder="props.placeholder || `请选择${label || '数据'}`" :options="options"></t-select>
+        <t-select :loadingText="props.loadingText" :loading="innerLoading" valueType="object" v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly"
+            @change="handleChange" v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`"
+            :options="options"></t-select>
     </t-form-item>
 </template>
 
