@@ -12,7 +12,6 @@ function requestData() {
     { label: '淮北卫生学校', value: '3' },
   ])
 }
-
 </script>
 
 <template>

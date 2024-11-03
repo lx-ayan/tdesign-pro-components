@@ -1,3 +1,4 @@
+import { ValueType } from "@tdesign-pro-components/utils";
 import { FormItemProps, FormRule, InputProps, SizeEnum } from "tdesign-vue-next";
 
 export interface ProFormInputProps {
@@ -21,4 +22,11 @@ export interface ProFormInputProps {
     requiredMark?: boolean;
     rules?: Array<FormRule>;
     formItemProps?: FormItemProps;
+}
+
+export interface ProFormInputRef {
+    focus: () => void;
+    blur: () => void;
+    clear: () => void;
+    getValue: () => ValueType;
 }

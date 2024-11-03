@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { warn } from '@tdesign-pro-components/utils/log';
-import { ProFormInputProps } from './types';
+import { ProFormInputProps, ProFormInputRef } from './types';
 import { onMounted, ref, watch } from 'vue';
 
 defineOptions({ name: 'ProFormInput' });
 
 const props = withDefaults(defineProps<ProFormInputProps>(), {});
+
+const tInputRef = ref<any>();
 
 const emits = defineEmits<{
     (e: 'update:modelValue', value: string): void;
@@ -100,6 +102,13 @@ watch(innerValue, (value) => {
     emits('update:modelValue', value);
 });
 
+defineExpose<ProFormInputRef>({
+    blur: () => tInputRef.value.blur(),
+    focus: () => tInputRef.value.focus(),
+    getValue: () => innerValue.value,
+    clear: () => innerValue.value = '',
+})
+
 </script>
 
 <template>
@@ -118,7 +127,8 @@ watch(innerValue, (value) => {
             <template v-if="slots.append" #append>
                 <slot name="append" />
             </template>
-            <t-input 
+            <t-input
+                ref="tInputRef"
                 :readonly="props.readonly"
                 :autofocus="props.autofocus"
                 :borderless="props.borderless"
@@ -159,6 +169,7 @@ watch(innerValue, (value) => {
         </t-input-adornment>
         <t-input 
                 v-else
+                ref="tInputRef"
                 :readonly="props.readonly"
                 :autofocus="props.autofocus"
                 :borderless="props.borderless"
