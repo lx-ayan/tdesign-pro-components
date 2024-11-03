@@ -1,6 +1,7 @@
-import {ProFormSelect} from '@tdesign-pro-components/components';
+import {ProFormSelect, ProFormInput} from '@tdesign-pro-components/components';
 import {Plugin} from 'vue';
 
 export default [
-    ProFormSelect
+    ProFormSelect,
+    ProFormInput
 ] as Plugin[]
