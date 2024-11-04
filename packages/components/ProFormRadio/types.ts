@@ -1,5 +1,5 @@
 import { PromiseFunction, ValueType } from "@tdesign-pro-components/utils";
-import { FormItemProps, FormRule } from "tdesign-vue-next";
+import { FormItemProps, FormRule, RadioGroupProps } from "tdesign-vue-next";
 
 export interface ProFormRadioProps {
     name: string;
@@ -15,7 +15,10 @@ export interface ProFormRadioProps {
     labelName?: string;
     valueName?: string;
     button?: boolean;
-    
+    radioProps?: RadioGroupProps;
+    disabled?: boolean;
+    readonly?: boolean;
+    variant?: "outline" | "primary-filled" | "default-filled";
 }
 
 export interface RadioOptionProps {

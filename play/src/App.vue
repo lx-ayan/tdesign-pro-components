@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 const form = ref({
   school: '',
-  name: ''
+  name: '',
+  sex: ''
 });
 
 function requestData() {
@@ -41,7 +42,7 @@ function requestSexData() {
 
 <template>
   <h1>登记信息</h1>
-  <t-button>Hello</t-button>
+  {{ form }}
   <t-form>
     <ProFormInput v-model="form.name" name="name" label="姓名">
 
@@ -50,7 +51,7 @@ function requestSexData() {
 
     </ProFormSelect>
 
-    <ProFormRadio button :data="requestSexData" label="性别" name="sex">
+    <ProFormRadio v-model="form.sex"  :data="requestSexData" label="性别" name="sex">
     </ProFormRadio>
   </t-form>
 </template>
