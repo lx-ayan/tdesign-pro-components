@@ -1,8 +1,7 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
-import { warn } from '@tdesign-pro-components/utils/log';
-import { CustomOptionInfo, ProFormSelectProps } from './types';
-import { SelectDataOption, isFunction } from '@tdesign-pro-components/utils';
+import { ProFormSelectProps, SelectOptionProps } from './types';
+import { isFunction, warn } from '@tdesign-pro-components/utils';
 
 defineOptions({ name: 'ProFormSelect' });
 
@@ -16,12 +15,15 @@ const emits = defineEmits<{
     (e: 'change', value: { label: string, value: any } | Array<{ label: string, value: any }>): void;
 }>();
 
-
-const options = ref<SelectDataOption[]>([]);
+const options = ref<SelectOptionProps[]>([]);
 
 const innerLoading = ref(false);
 
+const isGroup = ref(false);
+
 const innerValue = ref<any>(props.modelValue);
+
+const slots = defineSlots();
 
 onMounted(() => {
     if (!props.name) {
@@ -34,12 +36,27 @@ function initData() {
     if (isFunction(props.data)) {
         innerLoading.value = true;
         (props.data as Function)().then((res: any) => {
-            options.value = res.map((item: any) => ({ label: item[props.labelName], value: item[props.valueName], disabled: item.disabled }))
+            options.value = res.map((item: any) => makeOptionData(item))
         }).finally(() => {
             innerLoading.value = false;
         })
     } else {
-        options.value = (props.data as CustomOptionInfo[]).map((item: any) => ({ label: item[props.labelName], value: item[props.valueName], disabled: item.disabled }))
+        options.value = (props.data as SelectOptionProps[]).map((item: any) => {
+            return makeOptionData(item)
+        })
+    }
+}
+
+function makeOptionData(item: SelectOptionProps) {
+    if (item.group) {
+        isGroup.value = true;
+        return {
+            ...item,
+            children: item.children?.map((children: any) => ({ label: children[props.labelName], value: children[props.valueName], disabled: children.disabled }))
+        }
+    } else {
+        isGroup.value = false;
+        return { label: (item as any)[props.labelName], value: (item as any)[props.valueName], disabled: (item as { disabled: boolean }).disabled }
     }
 }
 
@@ -55,14 +72,58 @@ watch(innerValue, (value) => {
 
 watch(() => props.loading, (value) => innerLoading.value = value);
 
+watch(() => props.data, () => {
+    initData();
+})
 
 </script>
 
 <template>
     <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules">
-        <t-select :loadingText="props.loadingText" :loading="innerLoading" valueType="object" v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly"
-            @change="handleChange" v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`"
-            :options="options"></t-select>
+        <t-select :label="props.selectLabel" :creatable="props.creatable" :clearable="props.clearable"
+            :borderless="props.borderless" :autoWidth="props.autoWidth" :autofocus="props.autofocus"
+            :loadingText="props.loadingText" :loading="innerLoading" v-bind="props.selectProps"
+            :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly" @change="handleChange"
+            v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`">
+            <template v-if="slots.prefixIcon" #prefixIcon>
+                <slot name="prefixIcon"></slot>
+            </template>
+
+            <template v-if="slots.panelTopContent" #panelTopContent>
+                <slot name="panelTopContent"></slot>
+            </template>
+
+            <template v-if="slots.panelBottomContent" #panelBottomContent>
+                <slot name="panelTopContent"></slot>
+            </template>
+
+            <template v-if="slots.valueDisplay" #valueDisplay="{ value }">
+                <slot :value="value" name="valueDisplay"></slot>
+            </template>
+
+            <template v-if="isGroup">
+                <t-option-group v-for="(list, index) in options" :key="index"
+                    :label="typeof list.group === 'object' ? list.group.label : list.group" divider>
+                    <t-option v-for="option in list.children" :key="option.value" :value="option.value"
+                        :label="option.label">
+                        <template v-if="slots.default" #default>
+                            <slot name="default" :value="option.value" :label="option.label"></slot>
+                        </template>
+                    </t-option>
+                </t-option-group>
+            </template>
+            <template v-else>
+                <t-option v-for="option in options" :key="option.value" :value="option.value" :label="option.label">
+                    <template v-if="slots.default" #default>
+                        <slot name="default" :value="option.value" :label="option.label"></slot>
+                    </template>
+                </t-option>
+            </template>
+
+            <template v-if="slots['select-label']" #label>
+                <slot name="select-label"></slot>
+            </template>
+        </t-select>
     </t-form-item>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { warn } from '@tdesign-pro-components/utils/log';
+import { warn } from '@tdesign-pro-components/utils';
 import { ProFormInputProps, ProFormInputRef } from './types';
 import { onMounted, ref, watch } from 'vue';
 
