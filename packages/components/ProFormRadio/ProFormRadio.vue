@@ -57,7 +57,7 @@ watch(() => props.data, () => {
 </script>
 
 <template>
-    <t-form-item :rules="props.rules" :label="props.label" :name="props.name" v-bind="props.formItemProps">
+    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" :rules="props.rules" :label="props.label" :name="props.name" v-bind="props.formItemProps">
         <t-radio-group v-bind="props.radioProps" :variant="props.variant" :disabled="props.disabled" :readonly="props.readonly" v-model="innerValue" @change="handleChange">
             <template v-if="!props.button">
                 <t-radio v-for="item in options" :value="item.value" :label="item.label" :key="item.label">

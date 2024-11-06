@@ -3,7 +3,9 @@ import { ref } from 'vue';
 const form = ref({
   school: '',
   name: '',
-  sex: ''
+  sex: '',
+  likes: [],
+  createtime: ''
 });
 
 function requestData() {
@@ -42,7 +44,6 @@ function requestSexData() {
 
 <template>
   <h1>登记信息</h1>
-  {{ form }}
   <t-form>
     <ProFormInput v-model="form.name" name="name" label="姓名">
 
@@ -51,8 +52,14 @@ function requestSexData() {
 
     </ProFormSelect>
 
-    <ProFormRadio v-model="form.sex"  :data="requestSexData" label="性别" name="sex">
-    </ProFormRadio>
+    <ProFormRadio v-model="form.sex" :data="requestSexData" label="性别" name="sex" />
+
+    <ProFormCheckbox name="likes" label="喜好" :data="requestSexData" v-model="form.likes" />
+
+    <ProFormDatepicker range name="createtime" label="发布时间" v-model="form.createtime">
+
+    </ProFormDatepicker>
+
   </t-form>
 </template>
 

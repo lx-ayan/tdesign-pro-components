@@ -7,6 +7,7 @@ import 'tdesign-vue-next/es/style/index.css';
 import ProComponents from 'tdesign-pro-components';
 
 const app = createApp(App);
+
 app.use(TDesign);
 app.use(ProComponents);
 app.mount('#app');

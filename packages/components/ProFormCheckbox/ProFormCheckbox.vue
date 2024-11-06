@@ -56,8 +56,8 @@ watch(() => props.data, () => {
 </script>
 
 <template>
-    <t-form-item :label="props.label" :name="props.name" v-bind="props.checkboxProps" :rules="props.rules">
-            <t-checkbox-group :max="props.max" :disabled="props.disabled" :readonly="props.readonly" :options="options" v-bind=""></t-checkbox-group>
+    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" :label="props.label" :name="props.name" v-bind="props.checkboxProps" :rules="props.rules">
+            <t-checkbox-group v-model="innerValue" @change="handleChange" :max="props.max" :disabled="props.disabled" :readonly="props.readonly" :options="options" v-bind="props.checkboxProps"></t-checkbox-group>
     </t-form-item>
 </template>
 

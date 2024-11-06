@@ -17,6 +17,7 @@ export interface ProFormInputProps {
     append?: string;
     prepend?: string;
     inputProps?: InputProps;
+    
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
     requiredMark?: boolean;

@@ -79,8 +79,61 @@ watch(() => props.data, () => {
 </script>
 
 <template>
-    <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules">
-        <t-select :label="props.selectLabel" :creatable="props.creatable" :clearable="props.clearable"
+    <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules" :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark">
+        <t-input-adornment v-if="(slots.prepend || slots.append || props.prepend || props.append)"
+            :prepend="props.prepend" :append="props.append">
+            <template v-if="slots.prepend" #prepend>
+                <slot name="prepend" />
+            </template>
+            <template v-if="slots.append" #append>
+                <slot name="append" />
+            </template>
+            <t-select :label="props.selectLabel" :creatable="props.creatable" :clearable="props.clearable"
+                :borderless="props.borderless" :autoWidth="props.autoWidth" :autofocus="props.autofocus"
+                :loadingText="props.loadingText" :loading="innerLoading" v-bind="props.selectProps"
+                :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly" @change="handleChange"
+                v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`">
+                <template v-if="slots.prefixIcon" #prefixIcon>
+                    <slot name="prefixIcon"></slot>
+                </template>
+
+                <template v-if="slots.panelTopContent" #panelTopContent>
+                    <slot name="panelTopContent"></slot>
+                </template>
+
+                <template v-if="slots.panelBottomContent" #panelBottomContent>
+                    <slot name="panelTopContent"></slot>
+                </template>
+
+                <template v-if="slots.valueDisplay" #valueDisplay="{ value }">
+                    <slot :value="value" name="valueDisplay"></slot>
+                </template>
+
+                <template v-if="isGroup">
+                    <t-option-group v-for="(list, index) in options" :key="index"
+                        :label="typeof list.group === 'object' ? list.group.label : list.group" divider>
+                        <t-option v-for="option in list.children" :key="option.value" :value="option.value"
+                            :label="option.label">
+                            <template v-if="slots.default" #default>
+                                <slot name="default" :value="option.value" :label="option.label"></slot>
+                            </template>
+                        </t-option>
+                    </t-option-group>
+                </template>
+                <template v-else>
+                    <t-option v-for="option in options" :key="option.value" :value="option.value" :label="option.label">
+                        <template v-if="slots.default" #default>
+                            <slot name="default" :value="option.value" :label="option.label"></slot>
+                        </template>
+                    </t-option>
+                </template>
+
+                <template v-if="slots['select-label']" #label>
+                    <slot name="select-label"></slot>
+                </template>
+            </t-select>
+        </t-input-adornment>
+        <t-select v-else :label="props.selectLabel" :creatable="props.creatable" :clearable="props.clearable"
             :borderless="props.borderless" :autoWidth="props.autoWidth" :autofocus="props.autofocus"
             :loadingText="props.loadingText" :loading="innerLoading" v-bind="props.selectProps"
             :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly" @change="handleChange"

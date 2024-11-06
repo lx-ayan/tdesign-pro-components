@@ -10,6 +10,13 @@ export interface ProFormSelectProps {
   label?: string;
   rules?: FormRule[];
   formItemProps?: FormItemProps;
+  labelWidth?: string | number;
+  labelAlign?: 'left' | 'top' | 'right';
+  requiredMark?: boolean;
+  
+  // input decorator
+  prepend?: string;
+  append?: string;
 
   // select
   labelName?: string;
