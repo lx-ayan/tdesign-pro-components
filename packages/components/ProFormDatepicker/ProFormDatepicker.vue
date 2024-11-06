@@ -76,7 +76,7 @@ watch(innerValue, (value) => {
         <slot name="append" />
       </template>
 
-      <t-date-picker ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+      <t-date-picker  :size="props.size" ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
         @confirm="handleConfirm" v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
         :allow-input="props.allowInput" v-bind="props.datepickerProps" :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>
@@ -90,7 +90,7 @@ watch(innerValue, (value) => {
     </t-input-adornment>
 
     <template v-else>
-      <t-date-picker ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+      <t-date-picker  :size="props.size" ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
         @confirm="handleConfirm" v-if="!props.range" v-model="innerValue" :disabled="props.disabled"
         :placeholder="props.placeholder" :allow-input="props.allowInput" v-bind="props.datepickerProps"
         :clearable="props.clearable">
@@ -103,7 +103,7 @@ watch(innerValue, (value) => {
         </template>
       </t-date-picker>
 
-      <t-date-range-picker ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+      <t-date-range-picker :size="props.size" ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
         @confirm="handleConfirm" v-else v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
         :allow-input="props.allowInput" v-bind="props.datepickerProps" :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>

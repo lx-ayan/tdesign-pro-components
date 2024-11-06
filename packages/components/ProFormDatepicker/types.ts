@@ -1,4 +1,4 @@
-import { DatePickerProps, DateValue, FormItemProps, FormRule } from "tdesign-vue-next";
+import { DatePickerProps, DateValue, FormItemProps, FormRule, SizeEnum } from "tdesign-vue-next";
 
 export type DatePickerValueType = DateValue | (DateValue)[]
 
@@ -18,6 +18,7 @@ export interface ProFormDatepickerProps {
     append?: string;
 
     // datepicker props
+    size?: SizeEnum;
     placeholder?: string;
     disabled?: boolean;
     range?: boolean;

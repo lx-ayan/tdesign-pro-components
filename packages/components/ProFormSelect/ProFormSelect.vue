@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
-import { ProFormSelectProps, SelectOptionProps } from './types';
+import { ProFormSelectProps, SelectOptionProps, ProFormSelectRef } from './types';
 import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
 import { PopupVisibleChangeContext, SelectInputValueChangeContext, SelectRemoveContext } from 'tdesign-vue-next';
 
@@ -117,13 +117,14 @@ watch(() => props.data, () => {
     initData();
 });
 
-defineExpose({
+defineExpose<ProFormSelectRef>({
     getValue: () => innerValue.value,
     focus: () => selectRef.value.focus(),
     blur: () => selectRef.value.blur(),
     clear: () => {
-        innerValue.value = props.multiple? []: '';
-    }
+        innerValue.value = props.multiple ? [] : '';
+    },
+    getRef: () => selectRef.value
 });
 
 </script>
@@ -139,7 +140,7 @@ defineExpose({
             <template v-if="slots.append" #append>
                 <slot name="append" />
             </template>
-            <t-select ref="selectRef" :label="props.selectLabel" :creatable="props.creatable"
+            <t-select ref="selectRef" :label="props.selectLabel" :creatable="props.creatable" :size="props.size"
                 :clearable="props.clearable" :borderless="props.borderless" :autoWidth="props.autoWidth"
                 :autofocus="props.autofocus" :loadingText="props.loadingText" :loading="innerLoading"
                 v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"

@@ -6,14 +6,34 @@ const form = ref({
   sex: '',
   likes: [],
   createtime: '',
-  count: 100
+  count: 100,
+  description: '',
+  address: ''
 });
 
 const iptRef = ref();
 
-onMounted(() => {
-  // iptRef.value.focus();
-})
+const data = [{
+  label: '广东省',
+  valueName: 'guangdong',
+  children: [{
+    label: '广州市',
+    valueName: 'guangzhou',
+  }, {
+    label: '深圳市',
+    valueName: 'shenzhen',
+  }],
+}, {
+  label: '江苏省',
+  valueName: 'jiangsu',
+  children: [{
+    label: '南京市',
+    valueName: 'nanjing',
+  }, {
+    label: '苏州市',
+    valueName: 'suzhou',
+  }],
+}]
 
 function requestData() {
   return Promise.resolve([
@@ -52,9 +72,9 @@ function requestSexData() {
 <template>
   <h1>登记信息</h1>
   <t-form>
-    <ProFormInput v-model="form.name" name="name" label="姓名">
+    <ProFormText v-model="form.name" name="name" label="姓名">
 
-    </ProFormInput>
+    </ProFormText>
     <ProFormSelect :data="requestData" v-model="form.school" name="school" label="学校">
 
     </ProFormSelect>
@@ -63,14 +83,16 @@ function requestSexData() {
 
     <ProFormCheckbox name="likes" label="喜好" :data="requestSexData" v-model="form.likes" />
 
-    <ProFormDatepicker  name="createtime" label="发布时间" v-model="form.createtime">
+    <ProFormDatepicker name="createtime" label="发布时间" v-model="form.createtime">
 
     </ProFormDatepicker>
 
-    <ProFormInputNumber ref="iptRef" autoWidth label="库存" name="count" v-model="form.count" />
+    <ProFormInputNumber autoWidth label="库存" name="count" v-model="form.count" />
 
+    <ProFormTextarea ref="iptRef" label="描述" name="description" v-model="form.description" />
+
+    <ProFormTreeSelect valueName="valueName" :data label="地区" name="address" v-model="form.address" />
   </t-form>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

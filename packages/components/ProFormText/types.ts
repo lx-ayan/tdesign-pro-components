@@ -1,7 +1,7 @@
 import { ValueType } from "@tdesign-pro-components/utils";
 import { FormItemProps, FormRule, InputProps, SizeEnum } from "tdesign-vue-next";
 
-export interface ProFormInputProps {
+export interface ProFormTextProps {
     name: string;
     modelValue: string;
     label?: string;
@@ -17,7 +17,7 @@ export interface ProFormInputProps {
     append?: string;
     prepend?: string;
     inputProps?: InputProps;
-    
+
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
     requiredMark?: boolean;
@@ -25,9 +25,10 @@ export interface ProFormInputProps {
     formItemProps?: FormItemProps;
 }
 
-export interface ProFormInputRef {
+export interface ProFormTextRef {
     focus: () => void;
     blur: () => void;
     clear: () => void;
     getValue: () => ValueType;
+    getRef: <T extends any = any> () => T
 }

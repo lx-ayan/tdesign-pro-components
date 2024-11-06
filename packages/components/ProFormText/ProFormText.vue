@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { warn } from '@tdesign-pro-components/utils';
-import { ProFormInputProps, ProFormInputRef } from './types';
+import { ProFormTextProps, ProFormInputRef } from './types';
 import { onMounted, ref, watch } from 'vue';
 
-defineOptions({ name: 'ProFormInput' });
+defineOptions({ name: 'ProFormText' });
 
-const props = withDefaults(defineProps<ProFormInputProps>(), {});
+const props = withDefaults(defineProps<ProFormTextProps>(), {});
 
-const tInputRef = ref<any>();
+const inputRef = ref<any>();
 
 const emits = defineEmits<{
     (e: 'update:modelValue', value: string): void;
@@ -103,10 +103,11 @@ watch(innerValue, (value) => {
 });
 
 defineExpose<ProFormInputRef>({
-    blur: () => tInputRef.value.blur(),
-    focus: () => tInputRef.value.focus(),
+    blur: () => inputRef.value.blur(),
+    focus: () => inputRef.value.focus(),
     getValue: () => innerValue.value,
     clear: () => innerValue.value = '',
+    getRef: () => inputRef.value
 })
 
 </script>
@@ -128,7 +129,7 @@ defineExpose<ProFormInputRef>({
                 <slot name="append" />
             </template>
             <t-input
-                ref="tInputRef"
+                ref="inputRef"
                 :readonly="props.readonly"
                 :autofocus="props.autofocus"
                 :borderless="props.borderless"

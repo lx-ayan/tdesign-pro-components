@@ -1,5 +1,5 @@
 import { PromiseFunction, ValueType } from "@tdesign-pro-components/utils";
-import type { FormItemProps, FormRule, SelectProps } from 'tdesign-vue-next';
+import type { FormItemProps, FormRule, SelectProps, SizeEnum } from 'tdesign-vue-next';
 
 export interface ProFormSelectProps {
   name: string;
@@ -13,12 +13,13 @@ export interface ProFormSelectProps {
   labelWidth?: string | number;
   labelAlign?: 'left' | 'top' | 'right';
   requiredMark?: boolean;
-  
+
   // input decorator
   prepend?: string;
   append?: string;
 
   // select
+  size?: SizeEnum;
   labelName?: string;
   valueName?: string;
   disabled?: boolean;
@@ -48,4 +49,12 @@ export interface SelectOptionProps {
   value?: number;
   children?: SelectOptionProps[];
   [name: string]: any;
+}
+
+export interface ProFormSelectRef {
+  getValue: () => ValueType;
+  focus: () => void;
+  blur: () => void;
+  clear: () => void;
+  getRef: <T extends any = any> () => T;
 }
