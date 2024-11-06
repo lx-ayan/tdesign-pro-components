@@ -1,7 +1,8 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
 import { ProFormSelectProps, SelectOptionProps } from './types';
-import { isFunction, warn } from '@tdesign-pro-components/utils';
+import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
+import { PopupVisibleChangeContext, SelectInputValueChangeContext, SelectRemoveContext } from 'tdesign-vue-next';
 
 defineOptions({ name: 'ProFormSelect' });
 
@@ -13,6 +14,13 @@ const props = withDefaults(defineProps<ProFormSelectProps>(), {
 const emits = defineEmits<{
     (e: 'update:modelValue', value: any): void;
     (e: 'change', value: { label: string, value: any } | Array<{ label: string, value: any }>): void;
+    (e: 'create', value: ValueType): void;
+    (e: 'enter', context: { inputValue: string; e: KeyboardEvent; value: ValueType }): void;
+    (e: 'focus', context: { value: ValueType; e: FocusEvent | KeyboardEvent }): void;
+    (e: 'input-change', value: ValueType, context?: SelectInputValueChangeContext): void;
+    (e: 'popup-visible-change', visible: boolean, context: PopupVisibleChangeContext): void;
+    (e: 'remove', options: SelectRemoveContext<any>): void;
+    (e: 'search', filterWords: string, context: { e: KeyboardEvent }): void;
 }>();
 
 const options = ref<SelectOptionProps[]>([]);
@@ -22,6 +30,8 @@ const innerLoading = ref(false);
 const isGroup = ref(false);
 
 const innerValue = ref<any>(props.modelValue);
+
+const selectRef = ref<any>();
 
 const slots = defineSlots();
 
@@ -60,9 +70,40 @@ function makeOptionData(item: SelectOptionProps) {
     }
 }
 
+
+
 function handleChange(value: any) {
     emits('change', value);
 }
+
+function handleCreate(value: ValueType) {
+    emits('create', value);
+}
+
+function handleEnter(context: { inputValue: string; e: KeyboardEvent; value: ValueType }) {
+    emits('enter', context);
+}
+
+function handleFocus(context: { value: ValueType; e: FocusEvent | KeyboardEvent }) {
+    emits('focus', context);
+}
+
+function handleRemove(options: SelectRemoveContext<any>) {
+    emits('remove', options);
+}
+
+function handleSearch(filterWords: string, context: { e: KeyboardEvent }) {
+    emits('search', filterWords, context);
+}
+
+function handleInputChange(value: ValueType, context?: SelectInputValueChangeContext) {
+    emits('input-change', value, context);
+}
+
+function handlePopupVisibleChange(visible: boolean, context: PopupVisibleChangeContext) {
+    emits('popup-visible-change', visible, context);
+}
+
 
 watch(() => props.modelValue, (value) => innerValue.value = value)
 
@@ -74,12 +115,22 @@ watch(() => props.loading, (value) => innerLoading.value = value);
 
 watch(() => props.data, () => {
     initData();
-})
+});
+
+defineExpose({
+    getValue: () => innerValue.value,
+    focus: () => selectRef.value.focus(),
+    blur: () => selectRef.value.blur(),
+    clear: () => {
+        innerValue.value = props.multiple? []: '';
+    }
+});
 
 </script>
 
 <template>
-    <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules" :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark">
+    <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules"
+        :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark">
         <t-input-adornment v-if="(slots.prepend || slots.append || props.prepend || props.append)"
             :prepend="props.prepend" :append="props.append">
             <template v-if="slots.prepend" #prepend>
@@ -88,11 +139,14 @@ watch(() => props.data, () => {
             <template v-if="slots.append" #append>
                 <slot name="append" />
             </template>
-            <t-select :label="props.selectLabel" :creatable="props.creatable" :clearable="props.clearable"
-                :borderless="props.borderless" :autoWidth="props.autoWidth" :autofocus="props.autofocus"
-                :loadingText="props.loadingText" :loading="innerLoading" v-bind="props.selectProps"
-                :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly" @change="handleChange"
-                v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`">
+            <t-select ref="selectRef" :label="props.selectLabel" :creatable="props.creatable"
+                :clearable="props.clearable" :borderless="props.borderless" :autoWidth="props.autoWidth"
+                :autofocus="props.autofocus" :loadingText="props.loadingText" :loading="innerLoading"
+                v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"
+                :readonly="props.readonly" v-model="innerValue"
+                :placeholder="props.placeholder || `请选择${label || '数据'}`" @change="handleChange" @create="handleCreate"
+                @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
+                @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove" @search="handleSearch">
                 <template v-if="slots.prefixIcon" #prefixIcon>
                     <slot name="prefixIcon"></slot>
                 </template>
@@ -133,11 +187,13 @@ watch(() => props.data, () => {
                 </template>
             </t-select>
         </t-input-adornment>
-        <t-select v-else :label="props.selectLabel" :creatable="props.creatable" :clearable="props.clearable"
-            :borderless="props.borderless" :autoWidth="props.autoWidth" :autofocus="props.autofocus"
-            :loadingText="props.loadingText" :loading="innerLoading" v-bind="props.selectProps"
-            :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly" @change="handleChange"
-            v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`">
+        <t-select ref="selectRef" v-else :label="props.selectLabel" :creatable="props.creatable"
+            :clearable="props.clearable" :borderless="props.borderless" :autoWidth="props.autoWidth"
+            :autofocus="props.autofocus" :loadingText="props.loadingText" :loading="innerLoading"
+            v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly"
+            v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`" @change="handleChange"
+            @create="handleCreate" @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
+            @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove" @search="handleSearch">
             <template v-if="slots.prefixIcon" #prefixIcon>
                 <slot name="prefixIcon"></slot>
             </template>

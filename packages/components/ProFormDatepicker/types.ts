@@ -1,6 +1,6 @@
-import { DatePickerProps, FormItemProps, FormRule } from "tdesign-vue-next";
+import { DatePickerProps, DateValue, FormItemProps, FormRule } from "tdesign-vue-next";
 
-export type DatePickerValueType = string | Date | (string | Date)[]
+export type DatePickerValueType = DateValue | (DateValue)[]
 
 export interface ProFormDatepickerProps {
     // form props

@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 const form = ref({
   school: '',
   name: '',
   sex: '',
   likes: [],
-  createtime: ''
+  createtime: '',
+  count: 100
 });
+
+const iptRef = ref();
+
+onMounted(() => {
+  // iptRef.value.focus();
+})
 
 function requestData() {
   return Promise.resolve([
@@ -56,11 +63,14 @@ function requestSexData() {
 
     <ProFormCheckbox name="likes" label="喜好" :data="requestSexData" v-model="form.likes" />
 
-    <ProFormDatepicker range name="createtime" label="发布时间" v-model="form.createtime">
+    <ProFormDatepicker  name="createtime" label="发布时间" v-model="form.createtime">
 
     </ProFormDatepicker>
+
+    <ProFormInputNumber ref="iptRef" autoWidth label="库存" name="count" v-model="form.count" />
 
   </t-form>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

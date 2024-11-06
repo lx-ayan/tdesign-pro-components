@@ -27,7 +27,7 @@ const emits = defineEmits<{
     (e: 'wheel', context: { e: WheelEvent }): void;
 }>();
 
-const innerValue = ref('');
+const innerValue = ref(props.modelValue);
 
 const slots = defineSlots();
 
@@ -137,8 +137,8 @@ defineExpose<ProFormInputRef>({
                 :size="props.size"
                 :type="props.type"
                 :align="props.align"
-                @input="handleInput" 
                 v-model="innerValue" 
+                @input="handleInput" 
                 @change="handleChange"
                 @blur="handleBlur"
                 @focus="handleFocus"

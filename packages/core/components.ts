@@ -1,4 +1,4 @@
-import {ProFormSelect, ProFormInput, ProFormRadio, ProFormCheckbox, ProFormDatepicker} from '@tdesign-pro-components/components';
+import {ProFormSelect, ProFormInput, ProFormRadio, ProFormCheckbox, ProFormDatepicker, ProFormInputNumber} from '@tdesign-pro-components/components';
 import {Plugin} from 'vue';
 
 export default [
@@ -6,5 +6,6 @@ export default [
     ProFormInput,
     ProFormRadio,
     ProFormCheckbox,
-    ProFormDatepicker
+    ProFormDatepicker,
+    ProFormInputNumber
 ] as Plugin[]

@@ -54,6 +54,10 @@ watch(() => props.data, () => {
     initData();
 })
 
+defineExpose({
+  getValue: () => innerValue.value
+});
+
 </script>
 
 <template>

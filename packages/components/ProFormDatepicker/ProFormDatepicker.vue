@@ -1,6 +1,8 @@
 <script setup lang='ts'>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { ProFormDatepickerProps, DatePickerValueType } from './types';
+import { warn } from '@tdesign-pro-components/utils';
+import { DatePickerTriggerSource } from 'tdesign-vue-next';
 
 defineOptions({
   name: 'ProFormDatepicker'
@@ -8,16 +10,52 @@ defineOptions({
 
 const props = withDefaults(defineProps<ProFormDatepickerProps>(), {});
 
-const innerValue = ref<DatePickerValueType>(props.range ? [] : '');
+const innerValue = ref<DatePickerValueType>(props.modelValue || (props.range ? [] : ''));
+
+const datePickerRef = ref<any>();
 
 const slots = defineSlots();
 
+onMounted(() => {
+  if (!props.name) {
+    warn('name is empty');
+  }
+})
+
 const emits = defineEmits<{
   (e: 'update:modelValue', value: any): void;
-  (e: 'change', value: { label: string, value: any } | Array<{ label: string, value: any }>): void;
+  (e: 'change', value: DatePickerValueType, context: { dayjsValue?: any, trigger?: DatePickerTriggerSource }): void;
+  (e: 'pick', value: DatePickerValueType): void;
+  (e: 'confirm', context: { date: Date, e: MouseEvent }): void;
+  (e: 'focus', context: { value: DatePickerValueType; e: FocusEvent }): void;
+  (e: 'blur', context: { value: DatePickerValueType; e: FocusEvent }): void;
 }>();
 
-watch(() => props.modelValue, (value) => innerValue.value = value)
+function handleChange(value: DatePickerValueType, context: { dayjsValue?: any, trigger?: DatePickerTriggerSource }) {
+  emits('change', value, context);
+}
+
+function handlePick(value: DatePickerValueType) {
+  emits('pick', value);
+}
+
+function handleFocus(context: { value: DatePickerValueType; e: FocusEvent }) {
+  emits('focus', context);
+}
+
+function handleBlur(context: { value: DatePickerValueType; e: FocusEvent }) {
+  emits('blur', context);
+}
+
+function handleConfirm(context: { date: Date, e: MouseEvent }) {
+  emits('confirm', context);
+}
+
+defineExpose({
+  getValue: () => innerValue.value
+});
+
+watch(() => props.modelValue, (value) => innerValue.value = value);
 
 watch(innerValue, (value) => {
   emits('update:modelValue', value);
@@ -26,9 +64,11 @@ watch(innerValue, (value) => {
 </script>
 
 <template>
-  <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" :label="props.label" :name="props.name" :rules="props.rules" v-bind="props.formItemProps">
-    <t-input-adornment v-if="(slots.prepend || slots.append || props.prepend || props.append) && !props.range" :prepend="props.prepend"
-      :append="props.append">
+  <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark"
+    :label="props.label" :name="props.name" :rules="props.rules" v-bind="props.formItemProps">
+    <t-input-adornment ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+      @confirm="handleConfirm" v-if="(slots.prepend || slots.append || props.prepend || props.append) && !props.range"
+      :prepend="props.prepend" :append="props.append">
       <template v-if="slots.prepend" #prepend>
         <slot name="prepend" />
       </template>
@@ -36,21 +76,22 @@ watch(innerValue, (value) => {
         <slot name="append" />
       </template>
 
-      <t-date-picker v-model="innerValue" :disabled="props.disabled"
-          :placeholder="props.placeholder" :allow-input="props.allowInput" v-bind="props.datepickerProps"
-          :clearable="props.clearable">
-          <template v-if="slots.prefixIcon" #prefixIcon>
-            <slot name="prefixIcon" />
-          </template>
+      <t-date-picker ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+        @confirm="handleConfirm" v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
+        :allow-input="props.allowInput" v-bind="props.datepickerProps" :clearable="props.clearable">
+        <template v-if="slots.prefixIcon" #prefixIcon>
+          <slot name="prefixIcon" />
+        </template>
 
-          <template v-if="slots.suffixIcon" #suffixIcon>
-            <slot name="suffixIcon" />
-          </template>
-        </t-date-picker>
+        <template v-if="slots.suffixIcon" #suffixIcon>
+          <slot name="suffixIcon" />
+        </template>
+      </t-date-picker>
     </t-input-adornment>
 
     <template v-else>
-      <t-date-picker v-if="!props.range" v-model="innerValue" :disabled="props.disabled"
+      <t-date-picker ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+        @confirm="handleConfirm" v-if="!props.range" v-model="innerValue" :disabled="props.disabled"
         :placeholder="props.placeholder" :allow-input="props.allowInput" v-bind="props.datepickerProps"
         :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>
@@ -62,7 +103,8 @@ watch(innerValue, (value) => {
         </template>
       </t-date-picker>
 
-      <t-date-range-picker v-else v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
+      <t-date-range-picker ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
+        @confirm="handleConfirm" v-else v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
         :allow-input="props.allowInput" v-bind="props.datepickerProps" :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>
           <slot name="prefixIcon" />
