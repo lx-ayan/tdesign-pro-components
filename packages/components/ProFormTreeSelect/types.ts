@@ -1,6 +1,7 @@
 import { PromiseFunction, ValueType } from "@tdesign-pro-components/utils";
-import { FormItemProps, FormRule, SizeEnum, TreeSelectProps } from "tdesign-vue-next";
+import { FormItemProps, FormRule, SizeEnum, TNode, TreeSelectProps } from "tdesign-vue-next";
 import { ProFormSelectRef } from "../ProFormSelect";
+import { VNode } from "vue";
 
 export interface ProFormTreeSelectProps {
     name: string;
@@ -32,8 +33,8 @@ export interface ProFormTreeSelectProps {
     treeSelectProps?: TreeSelectProps;
 
     // input dectorator
-    append?: string;
-    prepend?: string;
+    append?: string | (() => (TNode | VNode)) | TNode | VNode;
+    prepend?: string | (() => (TNode | VNode)) | TNode | VNode;
 }
 
 export interface TreeSelectOptionProps {

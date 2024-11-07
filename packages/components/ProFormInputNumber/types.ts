@@ -10,7 +10,6 @@ export interface ProFormInputNumberProps {
     formItemProps?: FormItemProps;
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
-    requiredMark?: boolean;
 
     // input Number props
     size?: SizeEnum;

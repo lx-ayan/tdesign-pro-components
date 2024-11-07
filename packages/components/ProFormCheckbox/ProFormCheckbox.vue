@@ -1,10 +1,11 @@
 <script setup lang='ts'>
 import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
-import {CheckboxOptionProps, ProFormCheckboxProps} from './types';
+import { CheckboxOptionProps, ProFormCheckboxProps } from './types';
 import { onMounted, ref, watch } from 'vue';
+import { useVModel } from '@tdesign-pro-components/hooks';
 const emits = defineEmits<{
     (e: 'update:modelValue', value: ValueType): void,
-    (e: 'change', value: ValueType, context: {e: Event, name?: string} ): void
+    (e: 'change', value: ValueType, context: { e: Event, name?: string }): void
 }>()
 
 defineOptions({
@@ -16,7 +17,7 @@ const props = withDefaults(defineProps<ProFormCheckboxProps>(), {
     valueName: 'value'
 });
 
-const innerValue = ref<any>(props.modelValue);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || []);
 
 const options = ref<CheckboxOptionProps[]>([]);
 
@@ -39,29 +40,25 @@ function initData() {
     }
 }
 
-function handleChange(value: ValueType, context: {e: Event, name?: string}) {
+function handleChange(value: ValueType, context: { e: Event, name?: string }) {
     emits('change', value, context);
 }
-
-watch(() => props.modelValue, (value) => innerValue.value = value)
-
-watch(innerValue, (value) => {
-    emits('update:modelValue', value);
-});
 
 watch(() => props.data, () => {
     initData();
 });
 
 defineExpose({
-  getValue: () => innerValue.value
+    getValue: () => innerValue.value
 });
 
 </script>
 
 <template>
-    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" :label="props.label" :name="props.name" v-bind="props.checkboxProps" :rules="props.rules">
-            <t-checkbox-group v-model="innerValue" @change="handleChange" :max="props.max" :disabled="props.disabled" :readonly="props.readonly" :options="options" v-bind="props.checkboxProps"></t-checkbox-group>
+    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign"
+        :label="props.label" :name="props.name" v-bind="props.checkboxProps" :rules="props.rules">
+        <t-checkbox-group v-model="innerValue" @change="handleChange" :max="props.max" :disabled="props.disabled"
+            :readonly="props.readonly" :options="options" v-bind="props.checkboxProps"></t-checkbox-group>
     </t-form-item>
 </template>
 

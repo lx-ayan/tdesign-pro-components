@@ -1,5 +1,6 @@
 import { ValueType } from "@tdesign-pro-components/utils";
-import { FormItemProps, FormRule, InputProps, SizeEnum } from "tdesign-vue-next";
+import { FormItemProps, FormRule, InputProps, SizeEnum, TNode } from "tdesign-vue-next";
+import { VNode } from "vue";
 
 export interface ProFormTextProps {
     name: string;
@@ -14,8 +15,8 @@ export interface ProFormTextProps {
     size?: SizeEnum;
     type?: 'text' | 'password' | 'textarea';
     align?: 'left' | 'center' | 'right';
-    append?: string;
-    prepend?: string;
+    append?: string | (() => (TNode | VNode)) | TNode | VNode;
+    prepend?: string | (() => (TNode | VNode)) | TNode | VNode;
     inputProps?: InputProps;
 
     labelWidth?: string | number;

@@ -12,7 +12,6 @@ export interface ProFormRadioProps {
     formItemProps?: FormItemProps;
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
-    requiredMark?: boolean;
     
     // radio props
     labelName?: string;

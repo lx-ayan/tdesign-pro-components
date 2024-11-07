@@ -1,4 +1,5 @@
-import { DatePickerProps, DateValue, FormItemProps, FormRule, SizeEnum } from "tdesign-vue-next";
+import { DatePickerProps, DateValue, FormItemProps, FormRule, SizeEnum, TNode } from "tdesign-vue-next";
+import { VNode } from "vue";
 
 export type DatePickerValueType = DateValue | (DateValue)[]
 
@@ -11,11 +12,10 @@ export interface ProFormDatepickerProps {
     formItemProps?: FormItemProps;
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
-    requiredMark?: boolean;
-    
+
     // input decorator props
-    prepend?: string;
-    append?: string;
+    append?: string | (() => (TNode | VNode)) | TNode | VNode;
+    prepend?: string | (() => (TNode | VNode)) | TNode | VNode;
 
     // datepicker props
     size?: SizeEnum;

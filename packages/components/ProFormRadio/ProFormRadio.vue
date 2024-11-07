@@ -2,6 +2,7 @@
 import { ProFormRadioProps, RadioOptionProps } from './types';
 import { onMounted, ref, watch } from 'vue';
 import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
+import { useVModel } from '@tdesign-pro-components/hooks';
 
 const emits = defineEmits<{
     (e: 'update:modelValue', value: ValueType): void,
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<ProFormRadioProps>(), {
     valueName: 'value'
 });
 
-const innerValue = ref<any>(props.modelValue);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || []);
 
 const options = ref<RadioOptionProps[]>([]);
 
@@ -44,12 +45,6 @@ function handleChange(value: ValueType, context: {e: Event, name?: string}) {
     emits('change', value, context);
 }
 
-watch(() => props.modelValue, (value) => innerValue.value = value)
-
-watch(innerValue, (value) => {
-    emits('update:modelValue', value);
-});
-
 watch(() => props.data, () => {
     initData();
 })
@@ -61,7 +56,7 @@ defineExpose({
 </script>
 
 <template>
-    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" :rules="props.rules" :label="props.label" :name="props.name" v-bind="props.formItemProps">
+    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :rules="props.rules" :label="props.label" :name="props.name" v-bind="props.formItemProps">
         <t-radio-group v-bind="props.radioProps" :variant="props.variant" :disabled="props.disabled" :readonly="props.readonly" v-model="innerValue" @change="handleChange">
             <template v-if="!props.button">
                 <t-radio v-for="item in options" :value="item.value" :label="item.label" :key="item.label">

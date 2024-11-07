@@ -27,7 +27,7 @@ const emits = defineEmits<{
 
 const innerLoading = ref(false);
 
-const innerValue = ref<ValueType | Array<ValueType>>(props.modelValue);
+const innerValue = ref<ValueType | Array<ValueType>>(props.modelValue || props.multiple? [] : '');
 
 const selectRef = ref<any>();
 
@@ -134,7 +134,7 @@ defineExpose<ProFormTreeSelectRef>({
             <template v-if="slots.append" #append>
                 <slot name="append" />
             </template>
-            <t-tree-select  :data="options" :placeholder="props.placeholder || `请选择${props.label || '数据'}`"
+            <t-tree-select v-model="innerValue"  :data="options" :placeholder="props.placeholder || `请选择${props.label || '数据'}`"
                 @change="handleChange" @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
                 @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove" @search="handleSearch"
                 :disabled="props.disabled" :readonly="props.readonly" :size="props.size" :autoWidth="props.autoWidth"
@@ -155,7 +155,7 @@ defineExpose<ProFormTreeSelectRef>({
                 </template>
             </t-tree-select>
         </t-input-adornment>
-        <t-tree-select v-else :data="options" :placeholder="props.placeholder || `请选择${props.label || '数据'}`"
+        <t-tree-select v-else v-model="innerValue" :data="options" :placeholder="props.placeholder || `请选择${props.label || '数据'}`"
             @change="handleChange" @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
             @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove" @search="handleSearch"
             :disabled="props.disabled" :readonly="props.readonly" :size="props.size" :autoWidth="props.autoWidth"

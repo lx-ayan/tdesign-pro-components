@@ -1,5 +1,6 @@
 import { PromiseFunction, ValueType } from "@tdesign-pro-components/utils";
-import type { FormItemProps, FormRule, SelectProps, SizeEnum } from 'tdesign-vue-next';
+import type { FormItemProps, FormRule, SelectProps, SizeEnum, TNode } from 'tdesign-vue-next';
+import { VNode } from "vue";
 
 export interface ProFormSelectProps {
   name: string;
@@ -15,8 +16,8 @@ export interface ProFormSelectProps {
   requiredMark?: boolean;
 
   // input decorator
-  prepend?: string;
-  append?: string;
+  append?: string | (() => (TNode | VNode)) | TNode | VNode;
+  prepend?: string | (() => (TNode | VNode)) | TNode | VNode;
 
   // select
   size?: SizeEnum;

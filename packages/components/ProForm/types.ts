@@ -1,5 +1,5 @@
-import { PromiseFunction } from "@tdesign-pro-components/utils";
-import { FormRule, FormRules, UploadProps, ValueType } from "tdesign-vue-next";
+import { Optional, PromiseFunction } from "@tdesign-pro-components/utils";
+import { FormProps, FormRule, FormRules, UploadProps, ValueType } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";
 import { ProFormTextProps } from "../ProFormText";
@@ -17,18 +17,23 @@ export interface ProFormProps {
     rules?: FormRules;
     labelAlign?: 'left' | 'top' | 'right';
     labelWidth?: string | number;
-    form?: any;
     readonly?: boolean;
     disabled?: boolean;
     layout?: 'vertical' | 'inline';
     resetText?: string;
     submitText?: string;
     showReset?: boolean;
+    formProps?: FormProps;
+    filterEmpty?: boolean; // 过滤空值
+    submitFilter?: boolean; // 提交时候是否只要修改变化的数据（增量提交）
 }
 
 export interface ProFormOption {
     name: string;
-    type: ProFormItemType;
+    type?: ProFormItemType;
+    labelName?: string;
+    valueName?: string;
+    childrenName?: string;
     label?: string;
     data?: any[] | PromiseFunction<any[]>;
     disabled?: boolean;
@@ -36,10 +41,10 @@ export interface ProFormOption {
     rules?: FormRule[];
     checkboxProps?: ProFormCheckboxProps;
     radioProps?: ProFormRadioProps;
-    textProps?: ProFormTextProps;
+    textProps?: Optional<ProFormTextProps, 'name' | 'modelValue'>;
     numberProps?: ProFormInputNumberProps;
     textareaProps?: ProFormTextareaProps;
-    selectProps?: ProFormSelectProps;
+    selectProps?: Optional<ProFormSelectProps, 'name' | 'modelValue'>;
     datepickerProps?: ProFormDatepickerProps;
     treeSelectProps?: ProFormTreeSelectProps;
     uploadProps?: UploadProps;

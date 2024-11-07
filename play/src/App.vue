@@ -1,98 +1,139 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-const form = ref({
-  school: '',
-  name: '',
-  sex: '',
-  likes: [],
-  createtime: '',
-  count: 100,
-  description: '',
-  address: ''
-});
-
-const iptRef = ref();
-
-const data = [{
-  label: '广东省',
-  valueName: 'guangdong',
-  children: [{
-    label: '广州市',
-    valueName: 'guangzhou',
-  }, {
-    label: '深圳市',
-    valueName: 'shenzhen',
-  }],
-}, {
-  label: '江苏省',
-  valueName: 'jiangsu',
-  children: [{
-    label: '南京市',
-    valueName: 'nanjing',
-  }, {
-    label: '苏州市',
-    valueName: 'suzhou',
-  }],
-}]
-
-function requestData() {
-  return Promise.resolve([
-    {
-      group: '分组一',
-      children: [
-        { label: '选项一', value: 1 },
-        { label: '选项二', value: 2 },
-      ],
+import { ProFormOption } from 'tdesign-pro-components';
+const inputValue = ref('');
+const options: ProFormOption[] = [
+  {
+    name: 'username',
+    initalValue: 'admin',
+    label: '用户名',
+    type: 'text',
+    rules: [
+      { required: true, message: '请输入用户名' }
+    ]
+  },
+  {
+    name: 'password',
+    label: '密码',
+    type: 'text',
+    initalValue: '',
+    textProps: {
+      type: 'password',
     },
-    {
-      group: '分组二',
-      children: [
-        { label: '选项三', value: 4 },
-        { label: '选项四', value: 5 },
-        { label: '选项五', value: 6 },
-      ],
-    },
-    {
-      group: '分组三',
-      divider: true,
-      children: [
-        { label: '选项六', value: 7 },
-        { label: '选项七', value: 8 },
-        { label: '选项八', value: 9 },
-      ],
-    },
-  ])
-}
+  },
+  {
+    name: 'url',
+    label: '域名',
+    type: 'select',
+    initalValue: '',
+    data: [
+      { label: '胖砸IT社区', value: 'https://pangzablog.cn' },
+      { label: '百度', value: 'https://www.baidu.com' }
+    ]
+  },
+  {
+    name: 'payMethod',
+    label: '支付方式',
+    type: 'radio',
+    initalValue: '',
+    data: [
+      { label: '支付宝', value: '1' },
+      { label: '微信', value: '2' }
+    ]
+  },
+  {
+    name: 'payOther',
+    label: '附加条款',
+    type: 'checkbox',
+    rules: [
+      { required: true, message: '请输入用户名' }
+    ],
+    initalValue: [],
+    data: [
+      { label: '车贷', value: '1' },
+      { label: '房贷', value: '2' }
+    ]
+  },
+  {
+    name: 'submitDate',
+    label: '交款日期',
+    type: 'datepicker',
+    initalValue: new Date(),
+    datepickerProps: {
+      datepickerProps: {
+        style: {
+          width: '100%'
+        }
+      }
+    }
+  },
+  {
+    name: 'money',
+    label: '交付金额',
+    type: 'number',
+    initalValue: '',
+    numberProps: {
+      inputNumberProps: {
+        style: {
+          width: '100%'
+        }
+      }
+    }
+  },
+  {
+    name: 'address',
+    label: '地区',
+    type: 'treeSelect',
+    initalValue: '',
+    valueName: 'valueName',
+    data: [{
+      label: '广东省',
+      valueName: 'guangdong',
+      children: [{
+        label: '广州市',
+        valueName: 'guangzhou',
+      }, {
+        label: '深圳市',
+        valueName: 'shenzhen',
+      }],
+    }, {
+      label: '江苏省',
+      valueName: 'jiangsu',
+      children: [{
+        label: '南京市',
+        valueName: 'nanjing',
+      }, {
+        label: '苏州市',
+        valueName: 'suzhou',
+      }],
+    }]
+  },
+  {
+    name: 'description',
+    label: '备注',
+    type: 'textarea',
+    span: 12,
+    initalValue: ''
+  }
+];
 
-function requestSexData() {
-  return Promise.resolve([{ label: '男', value: '1' }, { label: '女', value: '2' }])
+function request() {
+  return Promise.resolve({
+    password: '',
+    username: 'requestAdmin'
+  })
 }
 </script>
 
 <template>
   <h1>登记信息</h1>
-  <t-form>
-    <ProFormText v-model="form.name" name="name" label="姓名">
+  <ProForm :options="options">
 
-    </ProFormText>
-    <ProFormSelect :data="requestData" v-model="form.school" name="school" label="学校">
+    <template #form-username="{ form, rules, requiredMark }">
+      <ProFormText :rules="rules" name="username" label="用户名" v-model="form.username" />
+    </template>
 
-    </ProFormSelect>
-
-    <ProFormRadio v-model="form.sex" :data="requestSexData" label="性别" name="sex" />
-
-    <ProFormCheckbox name="likes" label="喜好" :data="requestSexData" v-model="form.likes" />
-
-    <ProFormDatepicker name="createtime" label="发布时间" v-model="form.createtime">
-
-    </ProFormDatepicker>
-
-    <ProFormInputNumber autoWidth label="库存" name="count" v-model="form.count" />
-
-    <ProFormTextarea ref="iptRef" label="描述" name="description" v-model="form.description" />
-
-    <ProFormTreeSelect valueName="valueName" :data label="地区" name="address" v-model="form.address" />
-  </t-form>
+  </ProForm>
 </template>
 
 <style scoped></style>

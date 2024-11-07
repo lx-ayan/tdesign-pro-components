@@ -5,4 +5,5 @@ export * from './ProFormCheckbox';
 export * from './ProFormDatepicker';
 export * from './ProFormInputNumber';
 export * from './ProFormTextarea';
-export * from './ProFormTreeSelect'
+export * from './ProFormTreeSelect';
+export * from './ProForm';

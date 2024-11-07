@@ -11,7 +11,6 @@ export interface ProFormCheckboxProps {
     rules?: FormRule[];
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
-    requiredMark?: boolean;
 
     // checkbox props
     labelName?: string;
