@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { ProFormTreeSelectProps, ProFormTreeSelectRef, TreeSelectOptionProps } from './types';
 import { isFunction, warn } from '@tdesign-pro-components/utils';
-import { SelectInputValueChangeContext, TreeSelectValue, ValueType } from 'tdesign-vue-next';
+import { SelectInputValueChangeContext, TreeSelectValue } from 'tdesign-vue-next';
 import { useVModel } from '@tdesign-pro-components/hooks';
 
 defineOptions({
@@ -115,9 +115,7 @@ defineExpose<ProFormTreeSelectRef>({
     },
     getRef: () => selectRef.value
 });
-
 </script>
-
 <template>
     <t-form-item :requiredMark="props.requiredMark" :label="props.label" :name="props.name"
         :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" v-bind="props.formItemProps">
@@ -170,8 +168,5 @@ defineExpose<ProFormTreeSelectRef>({
                 <slot name="collapsedItems" :value="value" :on-close="onClose"></slot>
             </template>
         </t-tree-select>
-
     </t-form-item>
 </template>
-
-<style lang='scss'></style>

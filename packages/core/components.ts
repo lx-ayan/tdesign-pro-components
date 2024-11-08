@@ -1,5 +1,4 @@
-import {ProFormSelect, ProFormText, ProFormRadio, ProFormCheckbox, ProFormDatepicker, ProFormInputNumber, ProFormTextarea, ProForm} from '@tdesign-pro-components/components';
-import ProFormTreeSelect from '@tdesign-pro-components/components/ProFormTreeSelect/ProFormTreeSelect.vue';
+import {ProFormSelect, ProFormText, ProFormRadio, ProFormCheckbox, ProFormDatepicker, ProFormInputNumber, ProFormTextarea, ProForm, ProFormTreeSelect} from '@tdesign-pro-components/components';
 import {Plugin} from 'vue';
 
 export default [

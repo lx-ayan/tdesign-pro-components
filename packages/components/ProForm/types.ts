@@ -23,6 +23,7 @@ export interface ProFormProps {
     readonly?: boolean;
     disabled?: boolean;
     layout?: 'vertical' | 'inline';
+    footerAligin?: 'left' | 'center' | 'right';
     resetText?: string;
     submitText?: string;
     showReset?: boolean;

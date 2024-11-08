@@ -51,7 +51,6 @@ watch(() => props.data, () => {
 defineExpose({
     getValue: () => innerValue.value
 });
-
 </script>
 
 <template>

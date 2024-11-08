@@ -56,7 +56,8 @@ const props = withDefaults(defineProps<ProFormProps>(), {
     showReset: true,
     submitText: '提交',
     resetText: '重置',
-    marginY: 24
+    marginY: 24,
+    footerAligin: 'right'
 });
 
 const slots = defineSlots();
@@ -90,7 +91,7 @@ function handleSubmit() {
             const resultValue = props.submitFilter ? filterChangedValues(initForm, getFormValue()) : getFormValue();
             emits('submit', resultValue);
         } else {
-            warn('请查看表单')
+            warn('请查看表单');
             emits('error', result, '请检查表单');
         }
     })
@@ -122,7 +123,7 @@ watch(() => props.options, () => {
 </script>
 
 <template>
-    <t-form class="pro-form" ref="formRef" :labelAlign="props.labelAlign" v-bind="props.formProps"
+    <t-form class="pro-form" ref="formRef" :labelAlign="props.labelAlign" :labelWidth="props.labelWidth" :rules="props.rules" v-bind="props.formProps"
         @submit="handleSubmit" @reset="handleReset" :data="innerFormValue">
         <t-row :gutter="[48, props.marginY]" v-if="innerFormValue">
             <t-col :span="item.span || 6" :key="index" v-for="item, index in innerOptions">
@@ -182,6 +183,8 @@ watch(() => props.options, () => {
     margin-top: 24px;
     display: flex;
     align-items: center;
+    width: 100%;
+    justify-content: v-bind('props.footerAligin');
 }
 
 .pro-form-submit-button {

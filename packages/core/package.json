@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo Hello Test"
+    "build-umd": "vite build --config vite.umd.config.ts"
+  },
+  "dependencies": {
+    "@tdesign-pro-components/components": "workspace:*"
   },
   "keywords": [],
   "author": "",

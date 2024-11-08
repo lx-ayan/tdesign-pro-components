@@ -62,7 +62,6 @@ defineExpose<ProFormTextareaRef>({
     getValue: () => innerValue.value
 });
 </script>
-
 <template>
     <t-form-item :requiredMark="props.requiredMark" :label="props.label" :name="props.name"
         :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" v-bind="props.formItemProps">

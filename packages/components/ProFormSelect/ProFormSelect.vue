@@ -30,7 +30,7 @@ const innerLoading = ref(false);
 
 const isGroup = ref(false);
 
-const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || props.multiple? []: '');
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || props.multiple ? [] : '');
 
 const selectRef = ref<any>();
 
@@ -122,7 +122,6 @@ defineExpose<ProFormSelectRef>({
 });
 
 </script>
-
 <template>
     <t-form-item :name="props.name" v-bind="props.formItemProps" :label="props.label" :rules="props.rules"
         :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :requiredMark="props.requiredMark">

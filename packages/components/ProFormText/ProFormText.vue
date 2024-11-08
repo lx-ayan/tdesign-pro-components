@@ -103,7 +103,6 @@ defineExpose<ProFormTextRef>({
 })
 
 </script>
-
 <template>
     <t-form-item :label="props.label" :name="props.name" :rules="props.rules" :labelWidth="props.labelWidth"
         :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" v-bind="props.formItemProps">
