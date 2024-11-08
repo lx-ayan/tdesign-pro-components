@@ -71,8 +71,6 @@ function makeOptionData(item: SelectOptionProps) {
     }
 }
 
-
-
 function handleChange(value: any) {
     emits('change', value);
 }
