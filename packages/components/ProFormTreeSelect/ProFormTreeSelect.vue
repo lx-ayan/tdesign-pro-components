@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { ProFormTreeSelectProps, ProFormTreeSelectRef, TreeSelectOptionProps } from './types';
 import { isFunction, warn } from '@tdesign-pro-components/utils';
 import { SelectInputValueChangeContext, TreeSelectValue, ValueType } from 'tdesign-vue-next';
+import { useVModel } from '@tdesign-pro-components/hooks';
 
 defineOptions({
     name: 'ProFormTreeSelect'
@@ -27,7 +28,7 @@ const emits = defineEmits<{
 
 const innerLoading = ref(false);
 
-const innerValue = ref<ValueType | Array<ValueType>>(props.modelValue || props.multiple? [] : '');
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || '');
 
 const selectRef = ref<any>();
 
@@ -98,12 +99,6 @@ function makeData(list: TreeSelectOptionProps[]) {
 
     return resultList;
 }
-
-watch(() => props.modelValue, (value) => innerValue.value = value)
-
-watch(innerValue, (value) => {
-    emits('update:modelValue', value);
-});
 
 watch(() => props.loading, (value) => innerLoading.value = value);
 

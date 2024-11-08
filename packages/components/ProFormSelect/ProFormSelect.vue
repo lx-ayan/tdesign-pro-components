@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { ProFormSelectProps, SelectOptionProps, ProFormSelectRef } from './types';
 import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
 import { PopupVisibleChangeContext, SelectInputValueChangeContext, SelectRemoveContext } from 'tdesign-vue-next';
+import { useVModel } from '@tdesign-pro-components/hooks';
 
 defineOptions({ name: 'ProFormSelect' });
 
@@ -29,7 +30,7 @@ const innerLoading = ref(false);
 
 const isGroup = ref(false);
 
-const innerValue = ref<any>(props.modelValue);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || props.multiple? []: '');
 
 const selectRef = ref<any>();
 
@@ -103,13 +104,6 @@ function handleInputChange(value: ValueType, context?: SelectInputValueChangeCon
 function handlePopupVisibleChange(visible: boolean, context: PopupVisibleChangeContext) {
     emits('popup-visible-change', visible, context);
 }
-
-
-watch(() => props.modelValue, (value) => innerValue.value = value)
-
-watch(innerValue, (value) => {
-    emits('update:modelValue', value);
-});
 
 watch(() => props.loading, (value) => innerLoading.value = value);
 

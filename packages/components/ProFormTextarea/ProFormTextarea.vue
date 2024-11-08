@@ -2,6 +2,7 @@
 import { ref, watch, onMounted, warn } from 'vue';
 import { ProFormTextareaProps, ProFormTextareaRef } from './types';
 import { ValueType } from '@tdesign-pro-components/utils';
+import { useVModel } from '@tdesign-pro-components/hooks';
 
 defineOptions({
     name: 'ProFormTextarea'
@@ -19,7 +20,7 @@ const emits = defineEmits<{
     (e: 'keyup', value: ValueType, context: { e: KeyboardEvent }): void;
 }>();
 
-const innerValue = ref(props.modelValue);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || '');
 
 const textareaRef = ref<any>();
 
@@ -52,12 +53,6 @@ function handleKeypress(value: ValueType, context: { e: KeyboardEvent }) {
 function handleKeyup(value: ValueType, context: { e: KeyboardEvent }) {
     emits('keyup', value, context);
 }
-
-watch(() => props.modelValue, (value) => innerValue.value = value)
-
-watch(innerValue, (value) => {
-    emits('update:modelValue', value);
-});
 
 defineExpose<ProFormTextareaRef>({
     clear: () => innerValue.value = '',
