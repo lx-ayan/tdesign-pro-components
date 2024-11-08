@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 export default defineConfig({
-    plguins: [Vue()],
+    plugins: [Vue()],
     build: {
         outDir: 'dist/umd',
         lib: {
