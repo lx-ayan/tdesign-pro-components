@@ -18,9 +18,10 @@ const emits = defineEmits<{
   (e: 'blur', context: { value: DatePickerValueType; e: FocusEvent }): void;
 }>();
 
-const props = withDefaults(defineProps<ProFormDatepickerProps>(), {});
+const props = withDefaults(defineProps<ProFormDatepickerProps>(), {
+});
 
-const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || []);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || props.range ? [] : '');
 
 const datePickerRef = ref<any>();
 
@@ -59,11 +60,12 @@ defineExpose({
 </script>
 
 <template>
-  <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign"
-    :label="props.label" :name="props.name" :rules="props.rules" v-bind="props.formItemProps">
-    <t-input-adornment ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
-      @confirm="handleConfirm" v-if="(slots.prepend || slots.append || props.prepend || props.append) && !props.range"
-      :prepend="props.prepend" :append="props.append">
+  <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :label="props.label" :name="props.name"
+    :rules="props.rules" v-bind="props.formItemProps">
+    <t-input-adornment :format="props.format" ref="datePickerRef" @change="handleChange" @pick="handlePick"
+      @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm"
+      v-if="(slots.prepend || slots.append || props.prepend || props.append) && !props.range" :prepend="props.prepend"
+      :append="props.append">
       <template v-if="slots.prepend" #prepend>
         <slot name="prepend" />
       </template>
@@ -71,9 +73,10 @@ defineExpose({
         <slot name="append" />
       </template>
 
-      <t-date-picker  :size="props.size" ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
-        @confirm="handleConfirm" v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
-        :allow-input="props.allowInput" v-bind="props.datepickerProps" :clearable="props.clearable">
+      <t-date-picker :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
+        @pick="handlePick" @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm" v-model="innerValue"
+        :disabled="props.disabled" :placeholder="props.placeholder" :allow-input="props.allowInput"
+        v-bind="props.datepickerProps" :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>
           <slot name="prefixIcon" />
         </template>
@@ -85,10 +88,10 @@ defineExpose({
     </t-input-adornment>
 
     <template v-else>
-      <t-date-picker  :size="props.size" ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
-        @confirm="handleConfirm" v-if="!props.range" v-model="innerValue" :disabled="props.disabled"
-        :placeholder="props.placeholder" :allow-input="props.allowInput" v-bind="props.datepickerProps"
-        :clearable="props.clearable">
+      <t-date-picker :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
+        @pick="handlePick" @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm" v-if="!props.range"
+        v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder" :allow-input="props.allowInput"
+        v-bind="props.datepickerProps" :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>
           <slot name="prefixIcon" />
         </template>
@@ -98,9 +101,10 @@ defineExpose({
         </template>
       </t-date-picker>
 
-      <t-date-range-picker :size="props.size" ref="datePickerRef" @change="handleChange" @pick="handlePick" @blur="handleBlur" @focus="handleFocus"
-        @confirm="handleConfirm" v-else v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder"
-        :allow-input="props.allowInput" v-bind="props.datepickerProps" :clearable="props.clearable">
+      <t-date-range-picker :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
+        @pick="handlePick" @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm" v-else v-model="innerValue"
+        :disabled="props.disabled" :placeholder="props.placeholder" :allow-input="props.allowInput"
+        v-bind="props.datepickerProps" :clearable="props.clearable">
         <template v-if="slots.prefixIcon" #prefixIcon>
           <slot name="prefixIcon" />
         </template>

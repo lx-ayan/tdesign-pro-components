@@ -1,7 +1,8 @@
 <script setup lang='ts'>
-import { onMounted, ref } from 'vue';
-import { ProFormOption, ProFormProps } from './types';
-import { initFormData } from './utils';
+import { onMounted, ref, watch } from 'vue';
+import { ProFormOption, ProFormProps, ProFormRef } from './types';
+import { initFormData, initFormValue, filterChangedValues } from './utils';
+import { warn } from '@tdesign-pro-components/utils';
 
 defineOptions({ name: 'ProForm' });
 
@@ -42,16 +43,27 @@ const TYPE_CONSTABLE = {
 
 type TYPEKEY = keyof typeof TYPE_CONSTABLE;
 
+const formRef = ref<any>();
+
+const emits = defineEmits<{
+    (e: 'submit', value: any): void;
+    (e: 'error', result: any, message: string): void;
+    (e: 'reset'): void;
+}>();
+
 const props = withDefaults(defineProps<ProFormProps>(), {
-    filterEmpty: true,
     submitFilter: true,
+    showReset: true,
     submitText: '提交',
-    resetText: '重置'
+    resetText: '重置',
+    marginY: 24
 });
 
 const slots = defineSlots();
 
-let initFormValue: any = {};
+const innerOptions = ref<ProFormOption[]>([]);
+
+let initForm: any = {};
 
 const innerFormValue = ref<any>();
 
@@ -60,46 +72,119 @@ onMounted(() => {
 });
 
 function init() {
+    (innerOptions.value as ProFormOption[]) = props.options.filter(option => !option.hidden);
     if (!props.request) {
-        initFormValue = initFormData(props.options);
-        innerFormValue.value = JSON.parse(JSON.stringify(initFormValue));
+        initForm = initFormValue(initFormData(innerOptions.value as ProFormOption[]), innerOptions.value as ProFormOption[]);
+        innerFormValue.value = initFormValue(JSON.parse(JSON.stringify(initForm)), innerOptions.value as ProFormOption[]);
     } else {
         props.request().then(res => {
-            initFormValue = res;
-            innerFormValue.value = JSON.parse(JSON.stringify(res));
-        })
+            initForm = initFormValue(res, innerOptions.value as ProFormOption[]);
+            innerFormValue.value = initFormValue(JSON.parse(JSON.stringify(res)), innerOptions.value as ProFormOption[]);
+        });
     }
 }
+
+function handleSubmit() {
+    formRef.value.validate().then((result: any) => {
+        if (result === true) {
+            const resultValue = props.submitFilter ? filterChangedValues(initForm, getFormValue()) : getFormValue();
+            emits('submit', resultValue);
+        } else {
+            warn('请查看表单')
+            emits('error', result, '请检查表单');
+        }
+    })
+}
+
+function handleReset() {
+    emits('reset');
+    formRef.value.reset();
+}
+
+function getFormValue() {
+    return innerFormValue.value
+}
+
+defineExpose<ProFormRef>({
+    initForm: init,
+    getFormValue,
+    submit: () => handleSubmit(),
+    reset: () => handleReset(),
+    setItem: (key: string, value: any) => {
+        innerFormValue.value[key] = value;
+    }
+})
+
+watch(() => props.options, () => {
+    init();
+}, { deep: true });
 
 </script>
 
 <template>
+    <t-form class="pro-form" ref="formRef" :labelAlign="props.labelAlign" v-bind="props.formProps"
+        @submit="handleSubmit" @reset="handleReset" :data="innerFormValue">
+        <t-row :gutter="[48, props.marginY]" v-if="innerFormValue">
+            <t-col :span="item.span || 6" :key="index" v-for="item, index in innerOptions">
+                <template v-if="item.type != 'upload'">
 
-    <t-form :data="innerFormValue">
-        {{innerFormValue}}
-        <t-row :gutter="[0, 28]" v-if="innerFormValue">
-            <t-col :span="item.span || 6" :key="index" v-for="item, index in props.options">
-                <component v-model="innerFormValue[item.name]"
-                    :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName" :label="item.label"
-                    :labelName="item.labelName"
-                    :valueName="item.valueName"
-                    :childrenName="item.childrenName"
-                    :rules="item.rules"
-                    :name="item.name" :data="item.data" :readonly="props.readonly || item.readonly"
-                    :disabled="props.disabled || item.disabled"
-                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]"
-                    v-if="!slots[`form-${item.name}`]">
-                </component>
-                <slot v-else :name="`form-${item.name}`" :form="innerFormValue" v-bind="item"></slot>
+                    <component 
+                        :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName" 
+                        v-model="innerFormValue[item.name]" 
+                        :key="item.name + index"
+                        :label="item.label"
+                        :labelName="item.labelName" 
+                        :valueName="item.valueName" 
+                        :childrenName="item.childrenName"
+                        :rules="item.rules"
+                        :multiple="item.multiple" 
+                        :name="item.name" 
+                        :data="item.data"
+                        :readonly="props.readonly || item.readonly" 
+                        :range="item.range"
+                        :disabled="props.disabled || item.disabled"
+                        v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]"
+                        v-if="!slots[`form-${item.name}`]">
+                    </component>
+
+                    <slot v-else :name="`form-${item.name}`" :form="innerFormValue" v-bind="item"></slot>
+                </template>
+                <t-form-item v-else :key="item.name + index" :label="item.label" :rules="item.rules" :name="item.name">
+                    <t-upload v-model="innerFormValue[item.name]" :multiple="item.multiple"
+                        :readonly="props.readonly || item.readonly" :disabled="props.disabled || item.disabled"
+                        v-bind="item.uploadProps">
+                    </t-upload>
+                </t-form-item>
             </t-col>
         </t-row>
-
         <t-form-item>
-            <t-button type="submit">提交</t-button>
+            <div class="pro-form-footer">
+                <template v-if="!slots.footer">
+                    <t-button v-bind="props.submitButtonProps"class="pro-form-submit-button" type="submit">{{ props.submitText }}</t-button>
+                    <t-button v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{ props.resetText }}</t-button>
+                    <slot name="extra"></slot>
+                </template>
 
-            <t-button type="reset">重置</t-button>
+                <template v-else>
+                    <slot name="footer"></slot>
+                </template>
+            </div>
         </t-form-item>
     </t-form>
 </template>
 
-<style lang='scss'></style>
+<style>
+.pro-form {
+    overflow-x: hidden;
+}
+
+.pro-form-footer {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.pro-form-submit-button {
+    margin-right: 12px;
+}
+</style>

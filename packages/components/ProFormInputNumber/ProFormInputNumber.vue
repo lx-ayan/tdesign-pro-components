@@ -24,7 +24,7 @@ const emits = defineEmits<{
     (e: 'validate', context?: { error?: 'exceed-maximum' | 'below-minimum' }): void;
 }>();
 
-const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || []);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || '');
 
 const inputNumberRef = ref();
 

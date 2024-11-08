@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<ProFormRadioProps>(), {
     valueName: 'value'
 });
 
-const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || []);
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || '');
 
 const options = ref<RadioOptionProps[]>([]);
 

@@ -2,21 +2,17 @@
 import { onMounted, ref } from 'vue';
 import { ProFormOption } from 'tdesign-pro-components';
 const inputValue = ref('');
-const options: ProFormOption[] = [
+const options = ref<ProFormOption[]>([
   {
     name: 'username',
     initalValue: 'admin',
     label: '用户名',
     type: 'text',
-    rules: [
-      { required: true, message: '请输入用户名' }
-    ]
   },
   {
     name: 'password',
     label: '密码',
     type: 'text',
-    initalValue: '',
     textProps: {
       type: 'password',
     },
@@ -25,7 +21,6 @@ const options: ProFormOption[] = [
     name: 'url',
     label: '域名',
     type: 'select',
-    initalValue: '',
     data: [
       { label: '胖砸IT社区', value: 'https://pangzablog.cn' },
       { label: '百度', value: 'https://www.baidu.com' }
@@ -35,7 +30,6 @@ const options: ProFormOption[] = [
     name: 'payMethod',
     label: '支付方式',
     type: 'radio',
-    initalValue: '',
     data: [
       { label: '支付宝', value: '1' },
       { label: '微信', value: '2' }
@@ -48,7 +42,6 @@ const options: ProFormOption[] = [
     rules: [
       { required: true, message: '请输入用户名' }
     ],
-    initalValue: [],
     data: [
       { label: '车贷', value: '1' },
       { label: '房贷', value: '2' }
@@ -58,8 +51,9 @@ const options: ProFormOption[] = [
     name: 'submitDate',
     label: '交款日期',
     type: 'datepicker',
-    initalValue: new Date(),
+    initalValue: '',
     datepickerProps: {
+      format: 'YYYY-MM-DD',
       datepickerProps: {
         style: {
           width: '100%'
@@ -71,7 +65,6 @@ const options: ProFormOption[] = [
     name: 'money',
     label: '交付金额',
     type: 'number',
-    initalValue: '',
     numberProps: {
       inputNumberProps: {
         style: {
@@ -84,7 +77,6 @@ const options: ProFormOption[] = [
     name: 'address',
     label: '地区',
     type: 'treeSelect',
-    initalValue: '',
     valueName: 'valueName',
     data: [{
       label: '广东省',
@@ -114,8 +106,29 @@ const options: ProFormOption[] = [
     type: 'textarea',
     span: 12,
     initalValue: ''
+  },
+  {
+    name: 'upload',
+    label: '附件上传',
+    type: 'upload',
+    hidden: false,
+    uploadProps: {
+      theme: 'image',
+      action: "https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo",
+      tips: "单张图片文件上传（上传成功状态演示）",
+      multiple: true,
+      locale: {
+        triggerUploadText: {
+          image: '请选择图片',
+        },
+      }
+    }
   }
-];
+]);
+
+function handleSubmit(value) {
+  console.log('value', value);
+}
 
 function request() {
   return Promise.resolve({
@@ -127,12 +140,10 @@ function request() {
 
 <template>
   <h1>登记信息</h1>
-  <ProForm :options="options">
-
+  <ProForm labelAlign="top" :marginY="20" @submit="handleSubmit" :options="options">
     <template #form-username="{ form, rules, requiredMark }">
       <ProFormText :rules="rules" name="username" label="用户名" v-model="form.username" />
     </template>
-
   </ProForm>
 </template>
 

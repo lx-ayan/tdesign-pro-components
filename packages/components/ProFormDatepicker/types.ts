@@ -9,6 +9,7 @@ export interface ProFormDatepickerProps {
     modelValue: DatePickerValueType;
     label?: string;
     rules?: FormRule[];
+    format?: string;
     formItemProps?: FormItemProps;
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
