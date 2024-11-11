@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { onMounted, ref, watch} from 'vue';
+import { onMounted, ref} from 'vue';
 import { ProFormInputNumberProps } from './types';
 import { warn } from '@tdesign-pro-components/utils';
 import { useVModel } from '@tdesign-pro-components/hooks';

@@ -55,7 +55,7 @@ defineExpose({
 
 <template>
     <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign"
-        :label="props.label" :name="props.name" v-bind="props.checkboxProps" :rules="props.rules">
+        :label="props.label" :name="props.name" v-bind="props.formItemProps" :rules="props.rules">
         <t-checkbox-group v-model="innerValue" @change="handleChange" :max="props.max" :disabled="props.disabled"
             :readonly="props.readonly" :options="options" v-bind="props.checkboxProps"></t-checkbox-group>
     </t-form-item>

@@ -125,10 +125,9 @@ watch(() => props.options, () => {
 <template>
     <t-form class="pro-form" ref="formRef" :labelAlign="props.labelAlign" :labelWidth="props.labelWidth" :rules="props.rules" v-bind="props.formProps"
         @submit="handleSubmit" @reset="handleReset" :data="innerFormValue">
-        <t-row :gutter="[48, props.marginY]" v-if="innerFormValue">
+        <t-row align="center" :gutter="[48, props.marginY]" v-if="innerFormValue">
             <t-col :span="item.span || 6" :key="index" v-for="item, index in innerOptions">
                 <template v-if="item.type != 'upload'">
-
                     <component 
                         :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName" 
                         v-model="innerFormValue[item.name]" 
@@ -144,6 +143,8 @@ watch(() => props.options, () => {
                         :readonly="props.readonly || item.readonly" 
                         :range="item.range"
                         :disabled="props.disabled || item.disabled"
+                        :placeholder="item.placeholder"
+                        :formItemProps="item.formItemProps"
                         v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]"
                         v-if="!slots[`form-${item.name}`]">
                     </component>
@@ -160,7 +161,7 @@ watch(() => props.options, () => {
         </t-row>
         <t-form-item>
             <div class="pro-form-footer">
-                <template v-if="!slots.footer">
+                <template v-if="!props.hideFooter && !slots.footer">
                     <t-button v-bind="props.submitButtonProps"class="pro-form-submit-button" type="submit">{{ props.submitText }}</t-button>
                     <t-button v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{ props.resetText }}</t-button>
                     <slot name="extra"></slot>

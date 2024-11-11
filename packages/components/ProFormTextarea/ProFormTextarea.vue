@@ -1,7 +1,7 @@
 <script setup lang='ts'>
-import { ref, watch, onMounted, warn } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ProFormTextareaProps, ProFormTextareaRef } from './types';
-import { ValueType } from '@tdesign-pro-components/utils';
+import { ValueType, warn } from '@tdesign-pro-components/utils';
 import { useVModel } from '@tdesign-pro-components/hooks';
 
 defineOptions({
@@ -25,9 +25,9 @@ const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || '')
 const textareaRef = ref<any>();
 
 onMounted(() => {
-  if (!props.name) {
-    warn('name is empty');
-  }
+    if (!props.name) {
+        warn('name is empty');
+    }
 })
 
 function handleBlur(value: ValueType, context: { e: FocusEvent }) {

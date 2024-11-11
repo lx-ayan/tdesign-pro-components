@@ -1,5 +1,5 @@
 import { Optional, PromiseFunction } from "@tdesign-pro-components/utils";
-import { ButtonProps, FormProps, FormRule, FormRules, UploadProps, ValueType } from "tdesign-vue-next";
+import { ButtonProps, FormItemProps, FormProps, FormRule, FormRules, TNode, UploadProps, ValueType } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";
 import { ProFormTextProps } from "../ProFormText";
@@ -8,10 +8,11 @@ import { ProFormTextareaProps } from "../ProFormTextarea";
 import { ProFormSelectProps } from "../ProFormSelect";
 import { ProFormDatepickerProps } from "../ProFormDatepicker";
 import { ProFormTreeSelectProps } from "../ProFormTreeSelect";
+import { VNode } from "vue";
 
 export type ProFormItemType = 'text' | 'treeSelect' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'datepicker' | 'upload';
 
-type FilterKey = 'name' | 'modelValue';
+export type FilterKey = 'name' | 'modelValue';
 
 export interface ProFormProps {
     options: ProFormOption[];
@@ -32,16 +33,18 @@ export interface ProFormProps {
     submitFilter?: boolean; // 提交时候是否只要修改变化的数据（增量提交）
     submitButtonProps?: ButtonProps;
     resetButtonProps?: ButtonProps;
+    hideFooter?: boolean;
 }
 
 export interface ProFormOption {
     name: string;
     hidden?: boolean;
     type?: ProFormItemType;
+    placeholder?: string;
     labelName?: string;
     valueName?: string;
     childrenName?: string;
-    label?: string;
+    label?: string | TNode | VNode | (() => TNode | VNode);
     data?: any[] | PromiseFunction<any[]>;
     multiple?: boolean;
     range?: boolean;
@@ -60,6 +63,7 @@ export interface ProFormOption {
     span?: number;
     offset?: number;
     initalValue?: ValueType | Array<ValueType>;
+    formItemProps?: FormItemProps;
 }
 
 export interface ProFormRef {

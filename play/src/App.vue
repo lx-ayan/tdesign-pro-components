@@ -1,150 +1,51 @@
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-import { ProFormOption } from 'tdesign-pro-components';
+import { ProTableOption } from 'tdesign-pro-components';
 const inputValue = ref('');
-const options = ref<ProFormOption[]>([
+const options: ProTableOption[] = [
   {
-    name: 'username',
-    initalValue: 'admin',
-    label: '用户名',
-    type: 'text',
+    key: 'id',
+    title: '编号',
   },
   {
-    name: 'password',
-    label: '密码',
-    type: 'text',
-    textProps: {
-      type: 'password',
-    },
+    key: 'title',
+    title: '标题',
+    render: ({row}) => <div>自定义渲染 {row.title}</div>
   },
   {
-    name: 'url',
-    label: '域名',
-    type: 'select',
-    data: [
-      { label: '胖砸IT社区', value: 'https://pangzablog.cn' },
-      { label: '百度', value: 'https://www.baidu.com' }
-    ]
+    key: 'author',
+    title: () => <div>'作者'</div>,
+    placeholder: '请输入作者'
   },
   {
-    name: 'payMethod',
-    label: '支付方式',
+    key: 'steps',
+    title: '条件',
     type: 'radio',
-    data: [
-      { label: '支付宝', value: '1' },
-      { label: '微信', value: '2' }
-    ]
+    data: [{ label: '近地铁', value: '1' }, { label: '设备齐全', value: '2' }],
+    span: 3
   },
   {
-    name: 'payOther',
-    label: '附加条款',
+    key: 'priceRange',
+    title: '接受范围',
     type: 'checkbox',
-    rules: [
-      { required: true, message: '请输入用户名' }
-    ],
-    data: [
-      { label: '车贷', value: '1' },
-      { label: '房贷', value: '2' }
-    ]
-  },
-  {
-    name: 'submitDate',
-    label: '交款日期',
-    type: 'datepicker',
-    initalValue: '',
-    datepickerProps: {
-      format: 'YYYY-MM-DD',
-      datepickerProps: {
-        style: {
-          width: '100%'
-        }
-      }
-    }
-  },
-  {
-    name: 'money',
-    label: '交付金额',
-    type: 'number',
-    numberProps: {
-      inputNumberProps: {
-        style: {
-          width: '100%'
-        }
-      }
-    }
-  },
-  {
-    name: 'address',
-    label: '地区',
-    type: 'treeSelect',
-    valueName: 'valueName',
-    data: [{
-      label: '广东省',
-      valueName: 'guangdong',
-      children: [{
-        label: '广州市',
-        valueName: 'guangzhou',
-      }, {
-        label: '深圳市',
-        valueName: 'shenzhen',
-      }],
-    }, {
-      label: '江苏省',
-      valueName: 'jiangsu',
-      children: [{
-        label: '南京市',
-        valueName: 'nanjing',
-      }, {
-        label: '苏州市',
-        valueName: 'suzhou',
-      }],
-    }]
-  },
-  {
-    name: 'description',
-    label: '备注',
-    type: 'textarea',
-    span: 12,
-    initalValue: ''
-  },
-  {
-    name: 'upload',
-    label: '附件上传',
-    type: 'upload',
-    hidden: false,
-    uploadProps: {
-      theme: 'image',
-      action: "https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo",
-      tips: "单张图片文件上传（上传成功状态演示）",
-      multiple: true,
-      locale: {
-        triggerUploadText: {
-          image: '请选择图片',
-        },
-      }
-    }
+    span: 9,
+    data: [{ label: '1000~2000', value: '1' }, { label: '2000~4000', value: '2' }, { label: '4000~6000', value: '3' }, { label: '6000~1W', value: '4' }]
   }
-]);
-
-function handleSubmit(value) {
-  console.log('value', value);
-}
+]
 
 function request() {
-  return Promise.resolve({
-    password: '',
-    username: 'requestAdmin'
-  })
+
 }
+
 </script>
 
 <template>
-  <h1>登记信息</h1>
-  <ProForm labelAlign="top" :marginY="20" @submit="handleSubmit" :options="options">
-    <template #form-username="{ form, rules, requiredMark }">
-      <ProFormText :rules="rules" name="username" label="用户名" v-model="form.username" />
-    </template>
-  </ProForm>
+  <div style="background-color: #333; height: 100vh;">
+    <ProTable :request :options>
+
+    </ProTable>
+  </div>
+
 </template>
 
 <style scoped></style>

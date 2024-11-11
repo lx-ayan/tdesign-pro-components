@@ -7,3 +7,4 @@ export * from './ProFormInputNumber';
 export * from './ProFormTextarea';
 export * from './ProFormTreeSelect';
 export * from './ProForm';
+export * from './ProTable';

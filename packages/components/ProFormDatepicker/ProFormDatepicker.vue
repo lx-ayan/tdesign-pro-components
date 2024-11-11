@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { ProFormDatepickerProps, DatePickerValueType } from './types';
 import { warn } from '@tdesign-pro-components/utils';
 import { DatePickerTriggerSource } from 'tdesign-vue-next';
