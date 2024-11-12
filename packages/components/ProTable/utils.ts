@@ -9,10 +9,10 @@ export function tableOption2FormOption(tableOptions: ProTableOption[]): ProFormO
             label: item.title,
             span: item.span || 3,
             formItemProps: {
-                labelAlign: item.labelWidth || 'right',
+                labelAlign: item.labelAlign || 'right',
                 labelWidth: item.labelWidth
             },
-            hidden: item.hideInForm,
+            hidden: item.hideInSearch,
             name: item.key,
             type: item.type || 'text',
         });
