@@ -1,67 +1,99 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { ProTableOption } from 'tdesign-pro-component';
-const inputValue = ref('');
-const page = ref({ pageNum: 1, pageSize: 10 })
+const form = ref({
+  school: '',
+  name: '',
+  sex: '',
+  likes: [],
+  createtime: '',
+  count: 100,
+  description: '',
+  address: ''
+});
 
-const options: ProTableOption[] = [
-  {
-    key: 'id',
-    title: '编号',
-    hideInSearch: true,
-  },
-  {
-    key: 'title',
-    title: '标题',
-    render: (data) => {
-      console.log(data)
-      return <div>自定义渲染 {data.row.title}</div>
-    }
-  },
-  {
-    key: 'author',
-    title: '作者'
-  },
-  {
-    key: 'steps',
-    title: '条件',
-    type: 'radio',
-    data: [{ label: '近地铁', value: '1' }, { label: '设备齐全', value: '2' }],
-  },
-  {
-    key: 'priceRange',
-    title: '接受范围',
-    type: 'checkbox',
-    span: 9,
-    data: [{ label: '1000~2000', value: '1' }, { label: '2000~4000', value: '2' }, { label: '4000~6000', value: '3' }, { label: '6000~1W', value: '4' }]
-  }
-]
+const iptRef = ref();
 
-function request() {
-  console.log('request');
-  return Promise.resolve({
-    total: 10,
-    list: [{ id: 1, title: '标题', author: 'Tom Hardy' }, { id: 2, title: '标题', author: 'Tom Hardy' }, { id: 3, title: '标题', author: 'Tom Hardy' }, { id: 4, title: '标题', author: 'Tom Hardy' }, { id: 5, title: '标题', author: 'Tom Hardy' }]
-  })
+const data = [{
+  label: '广东省',
+  valueName: 'guangdong',
+  children: [{
+    label: '广州市',
+    valueName: 'guangzhou',
+  }, {
+    label: '深圳市',
+    valueName: 'shenzhen',
+  }],
+}, {
+  label: '江苏省',
+  valueName: 'jiangsu',
+  children: [{
+    label: '南京市',
+    valueName: 'nanjing',
+  }, {
+    label: '苏州市',
+    valueName: 'suzhou',
+  }],
+}]
+
+function requestData() {
+  return Promise.resolve([
+    {
+      group: '分组一',
+      children: [
+        { label: '选项一', value: 1 },
+        { label: '选项二', value: 2 },
+      ],
+    },
+    {
+      group: '分组二',
+      children: [
+        { label: '选项三', value: 4 },
+        { label: '选项四', value: 5 },
+        { label: '选项五', value: 6 },
+      ],
+    },
+    {
+      group: '分组三',
+      divider: true,
+      children: [
+        { label: '选项六', value: 7 },
+        { label: '选项七', value: 8 },
+        { label: '选项八', value: 9 },
+      ],
+    },
+  ])
 }
 
+function requestSexData() {
+  return Promise.resolve([{ label: '男', value: '1' }, { label: '女', value: '2' }])
+}
 </script>
 
 <template>
-  <div style="background-color: #333; height: 100vh;">
-    <ProTable rowKey="id" v-model:page="page" :request :options>
-      <template #pro-table-title>
-        高级表格
-      </template>
-      <template #pro-table-actions>
-        <t-button>新增表格</t-button>
-      </template>
-      <template #form-title="{ form }">
-        <ProFormText label="标题" name="title" v-model="form.title" />
-      </template>
-    </ProTable>
-  </div>
+  <h1>登记信息</h1>
+  <t-form>
+    <ProFormText v-model="form.name" name="name" label="姓名">
 
+    </ProFormText>
+    
+    <ProFormSelect :data="requestData" v-model="form.school" name="school" label="学校">
+
+    </ProFormSelect>
+
+    <ProFormRadio v-model="form.sex" :data="requestSexData" label="性别" name="sex" />
+
+    <ProFormCheckbox name="likes" label="喜好" :data="requestSexData" v-model="form.likes" />
+
+    <ProFormDatepicker name="createtime" label="发布时间" v-model="form.createtime">
+
+    </ProFormDatepicker>
+
+    <ProFormInputNumber autoWidth label="库存" name="count" v-model="form.count" />
+
+    <ProFormTextarea ref="iptRef" label="描述" name="description" v-model="form.description" />
+
+    <ProFormTreeSelect valueName="valueName" :data label="地区" name="address" v-model="form.address" />
+  </t-form>
 </template>
 
 <style scoped></style>

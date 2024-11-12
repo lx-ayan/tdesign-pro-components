@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tdesign-pro-component/components": "workspace:^",
+    "@tdesign-pro-component/components": "workspace:*",
     "@tdesign-pro-component/docs": "workspace:*",
     "@tdesign-pro-component/hooks": "workspace:*",
     "@tdesign-pro-component/utils": "workspace:*",
