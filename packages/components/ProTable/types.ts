@@ -26,6 +26,7 @@ export interface ProTableResult<T = any> {
 
 export interface ProTableProps {
     options: ProTableOption[];
+    rowKey: string;
     request: <T = any> (data: ProTableRequest<T>) => Promise<ProTableResult<T>>;
     onSearchSuccess?: (data: ProTableResult<any>) => any;
     onSearchFail?: (exception: Error | string) => void;

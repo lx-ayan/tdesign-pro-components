@@ -239,7 +239,16 @@ watch(() => props.options, () => {
 
         <div class="pro-table-body">
             <t-card>
-                <t-table :size="props.size" row-key="key" :data="tableData" :columns="tableColumns"></t-table>
+                <template v-if="slots['pro-table-title']" #title>
+                    <slot name="pro-table-title"></slot>
+                </template>
+
+                <template v-if="slots['pro-table-actions']" #actions>
+                    <slot name="pro-table-actions"></slot>
+                </template>
+                <t-table :size="props.size" :row-key="props.rowKey" :data="tableData" :columns="tableColumns">
+                    
+                </t-table>
                 <div class="pro-table-page" v-if="!props.hidePage && props.page">
                     <t-pagination :disabled="innerLoading" :size="props.size" v-model:current="innerPage.pageNum" 
                         :total="innerPage.total" v-model:page-size="innerPage.pageSize" v-bind="props.pageProps" @change="pageChange" />

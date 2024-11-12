@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { ProTableOption } from 'tdesign-pro-components';
 const inputValue = ref('');
-const page = ref({pageNum: 1, pageSize: 10})
+const page = ref({ pageNum: 1, pageSize: 10 })
 
 const options: ProTableOption[] = [
   {
@@ -41,7 +41,7 @@ function request() {
   console.log('request');
   return Promise.resolve({
     total: 10,
-    list: [{id: 1, title: '标题', author: 'Tom Hardy'}]
+    list: [{ id: 1, title: '标题', author: 'Tom Hardy' }, { id: 2, title: '标题', author: 'Tom Hardy' }, { id: 3, title: '标题', author: 'Tom Hardy' }, { id: 4, title: '标题', author: 'Tom Hardy' }, { id: 5, title: '标题', author: 'Tom Hardy' }]
   })
 }
 
@@ -49,9 +49,15 @@ function request() {
 
 <template>
   <div style="background-color: #333; height: 100vh;">
-    <ProTable v-model:page="page" :request :options>
-      <template #form-title="{form}">
-        <ProFormText label="标题" name="title" v-model="form.title"/>
+    <ProTable rowKey="id" v-model:page="page" :request :options>
+      <template #pro-table-title>
+        高级表格
+      </template>
+      <template #pro-table-actions>
+        <t-button>新增表格</t-button>
+      </template>
+      <template #form-title="{ form }">
+        <ProFormText label="标题" name="title" v-model="form.title" />
       </template>
     </ProTable>
   </div>
