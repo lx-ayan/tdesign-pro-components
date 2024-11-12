@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "tdesign-pro-components"
+  name: "tdesign-pro-component"
   text: "基于 ElementUI 二次封装的高级组件"
   tagline: My great project tagline
   actions:

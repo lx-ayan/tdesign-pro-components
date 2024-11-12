@@ -4,8 +4,8 @@ import { ProTableProps, ProTableOption } from './types';
 import { ProFormOption, ProFormRef } from '../ProForm';
 import { tableOption2FormOption } from './utils';
 import { TableProps } from 'tdesign-vue-next';
-import { warn } from '@tdesign-pro-components/utils';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { warn } from '@tdesign-pro-component/utils';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({ name: 'ProTable' });
 

@@ -1,9 +1,9 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
 import { ProFormSelectProps, SelectOptionProps, ProFormSelectRef } from './types';
-import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
+import { ValueType, isFunction, warn } from '@tdesign-pro-component/utils';
 import { PopupVisibleChangeContext, SelectInputValueChangeContext, SelectRemoveContext } from 'tdesign-vue-next';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({ name: 'ProFormSelect' });
 

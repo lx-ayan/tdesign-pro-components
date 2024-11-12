@@ -8,7 +8,7 @@ export function createInstaller(components: Plugin[]) {
             app.use(component);
         });
     }
-    console.log('欢迎使用 tdesign-pro-components')
+    console.log('欢迎使用 tdesign-pro-component')
     return installer as Plugin;
 }
 

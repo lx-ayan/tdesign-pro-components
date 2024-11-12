@@ -1,8 +1,8 @@
 <script setup lang='ts'>
 import { ProFormRadioProps, RadioOptionProps } from './types';
 import { onMounted, ref, watch } from 'vue';
-import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { ValueType, isFunction, warn } from '@tdesign-pro-component/utils';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 const emits = defineEmits<{
     (e: 'update:modelValue', value: ValueType): void,

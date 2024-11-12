@@ -1,4 +1,4 @@
-import { Optional, PromiseFunction } from "@tdesign-pro-components/utils";
+import { Optional, PromiseFunction } from "@tdesign-pro-component/utils";
 import { ButtonProps, FormItemProps, FormProps, FormRule, FormRules, TNode, UploadProps, ValueType } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";

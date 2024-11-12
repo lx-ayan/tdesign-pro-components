@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { ProFormOption, ProFormProps, ProFormRef } from './types';
 import { initFormData, initFormValue, filterChangedValues } from './utils';
-import { warn } from '@tdesign-pro-components/utils';
+import { warn } from '@tdesign-pro-component/utils';
 
 defineOptions({ name: 'ProForm' });
 

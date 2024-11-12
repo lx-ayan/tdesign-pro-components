@@ -1,4 +1,4 @@
-import { withInstall } from '@tdesign-pro-components/utils';
+import { withInstall } from '@tdesign-pro-component/utils';
 import _ProTable from './ProTable.vue';
 export const ProTable = withInstall(_ProTable);
 export * from './types';

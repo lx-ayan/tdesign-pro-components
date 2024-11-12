@@ -1,8 +1,8 @@
 <script setup lang='ts'>
-import { ValueType, isFunction, warn } from '@tdesign-pro-components/utils';
+import { ValueType, isFunction, warn } from '@tdesign-pro-component/utils';
 import { CheckboxOptionProps, ProFormCheckboxProps } from './types';
 import { onMounted, ref, watch } from 'vue';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { useVModel } from '@tdesign-pro-component/hooks';
 const emits = defineEmits<{
     (e: 'update:modelValue', value: ValueType): void,
     (e: 'change', value: ValueType, context: { e: Event, name?: string }): void

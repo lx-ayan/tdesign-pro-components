@@ -1,4 +1,4 @@
-import { withInstall } from '@tdesign-pro-components/utils';
+import { withInstall } from '@tdesign-pro-component/utils';
 import _ProFormTextarea from './ProFormTextarea.vue';
 
 export const ProFormTextarea = withInstall(_ProFormTextarea);

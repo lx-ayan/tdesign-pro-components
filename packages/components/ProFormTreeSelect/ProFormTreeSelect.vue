@@ -1,9 +1,9 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
 import { ProFormTreeSelectProps, ProFormTreeSelectRef, TreeSelectOptionProps } from './types';
-import { isFunction, warn } from '@tdesign-pro-components/utils';
+import { isFunction, warn } from '@tdesign-pro-component/utils';
 import { SelectInputValueChangeContext, TreeSelectValue } from 'tdesign-vue-next';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({
     name: 'ProFormTreeSelect'

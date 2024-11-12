@@ -1,4 +1,4 @@
-import { PromiseFunction, ValueType } from "@tdesign-pro-components/utils";
+import { PromiseFunction, ValueType } from "@tdesign-pro-component/utils";
 import type { FormItemProps, FormRule, SelectProps, SizeEnum, TNode } from 'tdesign-vue-next';
 import { VNode } from "vue";
 

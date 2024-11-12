@@ -1,9 +1,9 @@
 <script setup lang='ts'>
 import { onMounted, ref } from 'vue';
 import { ProFormDatepickerProps, DatePickerValueType } from './types';
-import { warn } from '@tdesign-pro-components/utils';
+import { warn } from '@tdesign-pro-component/utils';
 import { DatePickerTriggerSource } from 'tdesign-vue-next';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({
   name: 'ProFormDatepicker'

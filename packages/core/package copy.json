@@ -1,5 +1,5 @@
 {
-  "name": "tdesign-pro-components",
+  "name": "tdesign-pro-component",
   "version": "1.0.0",
   "description": "ProComponents tdesign-vue-next + Vue3 + TS",
   "main": "./dist/umd/index.umd.cjs",
@@ -35,7 +35,7 @@
     "move-style": "move-file dist/es/index.css dist/index.css"
   },
   "dependencies": {
-    "@tdesign-pro-components/components": "workspace:*"
+    "@tdesign-pro-component/components": "workspace:*"
   },
   "keywords": [],
   "author": "",

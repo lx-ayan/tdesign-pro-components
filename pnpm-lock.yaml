@@ -8,16 +8,16 @@ importers:
 
   .:
     devDependencies:
-      '@tdesign-pro-components/components':
+      '@tdesign-pro-component/components':
         specifier: workspace:^
         version: link:packages/components
-      '@tdesign-pro-components/docs':
+      '@tdesign-pro-component/docs':
         specifier: workspace:*
         version: link:packages/docs
-      '@tdesign-pro-components/hooks':
+      '@tdesign-pro-component/hooks':
         specifier: workspace:*
         version: link:packages/hooks
-      '@tdesign-pro-components/utils':
+      '@tdesign-pro-component/utils':
         specifier: workspace:*
         version: link:packages/utils
       '@types/node':
@@ -38,7 +38,7 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
-      tdesign-pro-components:
+      tdesign-pro-component:
         specifier: workspace:*
         version: link:packages/core
       tdesign-vue-next:
@@ -64,7 +64,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@tdesign-pro-components/components':
+      '@tdesign-pro-component/components':
         specifier: workspace:*
         version: link:../components
     devDependencies:

@@ -1,4 +1,4 @@
-import { withInstall } from '@tdesign-pro-components/utils';
+import { withInstall } from '@tdesign-pro-component/utils';
 import _ProFormInputNumber from './ProFormInputNumber.vue';
 
 export const ProFormInputNumber = withInstall(_ProFormInputNumber);

@@ -1,4 +1,4 @@
-import { PromiseFunction, ValueType } from "@tdesign-pro-components/utils";
+import { PromiseFunction, ValueType } from "@tdesign-pro-component/utils";
 import { FormItemProps, FormRule, RadioGroupProps } from "tdesign-vue-next";
 
 export interface ProFormRadioProps {

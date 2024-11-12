@@ -1,4 +1,4 @@
-import { withInstall } from '@tdesign-pro-components/utils';
+import { withInstall } from '@tdesign-pro-component/utils';
 import _ProFormText from './ProFormText.vue';
 
 export const ProFormText = withInstall(_ProFormText);

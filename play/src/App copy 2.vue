@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-import { ProFormOption } from 'tdesign-pro-components';
+import { ProFormOption } from 'tdesign-pro-component';
 const inputValue = ref('');
 const options = ref<ProFormOption[]>([
   {

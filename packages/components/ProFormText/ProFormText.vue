@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { warn } from '@tdesign-pro-components/utils';
+import { warn } from '@tdesign-pro-component/utils';
 import { ProFormTextProps, ProFormTextRef } from './types';
 import { onMounted, ref } from 'vue';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({ name: 'ProFormText' });
 

@@ -1,4 +1,4 @@
-import { ValueType } from "@tdesign-pro-components/utils";
+import { ValueType } from "@tdesign-pro-component/utils";
 import { FormItemProps, FormRule, InputProps, SizeEnum, TNode } from "tdesign-vue-next";
 import { VNode } from "vue";
 

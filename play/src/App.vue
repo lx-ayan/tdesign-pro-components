@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-import { ProTableOption } from 'tdesign-pro-components';
+import { ProTableOption } from 'tdesign-pro-component';
 const inputValue = ref('');
 const page = ref({ pageNum: 1, pageSize: 10 })
 

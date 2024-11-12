@@ -1,8 +1,8 @@
 <script setup lang='ts'>
 import { ref, onMounted } from 'vue';
 import { ProFormTextareaProps, ProFormTextareaRef } from './types';
-import { ValueType, warn } from '@tdesign-pro-components/utils';
-import { useVModel } from '@tdesign-pro-components/hooks';
+import { ValueType, warn } from '@tdesign-pro-component/utils';
+import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({
     name: 'ProFormTextarea'
