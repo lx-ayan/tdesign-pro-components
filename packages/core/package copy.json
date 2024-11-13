@@ -1,6 +1,7 @@
 {
   "name": "tdesign-pro-component",
-  "version": "1.0.0",
+  "version": "1.0.2",
+  "private": false,
   "description": "ProComponents tdesign-vue-next + Vue3 + TS",
   "main": "./dist/umd/index.umd.cjs",
   "type": "module",
@@ -35,15 +36,16 @@
     "move-style": "move-file dist/es/index.css dist/index.css"
   },
   "dependencies": {
-    "@tdesign-pro-component/components": "workspace:*"
   },
   "keywords": [],
-  "author": "",
+  "author": "pangza",
   "license": "ISC",
   "devDependencies": {
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "@tdesign-pro-component/components": "workspace:*"
   },
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": ">=3.2.0",
+    "tdesign-vue-next": ">=1.9.0"
   }
 }

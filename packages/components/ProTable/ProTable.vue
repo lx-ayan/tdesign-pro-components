@@ -109,7 +109,6 @@ function createTableOption(item: ProTableOption) {
 
 // About Table
 function onSearch() {
-    console.log(innerPage.value)
     request(1, innerPage.value.pageSize);
 }
 
@@ -217,8 +216,7 @@ watch(() => props.options, () => {
                 <ProForm filter @submit="onSearch" hideFooter ref="proFormRef" :options="formOptions">
                     <template :key="item" v-for="item in formSlotsName" #[item]="{ form }">
                         <component :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
-                        :size="props.size"
-                            v-model="form[getOptionByKey(item).option.key]"
+                             v-model="form[getOptionByKey(item).option.key]"
                             :is="getOptionByKey(item)!.component.componentName" v-if="!slots[item]" v-bind="{
             ...getOptionByKey(item).option,
             //@ts-ignore
@@ -228,10 +226,13 @@ watch(() => props.options, () => {
                     </template>
 
                     <template #form-search-extral>
-                        <t-button :loading="innerLoading" type="submit">查询</t-button>
-                        <t-button :loading="innerLoading" type="reset">重置</t-button>
-                        <t-button v-if="showMoreButton" @click="handleMoreClick(!showMoreState)">{{ showMoreState ? '收缩'
+                        <div class="pro-table-form-actions">
+                            <t-button :loading="innerLoading" type="submit">查询</t-button>
+                            <t-button :loading="innerLoading" theme="default" type="reset">重置</t-button>
+                            <t-button v-if="showMoreButton" @click="handleMoreClick(!showMoreState)">{{ showMoreState ?
+            '收缩'
             : '展开' }}</t-button>
+                        </div>
                     </template>
                 </ProForm>
             </t-card>
@@ -247,11 +248,12 @@ watch(() => props.options, () => {
                     <slot name="pro-table-actions"></slot>
                 </template>
                 <t-table :size="props.size" :row-key="props.rowKey" :data="tableData" :columns="tableColumns">
-                    
+
                 </t-table>
                 <div class="pro-table-page" v-if="!props.hidePage && props.page">
-                    <t-pagination :disabled="innerLoading" :size="props.size" v-model:current="innerPage.pageNum" 
-                        :total="innerPage.total" v-model:page-size="innerPage.pageSize" v-bind="props.pageProps" @change="pageChange" />
+                    <t-pagination :disabled="innerLoading" :size="props.size" v-model:current="innerPage.pageNum"
+                        :total="innerPage.total" v-model:page-size="innerPage.pageSize" v-bind="props.pageProps"
+                        @change="pageChange" />
                 </div>
             </t-card>
         </div>
@@ -261,6 +263,10 @@ watch(() => props.options, () => {
 <style>
 .pro-table-form {
     margin-bottom: 16px;
+}
+
+.pro-table-form-actions .t-button {
+    margin-right: 12px;
 }
 
 .pro-table-page {

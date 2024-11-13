@@ -1,6 +1,6 @@
 {
   "name": "tdesign-pro-component",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "private": false,
   "description": "ProComponents tdesign-vue-next + Vue3 + TS",
   "main": "./dist/umd/index.umd.cjs",
@@ -37,11 +37,12 @@
   },
   "dependencies": {
   },
-  "keywords": [],
+  "keywords": ["Vue", "Typescript", "ProComponent", "TDesign"],
   "author": "pangza",
   "license": "ISC",
   "devDependencies": {
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "@tdesign-pro-component/components": "workspace:*"
   },
   "peerDependencies": {
     "vue": ">=3.2.0",

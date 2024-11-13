@@ -123,27 +123,18 @@ watch(() => props.options, () => {
 </script>
 
 <template>
-    <t-form class="pro-form" ref="formRef" :labelAlign="props.labelAlign" :labelWidth="props.labelWidth" :rules="props.rules" v-bind="props.formProps"
-        @submit="handleSubmit" @reset="handleReset" :data="innerFormValue">
+    <t-form class="pro-form" ref="formRef" :labelAlign="props.labelAlign" :labelWidth="props.labelWidth"
+        :rules="props.rules" v-bind="props.formProps" @submit="handleSubmit" @reset="handleReset"
+        :data="innerFormValue">
         <t-row align="center" :gutter="[48, props.marginY]" v-if="innerFormValue">
             <t-col :span="item.span || 6" :key="index" v-for="item, index in innerOptions">
                 <template v-if="item.type != 'upload'">
-                    <component 
-                        :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName" 
-                        v-model="innerFormValue[item.name]" 
-                        :key="item.name + index"
-                        :label="item.label"
-                        :labelName="item.labelName" 
-                        :valueName="item.valueName" 
-                        :childrenName="item.childrenName"
-                        :rules="item.rules"
-                        :multiple="item.multiple" 
-                        :name="item.name" 
-                        :data="item.data"
-                        :readonly="props.readonly || item.readonly" 
-                        :range="item.range"
-                        :disabled="props.disabled || item.disabled"
-                        :placeholder="item.placeholder"
+                    <component :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName"
+                        v-model="innerFormValue[item.name]" :key="item.name + index" :label="item.label"
+                        :labelName="item.labelName" :valueName="item.valueName" :childrenName="item.childrenName"
+                        :rules="item.rules" :multiple="item.multiple" :name="item.name" :data="item.data"
+                        :readonly="props.readonly || item.readonly" :range="item.range"
+                        :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
                         :formItemProps="item.formItemProps"
                         v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]"
                         v-if="!slots[`form-${item.name}`]">
@@ -159,11 +150,13 @@ watch(() => props.options, () => {
                 </t-form-item>
             </t-col>
         </t-row>
-        <t-form-item>
-            <div class="pro-form-footer">
+        <t-form-item v-if="!props.hideFooter">
+            <div v-if="!slots.footer" class="pro-form-footer">
                 <template v-if="!props.hideFooter && !slots.footer">
-                    <t-button v-bind="props.submitButtonProps"class="pro-form-submit-button" type="submit">{{ props.submitText }}</t-button>
-                    <t-button v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{ props.resetText }}</t-button>
+                    <t-button v-bind="props.submitButtonProps" class="pro-form-submit-button" type="submit">{{
+        props.submitText }}</t-button>
+                    <t-button v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{
+                        props.resetText }}</t-button>
                     <slot name="extra"></slot>
                 </template>
 
