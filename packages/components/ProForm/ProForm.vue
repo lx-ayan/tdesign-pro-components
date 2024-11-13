@@ -79,7 +79,7 @@ function init() {
         innerFormValue.value = initFormValue(JSON.parse(JSON.stringify(initForm)), innerOptions.value as ProFormOption[]);
     } else {
         props.request().then(res => {
-            initForm = initFormValue(res, innerOptions.value as ProFormOption[]);
+            initForm = initFormValue(!res? {}: res, innerOptions.value as ProFormOption[]);
             innerFormValue.value = initFormValue(JSON.parse(JSON.stringify(res)), innerOptions.value as ProFormOption[]);
         });
     }
