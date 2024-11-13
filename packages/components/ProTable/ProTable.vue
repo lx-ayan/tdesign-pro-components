@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { ProTableProps, ProTableOption } from './types';
 import { ProFormOption, ProFormRef } from '../ProForm';
 import { tableOption2FormOption } from './utils';
-import { TableProps } from 'tdesign-vue-next';
+import { BaseTableCol, TableProps } from 'tdesign-vue-next';
 import { warn } from '@tdesign-pro-component/utils';
 import { useVModel } from '@tdesign-pro-component/hooks';
 
@@ -91,18 +91,24 @@ function initProTable() {
     formHideForm.value = formVisible();
     tableOptions.value = props.options;
     props.options.forEach((item) => {
-        tableColumns.value?.push(createTableOption(item))
+        tableColumns.value?.push(createTableOption(item) as unknown as any)
     })
 }
 
-function createTableOption(item: ProTableOption) {
-    const object = {
+function createTableOption(item: ProTableOption): TableProps['columns'] {
+    const object: any = {
         colKey: item.key,
         title: item.title as any,
+        ellipsis: item.ellipsis,
+        ellipsisTitle: item.ellipsisTitle,
+        fixed: item.fixed,
+        sorter: item.sorter,
+        children: item.children,
+        width: item.width,
         ...item.tableColumnsProps as any,
     }
     if (item.render) {
-        object.cell = (_h: any, row: any) => item!.render!(row)
+        object.cell = (_h: any, row: any) => item!.render!(row) as any
     }
     return object;
 }

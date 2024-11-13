@@ -51,7 +51,6 @@ export interface ProTableOption<T = any> {
     render?: (data: {row: T, colIndex: number, rowIndex: number}) => VNode | TNode;
     fixed?: 'left' | 'right';
     children?: Array<BaseTableCol<TableRowData>>;
-    tableProps?: BaseTableCol;
     sorter?: boolean;
     ellipsisTitle?: boolean;
     ellipsis?: boolean;
