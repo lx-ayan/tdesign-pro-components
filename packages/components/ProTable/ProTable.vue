@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { ProTableProps, ProTableOption } from './types';
 import { ProFormOption, ProFormRef } from '../ProForm';
 import { tableOption2FormOption } from './utils';
-import { BaseTableCol, TableProps } from 'tdesign-vue-next';
+import { TableProps } from 'tdesign-vue-next';
 import { warn } from '@tdesign-pro-component/utils';
 import { useVModel } from '@tdesign-pro-component/hooks';
 
