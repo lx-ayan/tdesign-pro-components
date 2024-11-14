@@ -46,7 +46,8 @@ const TYPE_CONSTABLE = {
 
 const props = withDefaults(defineProps<ProTableProps>(), {
     hideForm: false,
-    searchNum: 3
+    searchNum: 3,
+    filterEmptyStr: true
 });
 
 const emits = defineEmits<{
@@ -219,7 +220,7 @@ watch(() => props.options, () => {
         </div>
         <div v-if="!formHideForm" class="pro-table-form">
             <t-card>
-                <ProForm filter @submit="onSearch" hideFooter ref="proFormRef" :options="formOptions">
+                <ProForm :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" hideFooter ref="proFormRef" :options="formOptions">
                     <template :key="item" v-for="item in formSlotsName" #[item]="{ form }">
                         <component :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                              v-model="form[getOptionByKey(item).option.key]"

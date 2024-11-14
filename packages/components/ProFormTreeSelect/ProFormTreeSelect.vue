@@ -118,7 +118,7 @@ defineExpose<ProFormTreeSelectRef>({
 });
 </script>
 <template>
-    <t-form-item :requiredMark="props.requiredMark" :label="props.label" :name="props.name"
+    <t-form-item  :label="props.label" :name="props.name"
         :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" v-bind="props.formItemProps">
         <t-input-adornment style="width: 100%; border:1px solid red;" v-if="(slots.prepend || slots.append || props.prepend || props.append)"
             :prepend="props.prepend" :append="props.append">

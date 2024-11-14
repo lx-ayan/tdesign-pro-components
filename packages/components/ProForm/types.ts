@@ -29,7 +29,7 @@ export interface ProFormProps {
     submitText?: string;
     showReset?: boolean;
     formProps?: FormProps;
-    filterEmpty?: boolean; // 过滤空值
+    filterEmptyStr?: boolean; // 过滤空字符串
     submitFilter?: boolean; // 提交时候是否只要修改变化的数据（增量提交）
     submitButtonProps?: ButtonProps;
     resetButtonProps?: ButtonProps;
@@ -51,19 +51,21 @@ export interface ProFormOption {
     disabled?: boolean;
     readonly?: boolean;
     rules?: FormRule[];
-    checkboxProps?: Optional<ProFormCheckboxProps, FilterKey>;
-    radioProps?: Optional<ProFormRadioProps, FilterKey>;
+    checkboxProps?: Optional<ProFormCheckboxProps, FilterKey | 'data'>;
+    radioProps?: Optional<ProFormRadioProps, FilterKey | 'data'>;
     textProps?: Optional<ProFormTextProps, FilterKey>;
     numberProps?: Optional<ProFormInputNumberProps, FilterKey>;
     textareaProps?: Optional<ProFormTextareaProps, FilterKey>;
-    selectProps?: Optional<ProFormSelectProps, FilterKey>;
+    selectProps?: Optional<ProFormSelectProps, FilterKey | 'data'>;
     datepickerProps?: Optional<ProFormDatepickerProps, FilterKey>;
-    treeSelectProps?: Optional<ProFormTreeSelectProps, FilterKey>;
+    treeSelectProps?: Optional<ProFormTreeSelectProps, FilterKey | 'data'>;
     uploadProps?: UploadProps;
+    urlName?: string;
     span?: number;
     offset?: number;
     initalValue?: ValueType | Array<ValueType>;
     formItemProps?: FormItemProps;
+    onChange?: (value: any, name?: string) => void;
 }
 
 export interface ProFormRef {
@@ -72,4 +74,8 @@ export interface ProFormRef {
     reset: () => void;
     initForm: () => void;
     setItem: (key: string, value: any) => void;
+}
+
+export interface IObjectWithPossibleEmptyStrings {
+    [key: string]: string | IObjectWithPossibleEmptyStrings | null | undefined;
 }

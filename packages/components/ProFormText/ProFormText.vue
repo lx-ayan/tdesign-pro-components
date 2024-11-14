@@ -107,7 +107,7 @@ defineExpose<ProFormTextRef>({
 </script>
 <template>
     <t-form-item :label="props.label" :name="props.name" :rules="props.rules" :labelWidth="props.labelWidth"
-        :labelAlign="props.labelAlign" :requiredMark="props.requiredMark" v-bind="props.formItemProps">
+        :labelAlign="props.labelAlign" v-bind="props.formItemProps">
         <t-input-adornment v-if="(slots.prepend || slots.append || props.prepend || props.append)"
             :prepend="props.prepend" :append="props.append">
             <template v-if="slots.prepend" #prepend>

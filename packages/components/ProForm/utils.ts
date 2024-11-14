@@ -1,4 +1,4 @@
-import { ProFormOption } from "./types";
+import { IObjectWithPossibleEmptyStrings, ProFormOption } from "./types";
 
 export function initFormData(options: ProFormOption[]) {
     const obj: any = {};
@@ -31,11 +31,35 @@ export function initFormValue(data: any, options: ProFormOption[]) {
                     result[option.name] = ''
                 }
             } else {
-                result[option.name] = data[option.name];
+                if (option.type === 'upload') {
+                    console.log(data[option.name]);
+                    if (typeof data[option.name] === 'string') {
+                        result[option.name] = data[option.name].split(',').map((url: string) => ({
+                            url: `${url}`,
+                            name: url.split('/').pop()
+                        }))
+                    } else {
+                        result[option.name] = [];
+                        data[option.name].forEach((url: any) => {
+                            if (typeof url === 'string') {
+                                result[option.name].push({
+                                    url: `${url}`,
+                                    name: url.split('/').pop()
+                                })
+                            } else {
+                                result[option.name].push({
+                                    ...url,
+                                    url: option.urlName || 'url'
+                                })
+                            }
+                        })
+                    }
+                } else {
+                    result[option.name] = data[option.name];
+                }
             }
         }
     });
-
     return result;
 }
 
@@ -62,5 +86,24 @@ export function filterChangedValues(obj1: any, obj2: any, result: any = {}) {
         }
     }
 
+    return result;
+}
+
+
+export function removeEmptyStringFields(obj: IObjectWithPossibleEmptyStrings): IObjectWithPossibleEmptyStrings {
+    const result: IObjectWithPossibleEmptyStrings = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if (typeof value === 'object' && value !== null) {
+                const processedSubObject = removeEmptyStringFields(value);
+                if (Object.keys(processedSubObject).length > 0) {
+                    result[key] = processedSubObject;
+                }
+            } else if (value !== '' && value !== undefined) {
+                result[key] = value;
+            }
+        }
+    }
     return result;
 }

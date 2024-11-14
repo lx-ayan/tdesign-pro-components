@@ -3,6 +3,6 @@ import components from './components';
 
 const installer = createInstaller(components);
 
-export * from '@tdesign-pro-component/components';
+export * from '../components';
 
 export default installer;

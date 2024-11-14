@@ -36,6 +36,7 @@ export interface ProTableProps {
     searchNum?: number;
     loading?: boolean;
     size?: SizeEnum;
+    filterEmptyStr?: boolean;
 
     // page
     page: { pageNum: number, pageSize: number, total: number }
