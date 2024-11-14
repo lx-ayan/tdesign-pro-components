@@ -9,7 +9,8 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<ProFormInputNumberProps>(), {
-    theme: 'column'
+    theme: 'column',
+    labelAlign: 'left'
 });
 
 const emits = defineEmits<{

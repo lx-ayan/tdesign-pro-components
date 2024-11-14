@@ -14,7 +14,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<ProFormCheckboxProps>(), {
     labelName: 'label',
-    valueName: 'value'
+    valueName: 'value',
+    labelAlign: 'left'
 });
 
 const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || []);
@@ -54,8 +55,8 @@ defineExpose({
 </script>
 
 <template>
-    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign"
-        :label="props.label" :name="props.name" v-bind="props.formItemProps" :rules="props.rules">
+    <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :label="props.label" :name="props.name"
+        v-bind="props.formItemProps" :rules="props.rules">
         <t-checkbox-group v-model="innerValue" @change="handleChange" :max="props.max" :disabled="props.disabled"
             :readonly="props.readonly" :options="options" v-bind="props.checkboxProps"></t-checkbox-group>
     </t-form-item>

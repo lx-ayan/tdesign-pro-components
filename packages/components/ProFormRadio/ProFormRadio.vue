@@ -15,7 +15,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<ProFormRadioProps>(), {
     labelName: 'label',
-    valueName: 'value'
+    valueName: 'value',
+    labelAlign: 'left'
 });
 
 const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || '');

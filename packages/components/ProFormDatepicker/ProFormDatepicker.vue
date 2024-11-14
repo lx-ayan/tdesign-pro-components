@@ -19,6 +19,7 @@ const emits = defineEmits<{
 }>();
 
 const props = withDefaults(defineProps<ProFormDatepickerProps>(), {
+  labelAlign: 'left'
 });
 
 const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || props.range ? [] : '');

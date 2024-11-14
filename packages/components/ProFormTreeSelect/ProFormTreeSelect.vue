@@ -12,7 +12,8 @@ defineOptions({
 const props = withDefaults(defineProps<ProFormTreeSelectProps>(), {
     labelName: 'label',
     valueName: 'value',
-    childrenName: 'children'
+    childrenName: 'children',
+    labelAlign: 'left'
 });
 
 const emits = defineEmits<{

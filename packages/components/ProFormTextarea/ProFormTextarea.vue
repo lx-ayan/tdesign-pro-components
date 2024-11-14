@@ -8,7 +8,9 @@ defineOptions({
     name: 'ProFormTextarea'
 });
 
-const props = withDefaults(defineProps<ProFormTextareaProps>(), {});
+const props = withDefaults(defineProps<ProFormTextareaProps>(), {
+    labelAlign: 'left'
+});
 
 const emits = defineEmits<{
     (e: 'update:modelValue', value: any): void;

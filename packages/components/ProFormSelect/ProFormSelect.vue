@@ -9,7 +9,8 @@ defineOptions({ name: 'ProFormSelect' });
 
 const props = withDefaults(defineProps<ProFormSelectProps>(), {
     labelName: 'label',
-    valueName: 'value'
+    valueName: 'value',
+    labelAlign: 'left'
 });
 
 const emits = defineEmits<{

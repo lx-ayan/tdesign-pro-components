@@ -6,7 +6,9 @@ import { useVModel } from '@tdesign-pro-component/hooks';
 
 defineOptions({ name: 'ProFormText' });
 
-const props = withDefaults(defineProps<ProFormTextProps>(), {});
+const props = withDefaults(defineProps<ProFormTextProps>(), {
+    labelAlign: 'left'
+});
 
 const inputRef = ref<any>();
 
