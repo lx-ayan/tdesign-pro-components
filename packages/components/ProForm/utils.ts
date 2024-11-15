@@ -100,7 +100,7 @@ export function removeEmptyStringFields(obj: IObjectWithPossibleEmptyStrings): I
                 if (Object.keys(processedSubObject).length > 0) {
                     result[key] = processedSubObject;
                 }
-            } else if (value !== '' && value !== undefined) {
+            } else if (value !== '' && value !== undefined && value !== null) {
                 result[key] = value;
             }
         }

@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue';
 import { ProTableOption } from 'tdesign-pro-component';
+import { TableProps } from 'tdesign-vue-next';
 const inputValue = ref('');
 const page = ref({ pageNum: 1, pageSize: 10 })
 
@@ -14,7 +15,6 @@ const options: ProTableOption[] = [
     key: 'title',
     title: '标题',
     render: (data) => {
-      console.log(data)
       return <div>自定义渲染 {data.row.title}</div>
     }
   },
@@ -35,10 +35,12 @@ const options: ProTableOption[] = [
     span: 9,
     data: [{ label: '1000~2000', value: '1' }, { label: '2000~4000', value: '2' }, { label: '4000~6000', value: '3' }, { label: '6000~1W', value: '4' }]
   }
-]
+];
 
-function request() {
-  console.log('request');
+const selectData = ref<any[]>([]);
+
+function request(data) {
+  console.log('request', data);
   return Promise.resolve({
     total: 10,
     list: [{ id: 1, title: '标题', author: 'Tom Hardy' }, { id: 2, title: '标题', author: 'Tom Hardy' }, { id: 3, title: '标题', author: 'Tom Hardy' }, { id: 4, title: '标题', author: 'Tom Hardy' }, { id: 5, title: '标题', author: 'Tom Hardy' }]
@@ -48,8 +50,10 @@ function request() {
 </script>
 
 <template>
+  {{ selectData }}
   <div style="background-color: #333; height: 100vh;">
-    <ProTable rowKey="id" v-model:page="page" :request :options>
+    <ProTable selectAble v-model:selectData="selectData" rowKey="id" v-model:page="page"
+      :request :options>
       <template #pro-table-title>
         高级表格
       </template>

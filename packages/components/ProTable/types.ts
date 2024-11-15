@@ -1,5 +1,5 @@
 import { Optional, PromiseFunction, ValueType } from "@tdesign-pro-component/utils";
-import { BaseTableCol, FormRule, PaginationProps, SizeEnum, TNode, TableProps, TableRowData } from "tdesign-vue-next";
+import { BaseTableCol, FormRule, LoadingProps, PaginationProps, SizeEnum, TNode, TableProps, TableRowData } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";
 import { ProFormTextProps } from "../ProFormText";
@@ -37,10 +37,19 @@ export interface ProTableProps {
     loading?: boolean;
     size?: SizeEnum;
     filterEmptyStr?: boolean;
-
+    tableProps?: TableProps;
+    bordered?: boolean;
+    stripe?: boolean;
+    hover?: boolean;
+    empty?: string | VNode | TNode | (() => VNode | TNode);
+    cellEmptyContent?: string | VNode | TNode | (() => VNode | TNode);
+    selectData?: any[];
+    selectAble?: boolean;
     // page
     page: { pageNum: number, pageSize: number, total: number }
-    pageProps: PaginationProps;
+    pageProps?: PaginationProps;
+
+    loadingProps?: LoadingProps;
 }
 
 export interface ProTableOption<T = any> {
@@ -49,7 +58,7 @@ export interface ProTableOption<T = any> {
     title: string | (() => TNode | VNode) | TNode | VNode;
     hideInTable?: boolean;
     tableColumnsProps?: TableProps['columns'];
-    render?: (data: {row: T, colIndex: number, rowIndex: number}) => VNode | TNode;
+    render?: (data: { row: T, colIndex: number, rowIndex: number }) => VNode | TNode;
     fixed?: 'left' | 'right';
     children?: Array<BaseTableCol<TableRowData>>;
     sorter?: boolean;
@@ -87,3 +96,12 @@ export interface ProTableOption<T = any> {
     display?: boolean;
     initalValue?: ValueType | Array<ValueType>;
 }
+
+export interface ProTableRef {
+    getFormValue: () => any;
+    reset: (resetParam?: boolean) => void;
+    reload: () => void;
+    getTdesignTable: () => any
+}
+
+export type TableOrder = 'desc' | 'asc';

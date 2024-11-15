@@ -1,6 +1,6 @@
 <script setup lang='ts'>
-import { onMounted, ref, watch } from 'vue';
-import { ProTableProps, ProTableOption } from './types';
+import { computed, onMounted, ref, watch } from 'vue';
+import { ProTableProps, ProTableOption, ProTableRef, TableOrder } from './types';
 import { ProFormOption, ProFormRef } from '../ProForm';
 import { tableOption2FormOption } from './utils';
 import { TableProps } from 'tdesign-vue-next';
@@ -47,20 +47,29 @@ const TYPE_CONSTABLE = {
 const props = withDefaults(defineProps<ProTableProps>(), {
     hideForm: false,
     searchNum: 3,
-    filterEmptyStr: true
+    filterEmptyStr: true,
+    rowKey: 'id'
 });
 
 const emits = defineEmits<{
     (e: 'update:page', value: { pageNum: number, pageSize: number, total?: number }): void;
+    (e: 'update:selectData', value: any[]): void;
+    (e: 'select-change', value: any[], ctx?: any): void;
+    (e: 'reset'): void;
+    (e: 'reload'): void;
 }>();
 
 const slots = defineSlots();
 
 const formOptions = ref<ProFormOption[]>([]);
 
+const tableRef = ref<any>();
+
 const tableOptions = ref<ProTableOption[]>([]);
 
 const proFormRef = ref<ProFormRef>();
+
+const sortObj = ref<Record<string, TableOrder>>({});
 
 const innerLoading = ref(false);
 
@@ -76,6 +85,8 @@ const tableData = ref<any[]>([]);
 
 let formSlotsName = ref<string[]>([]);
 
+const selectRowKeys = useVModel(props, 'selectData', emits, props.selectData || []);
+
 const innerPage = useVModel(props, 'page', emits, props.page || { pageNum: 1, pageSize: 10, total: 10 });
 
 onMounted(() => {
@@ -90,6 +101,11 @@ function init() {
 
 function initProTable() {
     formHideForm.value = formVisible();
+    if (props.selectAble) {
+        tableColumns.value!.unshift({
+            colKey: 'row-select', type: 'multiple'
+        })
+    }
     tableOptions.value = props.options;
     props.options.forEach((item) => {
         tableColumns.value?.push(createTableOption(item) as unknown as any)
@@ -119,11 +135,16 @@ function onSearch() {
     request(1, innerPage.value.pageSize);
 }
 
+function onReset() {
+    request(1, innerPage.value.pageSize);
+}
+
 function pageChange(e: any) {
     innerPage.value.pageNum = e.current || 1;
     innerPage.value.pageSize = e.pageSize;
     request(innerPage.value.pageNum, innerPage.value.pageSize);
 }
+
 
 function request(pageNum: number, pageSize: number) {
     if (!props.request) {
@@ -137,6 +158,7 @@ function request(pageNum: number, pageSize: number) {
         pageNum: innerPage.value.pageNum,
         pageSize,
         form: getFormValue(),
+        sort: sortObj.value
     } as any).then(res => {
         if (props.onSearchSuccess) {
             props.onSearchSuccess(res);
@@ -152,6 +174,24 @@ function request(pageNum: number, pageSize: number) {
         innerPage.value.pageSize = pageSize;
         innerLoading.value = false;
     })
+}
+
+function sortChange(value: any, { col }: { col: { key: string } }) {
+    const { key } = col;
+    let obj = { ...sortObj.value };
+    if (value === void 0 && obj[key]) {
+        delete obj[key];
+    } else {
+        if (value !== void 0) {
+            obj[key] = value.descending ? 'desc' : 'asc';
+        }
+    }
+    sortObj.value = obj;
+    request(innerPage.value.pageNum, innerPage.value.pageSize);
+}
+
+function handleSelected(v) {
+    selectRowKeys.value = v;
 }
 
 // About Form
@@ -207,6 +247,23 @@ function getFormValue() {
     return proFormRef.value?.getFormValue();
 }
 
+defineExpose<ProTableRef>({
+    getFormValue,
+    reset: (resetParam: boolean = false) => {
+        if (resetParam) {
+            proFormRef.value?.reset();
+        }
+        request(innerPage.value.pageNum, innerPage.value.pageSize)
+    },
+    reload: () => {
+        proFormRef.value?.reset();
+        request(1, innerPage.value.pageSize);
+    },
+    getTdesignTable: () => {
+        return tableRef.value
+    }
+})
+
 watch(() => props.options, () => {
     initProTable();
 }, { deep: true });
@@ -220,10 +277,11 @@ watch(() => props.options, () => {
         </div>
         <div v-if="!formHideForm" class="pro-table-form">
             <t-card>
-                <ProForm :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" hideFooter ref="proFormRef" :options="formOptions">
+                <ProForm :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" @reset="onReset" hideFooter
+                    ref="proFormRef" :options="formOptions">
                     <template :key="item" v-for="item in formSlotsName" #[item]="{ form }">
                         <component :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
-                             v-model="form[getOptionByKey(item).option.key]"
+                            v-model="form[getOptionByKey(item).option.key]"
                             :is="getOptionByKey(item)!.component.componentName" v-if="!slots[item]" v-bind="{
             ...getOptionByKey(item).option,
             //@ts-ignore
@@ -254,9 +312,38 @@ watch(() => props.options, () => {
                 <template v-if="slots['pro-table-actions']" #actions>
                     <slot name="pro-table-actions"></slot>
                 </template>
-                <t-table :size="props.size" :row-key="props.rowKey" :data="tableData" :columns="tableColumns">
+                <template v-if="!slots.card">
+                    <t-table @select-change="handleSelected"  :bordered="props.bordered" :stripe="props.stripe"
+                        :hover="props.hover" ref="tableRef" :empty="props.empty"
+                        :cellEmptyContent="props.cellEmptyContent" v-bind="props.tableProps" :loading="innerLoading"
+                        @sort-change="sortChange" :size="props.size" :row-key="props.rowKey" :data="tableData"
+                        :selected-row-keys="selectRowKeys" :columns="tableColumns">
+                        <!-- <template v-for="(slotName) in slotsArr" #[slotName]="{ row, rowIndex }">
+                            <slot :key="row[rowKey]" :row="row" :index="rowIndex" :name="`table-${slotName}`"></slot>
+                        </template> -->
 
-                </t-table>
+                        <template v-if="slots.expandedRow" #expandedRow="{ row }">
+                            <slot name="expandedRow" :row="row">
+
+                            </slot>
+                        </template>
+                    </t-table>
+                </template>
+                <!-- @sort-change="sortChange" :loading="tableLoading" ref="tdTableRef"
+                        :bordered="props.bordered" :empty="props.empty" :cellEmptyContent="props.cellEmptyContent"
+                        v-bind="props.tableAttrs" @select-change="handleSelected" :row-key="props.rowKey"
+                        :data="innerData" :columns="columns" :size="props.size" :selected-row-keys="selectRowKeys"
+                        :stripe="props.stripe" :hover="props.hover" -->
+                <template v-else>
+                    <t-loading :size="props.loadingProps?.size" :loading="innerLoading" v-bind="props.loadingProps"
+                        :show-overlay="props.loadingProps?.showOverlay">
+                        <slot name="card" :list="tableData"></slot>
+                    </t-loading>
+                </template>
+
+                <!-- <t-table ref="tableRef" :size="props.size" :row-key="props.rowKey" :data="tableData" :columns="tableColumns">
+
+                </t-table> -->
                 <div class="pro-table-page" v-if="!props.hidePage && props.page">
                     <t-pagination :disabled="innerLoading" :size="props.size" v-model:current="innerPage.pageNum"
                         :total="innerPage.total" v-model:page-size="innerPage.pageSize" v-bind="props.pageProps"

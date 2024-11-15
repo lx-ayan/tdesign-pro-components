@@ -1,6 +1,6 @@
 {
   "name": "tdesign-pro-component",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": false,
   "description": "ProComponents tdesign-vue-next + Vue3 + TS",
   "main": "./dist/umd/index.umd.cjs",
