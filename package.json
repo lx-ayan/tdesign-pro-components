@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo Hello Test",
     "dev": "pnpm --filter @tdesign-pro-component/play dev",
-    "docs:build": "pnpm --filter @tdesign-pro-component/docs docs:build"
+    "docs:dev": "pnpm --filter @tdesign-pro-component/docs docs:dev",
+    "docs:build": "pnpm --filter @tdesign-pro-component/docs docs:build",
+    "build": "pnpm --filter @tdesign-pro-component/components build"
   },
   "keywords": [],
   "author": "",

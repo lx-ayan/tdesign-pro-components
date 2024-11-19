@@ -119,7 +119,6 @@ defineExpose<ProFormRef>({
     submit: () => handleSubmit(),
     reset: () => handleReset(),
     setItem: (key: keyof typeof innerFormValue.value, value: any) => {
-        console.log('value', value, key);
         innerFormValue.value[key] = value;
         console.log(innerFormValue.value);
     }

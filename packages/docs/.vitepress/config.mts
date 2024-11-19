@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import VueJSX from '@vitejs/plugin-vue-jsx';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -8,22 +9,34 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '首页', link: '/' },
+      { text: '组件', link: '/components' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: '组件案例',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'ProForm 表单', link: '/components/pro-form.md' },
+          { text: 'ProTable 表格', link: '/components/pro-table.md' },
         ]
       }
     ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+    ]
+  },
+  
+  vite: {
+    // 配置 Vite 插件
+    plugins: [
+      VueJSX()
+      // 示例：使用一个 Vite 插件
+      // 需要先安装对应的插件，例如：npm install --save-dev your-vite-plugin
+      // 然后导入插件
+      // import yourVitePlugin from 'your-vite-plugin';
+      // yourVitePlugin({ options: {} })
     ]
   }
 })

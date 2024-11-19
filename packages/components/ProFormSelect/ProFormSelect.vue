@@ -28,9 +28,10 @@ const emits = defineEmits<{
 const options = ref<SelectOptionProps[]>([]);
 
 const innerLoading = ref(false);
+
 const isGroup = ref(false);
 
-const innerValue = useVModel(props, 'modelValue', emits, props.modelValue? props.modelValue : props.multiple ? [] : '');
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue ? props.modelValue : props.multiple ? [] : '');
 
 const selectRef = ref<any>();
 
@@ -132,13 +133,13 @@ defineExpose<ProFormSelectRef>({
                 <slot name="append" />
             </template>
             <t-select ref="selectRef" :label="props.selectLabel" :creatable="props.creatable" :size="props.size"
-                :clearable="props.clearable" :borderless="props.borderless" :autoWidth="props.autoWidth"
-                :autofocus="props.autofocus" :loadingText="props.loadingText" :loading="innerLoading"
-                v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"
+                :filterable="props.filterable" :clearable="props.clearable" :borderless="props.borderless"
+                :autoWidth="props.autoWidth" :autofocus="props.autofocus" :loadingText="props.loadingText"
+                :loading="innerLoading" v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"
                 :readonly="props.readonly" v-model="innerValue"
                 :placeholder="props.placeholder || `请选择${label || '数据'}`" @change="handleChange" @create="handleCreate"
                 @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
-                @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove" @search="handleSearch">
+                @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove">
                 <template v-if="slots.prefixIcon" #prefixIcon>
                     <slot name="prefixIcon"></slot>
                 </template>
@@ -171,7 +172,7 @@ defineExpose<ProFormSelectRef>({
                         <template v-if="slots.default" #default>
                             <slot name="default" :value="option.value" :label="option.label"></slot>
                         </template>
-                    </t-option>
+    </t-option>
                 </template>
 
                 <template v-if="slots['select-label']" #label>
@@ -180,12 +181,12 @@ defineExpose<ProFormSelectRef>({
             </t-select>
         </t-input-adornment>
         <t-select ref="selectRef" v-else :label="props.selectLabel" :creatable="props.creatable"
-            :clearable="props.clearable" :borderless="props.borderless" :autoWidth="props.autoWidth"
-            :autofocus="props.autofocus" :loadingText="props.loadingText" :loading="innerLoading"
-            v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled" :readonly="props.readonly"
-            v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`" @change="handleChange"
-            @create="handleCreate" @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
-            @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove" @search="handleSearch">
+            :filterable="props.filterable" :clearable="props.clearable" :borderless="props.borderless"
+            :autoWidth="props.autoWidth" :autofocus="props.autofocus" :loadingText="props.loadingText"
+            :loading="innerLoading" v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"
+            :readonly="props.readonly" v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`"
+            @change="handleChange" @create="handleCreate" @enter="handleEnter" @focus="handleFocus"
+            @input-change="handleInputChange" @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove">
             <template v-if="slots.prefixIcon" #prefixIcon>
                 <slot name="prefixIcon"></slot>
             </template>

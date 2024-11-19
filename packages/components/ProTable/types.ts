@@ -26,18 +26,16 @@ export interface ProTableResult<T = any> {
 
 export interface ProTableProps {
     options: ProTableOption[];
-    rowKey: string;
     request: <T = any> (data: ProTableRequest<T>) => Promise<ProTableResult<T>>;
+    rowKey?: string;
     onSearchSuccess?: (data: ProTableResult<any>) => any;
     onSearchFail?: (exception: Error | string) => void;
-    keyName?: string;
     hideForm?: boolean;
     hidePage?: boolean;
     searchNum?: number;
-    loading?: boolean;
+    loadingAble?: boolean;
     size?: SizeEnum;
     filterEmptyStr?: boolean;
-    tableProps?: TableProps;
     bordered?: boolean;
     stripe?: boolean;
     hover?: boolean;
@@ -45,6 +43,8 @@ export interface ProTableProps {
     cellEmptyContent?: string | VNode | TNode | (() => VNode | TNode);
     selectData?: any[];
     selectAble?: boolean;
+    tableProps?: TableProps;
+
     // page
     page: { pageNum: number, pageSize: number, total: number }
     pageProps?: PaginationProps;
@@ -65,6 +65,7 @@ export interface ProTableOption<T = any> {
     ellipsisTitle?: boolean;
     ellipsis?: boolean;
     width?: string | number;
+    isSlot?: boolean;
 
 
 
@@ -101,7 +102,8 @@ export interface ProTableRef {
     getFormValue: () => any;
     reset: (resetParam?: boolean) => void;
     reload: () => void;
-    getTdesignTable: () => any
+    getTdesignTable: () => any;
+    ProTableRef: (index: number, data: any) => void;
 }
 
 export type TableOrder = 'desc' | 'asc';

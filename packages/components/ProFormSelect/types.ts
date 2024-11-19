@@ -32,6 +32,7 @@ export interface ProFormSelectProps {
   borderless?: boolean;
   clearable?: boolean;
   creatable?: boolean;
+  filterable?: boolean;
   loading?: boolean;
   loadingText?: string;
   selectProps?: SelectProps;

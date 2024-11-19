@@ -47,6 +47,16 @@ const data = {
   ]
 }
 
+function getData() {
+  return Promise.resolve([
+    { label: 2024, value: 2024 },
+    { label: 2023, value: 2023 },
+    { label: 2022, value: 2022 },
+    { label: 2021, value: 2021 },
+    { label: 2020, value: 2020 },
+  ])
+}
+
 const options = ref<any[]>([
   {
     name: 'type',
@@ -118,6 +128,7 @@ const options = ref<any[]>([
     initalValue: '',
     selectProps: {
       labelAlign: 'top',
+      filterable: true
     },
     data: [
       { label: '濉溪县', value: 'sxx' },
@@ -207,13 +218,10 @@ const options = ref<any[]>([
     selectProps: {
       labelAlign: 'top'
     },
-    data: [
-      { label: 2024, value: 2024 },
-      { label: 2023, value: 2023 },
-      { label: 2022, value: 2022 },
-      { label: 2021, value: 2021 },
-      { label: 2020, value: 2020 },
-    ]
+    data: async  () => {
+      const data = await getData();
+      return data;
+    }
   },
   {
     name: 'empty',
@@ -308,8 +316,6 @@ function request() {
     "businessType": "sale",
     "childrenType": "sqds",
     "title": "123",
-    "area": "sxx",
-    "block": "pq2",
     'image': ['https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_0ff39d393338f349964dabc7179a1eb8~c5_300x300.jpeg?from=2956013662']
   });
 }

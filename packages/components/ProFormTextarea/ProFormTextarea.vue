@@ -66,6 +66,7 @@ defineExpose<ProFormTextareaRef>({
 </script>
 <template>
     <t-form-item :label="props.label" :name="props.name"
+        :rules="props.rules"
         :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" v-bind="props.formItemProps">
         <t-textarea ref="textareaRef" v-model="innerValue" :disabled="props.disabled" :size="props.size"
             :readonly="props.readonly" :placeholder="props.placeholder || `请输入${props.label || '数据'}`"

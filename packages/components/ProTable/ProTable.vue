@@ -1,12 +1,13 @@
 <script setup lang='ts'>
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { ProTableProps, ProTableOption, ProTableRef, TableOrder } from './types';
 import { ProFormOption, ProFormRef } from '../ProForm';
-import { tableOption2FormOption } from './utils';
 import { TableProps } from 'tdesign-vue-next';
 import { warn } from '@tdesign-pro-component/utils';
 import { useVModel } from '@tdesign-pro-component/hooks';
-
+import { initTable } from './table';
+import { getFormSlotNameList, getShowFormOptionList, initForm, formVisible } from './form';
+import {removeEmptyStringFields} from '../ProForm/utils';
 defineOptions({ name: 'ProTable' });
 
 const TYPE_CONSTABLE = {
@@ -48,7 +49,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
     hideForm: false,
     searchNum: 3,
     filterEmptyStr: true,
-    rowKey: 'id'
+    rowKey: 'id',
+    loadingAble: true
 });
 
 const emits = defineEmits<{
@@ -81,6 +83,8 @@ const showMoreButton = ref(false);
 
 const tableColumns = ref<TableProps['columns']>([]);
 
+const slotsArr = ref<string[]>();
+
 const tableData = ref<any[]>([]);
 
 let formSlotsName = ref<string[]>([]);
@@ -95,39 +99,14 @@ onMounted(() => {
 
 function init() {
     initProTable();
-    initForm();
+    initProForm();
     onSearch();
 }
 
 function initProTable() {
-    formHideForm.value = formVisible();
-    if (props.selectAble) {
-        tableColumns.value!.unshift({
-            colKey: 'row-select', type: 'multiple'
-        })
-    }
     tableOptions.value = props.options;
-    props.options.forEach((item) => {
-        tableColumns.value?.push(createTableOption(item) as unknown as any)
-    })
-}
-
-function createTableOption(item: ProTableOption): TableProps['columns'] {
-    const object: any = {
-        colKey: item.key,
-        title: item.title as any,
-        ellipsis: item.ellipsis,
-        ellipsisTitle: item.ellipsisTitle,
-        fixed: item.fixed,
-        sorter: item.sorter,
-        children: item.children,
-        width: item.width,
-        ...item.tableColumnsProps as any,
-    }
-    if (item.render) {
-        object.cell = (_h: any, row: any) => item!.render!(row) as any
-    }
-    return object;
+    tableColumns.value = initTable(props);
+    slotsArr.value = props.options.filter(item => item.isSlot).map(item => item.key)
 }
 
 // About Table
@@ -145,19 +124,20 @@ function pageChange(e: any) {
     request(innerPage.value.pageNum, innerPage.value.pageSize);
 }
 
-
 function request(pageNum: number, pageSize: number) {
     if (!props.request) {
         warn('request is not function');
         return;
     }
-    if (props.loading) {
+    if (props.loadingAble) {
         innerLoading.value = true
     }
+    const form = props.filterEmptyStr ? removeEmptyStringFields(getFormValue()) : getFormValue();
+    delete form['search-extral'];
     props.request!({
         pageNum: innerPage.value.pageNum,
         pageSize,
-        form: getFormValue(),
+        form,
         sort: sortObj.value
     } as any).then(res => {
         if (props.onSearchSuccess) {
@@ -190,46 +170,23 @@ function sortChange(value: any, { col }: { col: { key: string } }) {
     request(innerPage.value.pageNum, innerPage.value.pageSize);
 }
 
-function handleSelected(v) {
+function handleSelected(v: any) {
     selectRowKeys.value = v;
 }
 
 // About Form
-function initForm() {
-    formSlotsName.value = props.options.map(item => `form-${item.key}`);
-    const _tableOptions = (tableOptions.value as unknown as ProTableOption[]).filter(toption => !toption.hideInSearch);
-    const options: ProFormOption[] = [
-        ...tableOption2FormOption(_tableOptions as ProTableOption[]),
-    ];
-
-    showMoreButton.value = getNotHiddenForm() > props.searchNum;
-
-    formOptions.value = options.map((item: any, index) => ({
-        ...item,
-        hidden: !((index + 1) <= props.searchNum),
-        placeholder: item.placeholder
-    })) as any;
-
-    formOptions.value.push({
-        name: 'search-extral',
-        span: 3
-    });
-}
-
-function getNotHiddenForm() {
-    return props.options.map((item: any) => !item.hideInSearch).length;
-}
-
-function formVisible() {
-    const flag = props.options.map(item => item.hideInSearch).every(item => item === true);
-    return props.hideForm || flag;
+function initProForm() {
+    formHideForm.value = formVisible(props);
+    formSlotsName.value = getFormSlotNameList(props.options);
+    showMoreButton.value = getShowFormOptionList(props.options).length > props.searchNum;
+    formOptions.value = initForm(tableOptions.value as ProTableOption[], props);
 }
 
 function handleMoreClick(visible: boolean) {
     if (visible) {
         formOptions.value = formOptions.value.map((item: any) => ({ ...item, hidden: false } as ProFormOption))
     } else {
-        initForm();
+        initProForm();
     }
     showMoreState.value = visible;
 }
@@ -261,6 +218,10 @@ defineExpose<ProTableRef>({
     },
     getTdesignTable: () => {
         return tableRef.value
+    },
+    setRequestData: (index: number, data: any) => {
+        if (index < 0 || index > tableData.value.length) return;
+        tableData.value[index] = data;
     }
 })
 
@@ -313,27 +274,22 @@ watch(() => props.options, () => {
                     <slot name="pro-table-actions"></slot>
                 </template>
                 <template v-if="!slots.card">
-                    <t-table @select-change="handleSelected"  :bordered="props.bordered" :stripe="props.stripe"
+                    <t-table @select-change="handleSelected" :bordered="props.bordered" :stripe="props.stripe"
                         :hover="props.hover" ref="tableRef" :empty="props.empty"
                         :cellEmptyContent="props.cellEmptyContent" v-bind="props.tableProps" :loading="innerLoading"
                         @sort-change="sortChange" :size="props.size" :row-key="props.rowKey" :data="tableData"
                         :selected-row-keys="selectRowKeys" :columns="tableColumns">
-                        <!-- <template v-for="(slotName) in slotsArr" #[slotName]="{ row, rowIndex }">
-                            <slot :key="row[rowKey]" :row="row" :index="rowIndex" :name="`table-${slotName}`"></slot>
-                        </template> -->
-
                         <template v-if="slots.expandedRow" #expandedRow="{ row }">
                             <slot name="expandedRow" :row="row">
 
                             </slot>
                         </template>
+                        <template v-for="(slotName) in slotsArr" #[slotName]="{ row, rowIndex }">
+                            <slot :row="row" :index="rowIndex" :name="`table-${slotName}`"></slot>
+                        </template>
                     </t-table>
                 </template>
-                <!-- @sort-change="sortChange" :loading="tableLoading" ref="tdTableRef"
-                        :bordered="props.bordered" :empty="props.empty" :cellEmptyContent="props.cellEmptyContent"
-                        v-bind="props.tableAttrs" @select-change="handleSelected" :row-key="props.rowKey"
-                        :data="innerData" :columns="columns" :size="props.size" :selected-row-keys="selectRowKeys"
-                        :stripe="props.stripe" :hover="props.hover" -->
+
                 <template v-else>
                     <t-loading :size="props.loadingProps?.size" :loading="innerLoading" v-bind="props.loadingProps"
                         :show-overlay="props.loadingProps?.showOverlay">
@@ -341,9 +297,6 @@ watch(() => props.options, () => {
                     </t-loading>
                 </template>
 
-                <!-- <t-table ref="tableRef" :size="props.size" :row-key="props.rowKey" :data="tableData" :columns="tableColumns">
-
-                </t-table> -->
                 <div class="pro-table-page" v-if="!props.hidePage && props.page">
                     <t-pagination :disabled="innerLoading" :size="props.size" v-model:current="innerPage.pageNum"
                         :total="innerPage.total" v-model:page-size="innerPage.pageSize" v-bind="props.pageProps"

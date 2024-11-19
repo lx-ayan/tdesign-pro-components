@@ -76,7 +76,7 @@ export function filterChangedValues(obj1: any, obj2: any, result: any = {}) {
                 result[key] = obj2[key];
             }
         } else {
-            result[key] = null;
+            result[key] = undefined;
         }
     }
 
