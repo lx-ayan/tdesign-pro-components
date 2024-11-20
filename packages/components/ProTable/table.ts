@@ -8,7 +8,9 @@ export function initTable(props: ProTableProps) {
         })
     }
     props.options.forEach((item: ProTableOption) => {
-        resultColumns.push(createTableOption(item, props) as unknown as any)
+        if (!item.hideInTable) {
+            resultColumns.push(createTableOption(item, props) as unknown as any);
+        }
     });
     return resultColumns;
 }

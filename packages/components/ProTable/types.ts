@@ -49,6 +49,9 @@ export interface ProTableProps {
     page: { pageNum: number, pageSize: number, total: number }
     pageProps?: PaginationProps;
 
+    searchText?: number;
+    searchStyle?: CSSProperties;
+    searchIcon?: string;
     loadingProps?: LoadingProps;
 }
 
@@ -71,9 +74,6 @@ export interface ProTableOption<T = any> {
 
     // form props
     hideInSearch?: boolean;
-    searchSpan?: number;
-    searchStyle?: CSSProperties;
-    searchIcon?: string;
     placeholder?: string;
     labelWidth?: string;
     type?: 'text' | 'treeSelect' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'datepicker';
@@ -94,8 +94,7 @@ export interface ProTableOption<T = any> {
     datepickerProps?: Optional<ProFormDatepickerProps, FilterKey>;
     treeSelectProps?: Optional<ProFormTreeSelectProps, FilterKey>;
     readonly?: boolean;
-    display?: boolean;
-    initalValue?: ValueType | Array<ValueType>;
+    labelText?: string;
 }
 
 export interface ProTableRef {
@@ -103,7 +102,7 @@ export interface ProTableRef {
     reset: (resetParam?: boolean) => void;
     reload: () => void;
     getTdesignTable: () => any;
-    ProTableRef: (index: number, data: any) => void;
+    insertTableData: (index: number, data: any) => void;
 }
 
 export type TableOrder = 'desc' | 'asc';

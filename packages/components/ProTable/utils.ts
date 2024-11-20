@@ -6,7 +6,7 @@ export function tableOption2FormOption(tableOptions: ProTableOption[]): ProFormO
     tableOptions.forEach((item: ProTableOption) => {
         proFormOptions.push({
             ...item,
-            label: item.title,
+            label: item.labelText || item.title,
             span: item.span || 3,
             formItemProps: {
                 labelAlign: item.labelAlign || 'right',
@@ -16,6 +16,6 @@ export function tableOption2FormOption(tableOptions: ProTableOption[]): ProFormO
             name: item.key,
             type: item.type || 'text',
         });
-    })
+    });
     return proFormOptions;
 }

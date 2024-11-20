@@ -64,13 +64,15 @@ const options: ProTableOption[] = [
   },
   {
     key: 'author',
-    title: '作者'
+    title: '作者',
+    initalValue: '刘续',
   },
   {
     key: 'steps',
     title: '条件',
     type: 'radio',
     data: [{ label: '近地铁', value: '1' }, { label: '设备齐全', value: '2' }],
+    hideInTable: true
   },
   {
     key: 'priceRange',

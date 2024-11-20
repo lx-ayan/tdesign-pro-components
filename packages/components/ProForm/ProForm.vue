@@ -120,7 +120,6 @@ defineExpose<ProFormRef>({
     reset: () => handleReset(),
     setItem: (key: keyof typeof innerFormValue.value, value: any) => {
         innerFormValue.value[key] = value;
-        console.log(innerFormValue.value);
     }
 })
 

@@ -50,7 +50,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
     searchNum: 3,
     filterEmptyStr: true,
     rowKey: 'id',
-    loadingAble: true
+    loadingAble: true,
+    searchText: '查询'
 });
 
 const emits = defineEmits<{
@@ -67,7 +68,7 @@ const formOptions = ref<ProFormOption[]>([]);
 
 const tableRef = ref<any>();
 
-const tableOptions = ref<ProTableOption[]>([]);
+let tableOptions:ProTableOption[] = [];
 
 const proFormRef = ref<ProFormRef>();
 
@@ -104,7 +105,7 @@ function init() {
 }
 
 function initProTable() {
-    tableOptions.value = props.options;
+    tableOptions = props.options;
     tableColumns.value = initTable(props);
     slotsArr.value = props.options.filter(item => item.isSlot).map(item => item.key)
 }
@@ -179,7 +180,8 @@ function initProForm() {
     formHideForm.value = formVisible(props);
     formSlotsName.value = getFormSlotNameList(props.options);
     showMoreButton.value = getShowFormOptionList(props.options).length > props.searchNum;
-    formOptions.value = initForm(tableOptions.value as ProTableOption[], props);
+    formOptions.value = initForm(props);
+    console.log('formOptions.value', formOptions.value);
 }
 
 function handleMoreClick(visible: boolean) {
@@ -194,6 +196,7 @@ function handleMoreClick(visible: boolean) {
 function getOptionByKey(name: string): { option: ProTableOption, component: { componentName: string, propsName: string } } {
     name = name.replace('form-', '').trim();
     const option = (formOptions.value as unknown as ProTableOption[]).find(item => item.key === name)! as ProTableOption;
+
     return {
         option,
         component: TYPE_CONSTABLE[option.type || 'text']
@@ -219,7 +222,7 @@ defineExpose<ProTableRef>({
     getTdesignTable: () => {
         return tableRef.value
     },
-    setRequestData: (index: number, data: any) => {
+    insertTableData: (index: number, data: any) => {
         if (index < 0 || index > tableData.value.length) return;
         tableData.value[index] = data;
     }
@@ -253,7 +256,7 @@ watch(() => props.options, () => {
 
                     <template #form-search-extral>
                         <div class="pro-table-form-actions">
-                            <t-button :loading="innerLoading" type="submit">查询</t-button>
+                            <t-button :loading="innerLoading" type="submit">{{ props.searchText }}</t-button>
                             <t-button :loading="innerLoading" theme="default" type="reset">重置</t-button>
                             <t-button v-if="showMoreButton" @click="handleMoreClick(!showMoreState)">{{ showMoreState ?
             '收缩'
@@ -314,6 +317,10 @@ watch(() => props.options, () => {
 
 .pro-table-form-actions .t-button {
     margin-right: 12px;
+}
+
+.pro-table-header {
+    margin-bottom: 12px;
 }
 
 .pro-table-page {

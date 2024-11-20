@@ -32,7 +32,6 @@ export function initFormValue(data: any, options: ProFormOption[]) {
                 }
             } else {
                 if (option.type === 'upload') {
-                    console.log(data[option.name]);
                     if (typeof data[option.name] === 'string') {
                         result[option.name] = data[option.name].split(',').map((url: string) => ({
                             url: `${url}`,
