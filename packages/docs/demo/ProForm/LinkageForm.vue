@@ -60,7 +60,7 @@ function handleSet() {
 </script>
 
 <template>
-    <ProForm ref="proFormRef" labelAlign="top" :marginY="20" @submit="handleSubmit" :options="options">
+    <ProForm hideFooter ref="proFormRef" labelAlign="top" :marginY="20" @submit="handleSubmit" :options="options">
         <template #extra>
             <t-button @click="handleSet" style="margin-left: 12px;">手动设置用户名</t-button>
         </template>

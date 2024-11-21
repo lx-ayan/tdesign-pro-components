@@ -718,12 +718,35 @@ const rules = {
 通过实例组件中的 `setItem` 进行动态设置
 <SetFormItem/>
 
-## 表单联动
+## 表单联动（隐藏提交按钮）
 
 <LinkageForm/>
 
 ## API
 
 ## ProFormProps
+|属性名|类型|默认值|描述|必填|
+|------|------|------|------|------|
+|options| Array /`ProFormOption[]`| - | 表单配置项，控制表单显示内容 | TRUE |
+|request| Function /`() => Promise<any>`| - | 通过请求方式初始化数据 | FALSE |
+|rules| Object /`FormRules`| - |表单验证 | FALSE |
+|labelAlign| string /`left`/`right`/`top`| - |label 对其方式 | FALSE |
+|labelWidth| string / number| - |label 宽度 | FALSE |
+|marginY| number | 24 | 表单纵向间距 | FALSE |
+|readonly| boolean | false | 只读模式 | FALSE |
+|disabled| boolean | false | 禁用模式 | FALSE |
+|layout| string / `vertical` / `inline`| - |表单布局。纵向/横向 | FALSE |
+|footerAligin| string /`left`/`right`/`center`| right | 表单底部水平位置 | FALSE |
+|resetText| string | 重置 | 重置按钮文本 | FALSE |
+|submitText| string | 提交 | 提交按钮文本 | FALSE |
+|showReset| boolean | true | 展示重置按钮 | FALSE |
+|formProps| Object /`FormProps`| - |表单其他配置。[参考详情](https://tdesign.tencent.com/vue-next/components/form?tab=api "FormProps") | FALSE |
+|filterEmptyStr| boolean | false | 过滤空值。删除 undefined, null, 空字符串的字段| FALSE |
+|submitFilter| boolean | true | 增量提交。比对初始值对象和填写表单后对象。只返回有变化的字段。| FALSE |
+|submitButtonProps| Object / `ButtonProps` | - | 提交按钮其他参数。[参考详情](https://tdesign.tencent.com/vue-next/components/button?tab=api "ButtonProps") | FALSE |
+|resetButtonProps| Object / `ButtonProps` | - | 重置表单其他参数。[参考详情](https://tdesign.tencent.com/vue-next/components/button?tab=api "ButtonProps") | FALSE |
+|hideFooter| boolean | false | 隐藏表单操作位置。| FALSE |
+
+## ProFormOption
 |属性名|类型|默认值|描述|必填|
 |------|------|------|------|------|
