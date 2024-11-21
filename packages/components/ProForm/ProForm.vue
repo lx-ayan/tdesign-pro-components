@@ -167,9 +167,10 @@ watch(() => props.options, () => {
                     <template v-if="!props.hideFooter && !slots.footer">
                         <t-button v-bind="props.submitButtonProps" class="pro-form-submit-button" type="submit">{{
         props.submitText }}</t-button>
-                        <t-button v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{
+                        <t-button style="margin-left: 12px;" v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{
         props.resetText }}</t-button>
-                        <slot name="extra"></slot>
+
+                        <slot v-if="slots.extra" name="extra"></slot>
                     </template>
 
                     <template v-else>
@@ -180,7 +181,7 @@ watch(() => props.options, () => {
         </template>
 
         <template v-else>
-            <slot name="default" :form="innerFormValue"></slot>
+            <slot v-if="innerFormValue" name="default" :form="innerFormValue"></slot>
         </template>
     </t-form>
 </template>

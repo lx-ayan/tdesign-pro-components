@@ -48,7 +48,7 @@ export function initFormValue(data: any, options: ProFormOption[]) {
                             } else {
                                 result[option.name].push({
                                     ...url,
-                                    url: option.urlName || 'url'
+                                    url: url[option.urlName || 'url']
                                 })
                             }
                         })

@@ -78,7 +78,7 @@ defineExpose({
 <template>
     <t-form-item :label="props.label" :name="props.name" :rules="props.rules" :labelWidth="props.labelWidth"
         :labelAlign="props.labelAlign" v-bind="props.formItemProps">
-        <t-input-number ref="inputNumberRef" v-model="innerValue" @input="handleInput" @change="handleChange" @blur="handleBlur" @focus="handleFocus"
+        <t-input-number :style="props.style" ref="inputNumberRef" v-model="innerValue" @input="handleInput" @change="handleChange" @blur="handleBlur" @focus="handleFocus"
             @keydown="handleKeydown" @keypress="handleKeypress" @keyup="handleKeyup" @validate="handleValidate"
             :theme="props.theme" :readonly="props.readonly" :disabled="props.disabled" :size="props.size"
             :placeholder="props.placeholder || `请输入${props.label || '数据'}`"

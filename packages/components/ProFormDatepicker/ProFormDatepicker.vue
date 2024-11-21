@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<ProFormDatepickerProps>(), {
   labelAlign: 'left'
 });
 
-const innerValue = useVModel(props, 'modelValue', emits, props.modelValue || props.range ? [] : '');
+const innerValue = useVModel(props, 'modelValue', emits, props.modelValue ?props.modelValue: props.range ? [] : '');
 
 const datePickerRef = ref<any>();
 
@@ -63,7 +63,7 @@ defineExpose({
 <template>
   <t-form-item :labelWidth="props.labelWidth" :labelAlign="props.labelAlign" :label="props.label" :name="props.name"
     :rules="props.rules" v-bind="props.formItemProps">
-    <t-input-adornment :format="props.format" ref="datePickerRef" @change="handleChange" @pick="handlePick"
+    <t-input-adornment :style="props.style" :format="props.format" ref="datePickerRef" @change="handleChange" @pick="handlePick"
       @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm"
       v-if="(slots.prepend || slots.append || props.prepend || props.append) && !props.range" :prepend="props.prepend"
       :append="props.append">
@@ -74,7 +74,7 @@ defineExpose({
         <slot name="append" />
       </template>
 
-      <t-date-picker :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
+      <t-date-picker :style="props.style" :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
         @pick="handlePick" @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm" v-model="innerValue"
         :disabled="props.disabled" :placeholder="props.placeholder" :allow-input="props.allowInput"
         v-bind="props.datepickerProps" :clearable="props.clearable">
@@ -89,7 +89,7 @@ defineExpose({
     </t-input-adornment>
 
     <template v-else>
-      <t-date-picker :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
+      <t-date-picker :style="props.style" :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
         @pick="handlePick" @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm" v-if="!props.range"
         v-model="innerValue" :disabled="props.disabled" :placeholder="props.placeholder" :allow-input="props.allowInput"
         v-bind="props.datepickerProps" :clearable="props.clearable">
@@ -102,7 +102,7 @@ defineExpose({
         </template>
       </t-date-picker>
 
-      <t-date-range-picker :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
+      <t-date-range-picker :style="props.style" :format="props.format" :size="props.size" ref="datePickerRef" @change="handleChange"
         @pick="handlePick" @blur="handleBlur" @focus="handleFocus" @confirm="handleConfirm" v-else v-model="innerValue"
         :disabled="props.disabled" :placeholder="props.placeholder" :allow-input="props.allowInput"
         v-bind="props.datepickerProps" :clearable="props.clearable">

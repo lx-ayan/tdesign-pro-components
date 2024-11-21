@@ -3,7 +3,6 @@ export function getType(data: any): string {
 }
 
 export function is(data: any, key: string) {
-    console.log('getType(data)', getType(data));
     return key.toLowerCase().trim() == getType(data);
 }
 

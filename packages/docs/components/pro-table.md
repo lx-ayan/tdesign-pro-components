@@ -9,8 +9,7 @@
 
 ProTable 的诞生是为了解决项目中需要写很多 table 的样板代码的问题，所以在其中封装了很多常用的逻辑。这些封装可以简单的分类为预设行为与预设逻辑。
 
-## 案例
-### 基本使用
+## 基本使用
 
 
 <div style="margin-top: 24px">
@@ -68,7 +67,7 @@ function request(data: ProTableRequest<any>) {
 ```
 </details>
 
-### 自定义渲染列数据
+## 自定义渲染列数据
 
 #### 方式一：插槽形式
 
@@ -194,18 +193,18 @@ function request(data: ProTableRequest<any>) {
 ```
 </details>
 
-### 自定义头部
+## 自定义头部
 
 <MyRenderHeader/>
 
-### 表格操作区域
+## 表格操作区域
 
 <MyRenderTitle/>
 
 
 ## API
 
-### ProTableProps
+## ProTableProps
 
 |属性名|类型|默认值|描述|必填|
 |------|------|------|------|------|
@@ -236,7 +235,7 @@ function request(data: ProTableRequest<any>) {
 
 
 
-### ProTableOption
+## ProTableOption
 
 |属性名|类型|默认值|描述|必填|
 |------|------|------|------|------|
@@ -274,7 +273,7 @@ function request(data: ProTableRequest<any>) {
 | readonly | boolean | false | 只读模式，注意: `日期选择器状态为禁用状态` | FALSE |
 | labelText | string / `VNode` / `TNode` / `() => (VNode / TNode)` | - | 表单 label 自定义名称 | FALSE |
 
-### ProTable Slot 
+## ProTable Slot 
 |插槽名|数据|描述|
 |------|------|------|
 |header | - | 表格头部 |
@@ -284,7 +283,7 @@ function request(data: ProTableRequest<any>) {
 |pro-table-actions | - | 表格操作区域 |
 | card | `{list}` | 自定义布局, `list`： 当前页数据 |
 
-### ProTable Expose 
+## ProTable Expose 
 |插槽名|类型|描述|
 |------|------|------|
 |getFormValue | Function / `() => any;` | 获取搜索项表单数据 |
