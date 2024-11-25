@@ -17,8 +17,9 @@ export default defineConfig({
       {
         text: '组件案例',
         items: [
-          { text: 'ProForm 表单', link: '/components/pro-form.md' },
           { text: 'ProTable 表格', link: '/components/pro-table.md' },
+          { text: 'ProForm 表单', link: '/components/pro-form.md' },
+          { text: 'ProFormText 文本输入框', link: '/components/pro-form-text.md' },
         ]
       }
     ],

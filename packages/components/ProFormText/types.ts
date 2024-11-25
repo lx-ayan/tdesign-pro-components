@@ -21,7 +21,6 @@ export interface ProFormTextProps {
 
     labelWidth?: string | number;
     labelAlign?: 'left' | 'top' | 'right';
-    requiredMark?: boolean;
     rules?: Array<FormRule>;
     formItemProps?: FormItemProps;
 }

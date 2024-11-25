@@ -16,3 +16,5 @@ export interface SelectDataOption {
 export type PromiseFunction<T> = (...args: any[]) => Promise<T>;
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+export type WithFalse<T extends any = any> = T | false;

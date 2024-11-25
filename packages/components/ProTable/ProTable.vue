@@ -181,7 +181,6 @@ function initProForm() {
     formSlotsName.value = getFormSlotNameList(props.options);
     showMoreButton.value = getShowFormOptionList(props.options).length > props.searchNum;
     formOptions.value = initForm(props);
-    console.log('formOptions.value', formOptions.value);
 }
 
 function handleMoreClick(visible: boolean) {

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
+import VueJSX from '@vitejs/plugin-vue-jsx';
 import { resolve } from 'path';
 import { readdirSync } from 'fs';
 import ViteDTS from 'vite-plugin-dts';
@@ -15,7 +16,7 @@ export default defineConfig({
             tsconfigPath: '../../tsconfig.build.json',
             outDir: 'dist/types'
         }
-    )],
+    ), VueJSX()],
     build: {
         outDir: 'dist/es',
         lib: {
