@@ -1,5 +1,5 @@
 import { Header } from "tdesign-vue-next";
-import { PropType, defineComponent } from "vue";
+import {  defineComponent } from "vue";
 
 export const ProLayoutHeader = defineComponent({
     name: 'ProLayoutHeader',

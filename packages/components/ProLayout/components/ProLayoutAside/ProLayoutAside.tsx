@@ -1,5 +1,5 @@
 import { Aside } from "tdesign-vue-next"
-import { PropType, defineComponent, ref, watch } from "vue"
+import { PropType, defineComponent, ref } from "vue"
 import { ProLayoutProps, ProLayoutRoute } from "../../types"
 import { LayoutMenu } from './LayoutMenu';
 
@@ -23,7 +23,7 @@ export const ProLayoutAside = defineComponent({
         const menuRef = ref<any>();
 
         expose({
-            setCollapsed: (value) => menuRef.value.setCollapsed(value)
+            setCollapsed: (value: boolean) => menuRef.value.setCollapsed(value)
         })
 
         function handleClick(path: string, route: ProLayoutRoute) {
@@ -32,7 +32,7 @@ export const ProLayoutAside = defineComponent({
 
         return () => <Aside style={{ width: 'auto' }}>
             {
-                (props.routes && props.routes.length) ? <LayoutMenu ref={menuRef} onClick={handleClick} {...props} /> : slots.default()
+                (props.routes && props.routes.length) ? <LayoutMenu ref={menuRef} onClick={(path: string, route: ProLayoutRoute) => handleClick(path, route)} {...props} /> : (slots && slots.default) ? slots?.default() : null
             }
         </Aside>
     }

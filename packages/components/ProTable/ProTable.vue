@@ -68,8 +68,6 @@ const formOptions = ref<ProFormOption[]>([]);
 
 const tableRef = ref<any>();
 
-let tableOptions:ProTableOption[] = [];
-
 const proFormRef = ref<ProFormRef>();
 
 const sortObj = ref<Record<string, TableOrder>>({});
@@ -105,7 +103,6 @@ function init() {
 }
 
 function initProTable() {
-    tableOptions = props.options;
     tableColumns.value = initTable(props);
     slotsArr.value = props.options.filter(item => item.isSlot).map(item => item.key)
 }

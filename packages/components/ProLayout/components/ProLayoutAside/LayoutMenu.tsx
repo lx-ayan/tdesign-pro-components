@@ -14,7 +14,8 @@ export const LayoutMenu = defineComponent({
             default: false
         },
         menuTheme: String,
-        menuProps: Object
+        menuProps: Object,
+        onClick: Function
     },
     setup(props: ProLayoutProps, { emit, expose }) {
 
@@ -28,24 +29,24 @@ export const LayoutMenu = defineComponent({
             setCollapsed: (value: boolean) => innerCollapsed.value = value,
         });
 
-        const RenderMenu = ({ routes }) => {
-
+        const RenderMenu: any = ({ routes }: {routes: ProLayoutRoute[]}) => {
+            if(!routes || routes.length <=0) return null;
             return <>
                 {
-                    routes.map((route, index) => {
+                    routes.map((route) => {
                         return (route.children && route.children.length > 0) ? (
                             props.routeGroup?
                             <MenuGroup 
                             key={route.path}
-                            title={typeof route.title === 'string' ? route.title : route.title()}
-                            value={route.path}>
+                            title={(typeof route.title === 'string' ? route.title : route.title() as any)}
+                            >
                                 <RenderMenu routes={route.children}></RenderMenu>
                             </MenuGroup>:
                             <Submenu
                             disabled={route.disabled}
-                            icon={route.icon && (typeof route.icon === 'string' ? <t-icon name={route.icon}></t-icon> : route.icon())}
+                            icon={(route?.icon && (typeof route?.icon === 'string' ? <t-icon name={route.icon}></t-icon> : route.icon())) as any}
                             key={route.path}
-                            title={typeof route.title === 'string' ? route.title : route.title()}
+                            title={(typeof route.title === 'string' ? route.title : route.title() as any)}
                             value={route.path}>
                             <RenderMenu routes={route.children}></RenderMenu>
                         </Submenu>
@@ -54,9 +55,9 @@ export const LayoutMenu = defineComponent({
                             <MenuItem
                                 disabled={route.disabled}
                                 key={route.path}
-                                value={route.path}
-                                icon={route.icon && (typeof route.icon === 'string' ? <t-icon name={route.icon}></t-icon> : route.icon())}
-                                onClick={() => handleClick(route.path, route)}
+                                value={route.path as any}
+                                icon={(route.icon && (typeof route.icon === 'string' ? <t-icon name={route.icon}></t-icon> : route.icon())) as any}
+                                onClick={(_e: any) => handleClick(route.path, route)}
                             >
                                 <span>{typeof route.title === 'string' ? route.title : route.title()}</span>
                             </MenuItem>
@@ -67,7 +68,7 @@ export const LayoutMenu = defineComponent({
 
         return () => <>
             <Menu {...props.menuProps} theme={props.menuTheme} v-model:collapsed={innerCollapsed.value}>
-                <RenderMenu routes={props.routes} />
+                <RenderMenu routes={props.routes as any} />
             </Menu>
         </>
     }

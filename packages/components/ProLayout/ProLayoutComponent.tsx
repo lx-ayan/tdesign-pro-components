@@ -1,5 +1,5 @@
 import { PropType, defineComponent, ref } from "vue";
-import { Layout, Content, Header, Aside, Footer } from "tdesign-vue-next";
+import { Layout, Content, Aside, Footer } from "tdesign-vue-next";
 import { ProLayoutHeader } from "./components/ProLayoutHeader/ProLayoutHeader";
 import { ProLayoutProps, ProLayoutRoute } from "./types";
 import { ProLayoutAside } from "./components/ProLayoutAside/ProLayoutAside";
@@ -33,27 +33,32 @@ const ProLayoutComponent = defineComponent({
     setup(props: ProLayoutProps, { slots, emit, expose }) {
         const asideRef = ref<any>();
 
-        const HeaderRender = () => {
+        const HeaderRender: any = () => {
             return <ProLayoutHeader {...props}>
                 {{
+                    //@ts-ignore
                     logo: slots.logo ? () => slots.logo() : (props.logoRender ? props.logoRender(props) : null),
+                    //@ts-ignore
                     default: () => props.headerRender ? props.headerRender(props) : null,
+                    //@ts-ignore
                     actions: slots.actions ? () => slots.actions() : (props.actionsRender ? props.actionsRender(props) : null),
                 }}
             </ProLayoutHeader>;
         }
 
 
-        const AsideRender = () => {
+        const AsideRender: any = () => {
+            //@ts-ignore
             if (!props.asideRender && !props.routes) {
                 return void 0;
             }
+            //@ts-ignore
             return <ProLayoutAside ref={asideRef} onMenuClick={handleMenuClick} {...props}>
                 {(props as any).asideRender(props)}
             </ProLayoutAside>;
         }
 
-        const FooterAside = () => {
+        const FooterAside: any = () => {
             if (slots.footer) {
                 return <Footer>{slots.footer()}</Footer>;
             }
@@ -72,7 +77,7 @@ const ProLayoutComponent = defineComponent({
         }
 
         expose({
-            setCollapsed: (value) => asideRef.value.setCollapsed(value)
+            setCollapsed: (value: boolean) => asideRef.value.setCollapsed(value)
         });
 
         return () => <Layout style={{ minHeight: '100%', minWidth: '100%' }}>
@@ -83,15 +88,15 @@ const ProLayoutComponent = defineComponent({
                         {
                             slots.aside ? <Aside>
                                 {slots.aside()}
-                            </Aside> : <AsideRender />
+                            </Aside> : <AsideRender /> as any
                         }
 
                         <Layout>
                             <Content>
-                                {slots.default()}
+                                {(slots && slots.default) && slots.default()}
                             </Content>
 
-                            <FooterAside />
+                            {<FooterAside /> as any}
                         </Layout>
                     </Layout>
 

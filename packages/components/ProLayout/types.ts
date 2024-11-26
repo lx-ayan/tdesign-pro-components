@@ -13,12 +13,13 @@ export interface ProLayoutProps {
     collapsed?: boolean;
     menuTheme?: 'light' | 'dark';
     menuProps?: MenuProps;
+    onClick: (path: string, route?: ProLayoutRoute) => void
 }
 
 export interface ProLayoutRoute {
     title: string | (() => VNode);
     path: string;
-    iconName: string | (() => VNode);
+    icon?: string | (() => VNode);
     disabled?: boolean;
     children?: ProLayoutRoute[]
 }

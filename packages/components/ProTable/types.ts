@@ -1,4 +1,4 @@
-import { Optional, PromiseFunction, ValueType } from "@tdesign-pro-component/utils";
+import { Optional, PromiseFunction } from "@tdesign-pro-component/utils";
 import { BaseTableCol, FormRule, LoadingProps, PaginationProps, SizeEnum, TNode, TableProps, TableRowData } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";
@@ -49,7 +49,7 @@ export interface ProTableProps {
     page: { pageNum: number, pageSize: number, total: number }
     pageProps?: PaginationProps;
 
-    searchText?: number;
+    searchText?: string;
     searchStyle?: CSSProperties;
     searchIcon?: string;
     loadingProps?: LoadingProps;

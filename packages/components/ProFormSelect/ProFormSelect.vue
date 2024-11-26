@@ -138,7 +138,7 @@ defineExpose<ProFormSelectRef>({
                 :loading="innerLoading" v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"
                 :readonly="props.readonly" v-model="innerValue"
                 :placeholder="props.placeholder || `请选择${label || '数据'}`" @change="handleChange" @create="handleCreate"
-                @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange"
+                @enter="handleEnter" @focus="handleFocus" @input-change="handleInputChange" @search="handleSearch"
                 @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove">
                 <template v-if="slots.prefixIcon" #prefixIcon>
                     <slot name="prefixIcon"></slot>
@@ -185,7 +185,7 @@ defineExpose<ProFormSelectRef>({
             :autoWidth="props.autoWidth" :autofocus="props.autofocus" :loadingText="props.loadingText"
             :loading="innerLoading" v-bind="props.selectProps" :multiple="props.multiple" :disabled="props.disabled"
             :readonly="props.readonly" v-model="innerValue" :placeholder="props.placeholder || `请选择${label || '数据'}`"
-            @change="handleChange" @create="handleCreate" @enter="handleEnter" @focus="handleFocus"
+            @change="handleChange" @create="handleCreate" @enter="handleEnter" @focus="handleFocus" @search="handleSearch"
             @input-change="handleInputChange" @popup-visible-change="handlePopupVisibleChange" @remove="handleRemove">
             <template v-if="slots.prefixIcon" #prefixIcon>
                 <slot name="prefixIcon"></slot>
