@@ -1,6 +1,6 @@
 <script setup lang='tsx'>
 import { ref } from 'vue';
-import {ProLayoutRoute} from 'tdesign-pro-component';
+import { ProLayoutRoute } from 'tdesign-pro-component';
 const HeaderRender = () => <div style="padding: 0 12px;">
     <t-input borderless placeholder="请输入搜索内容"></t-input>
 </div>
@@ -12,17 +12,17 @@ const FooterRender = () => <div style={{ width: '220px' }}>菜单</div>;
 
 const ActionsRender = () => <div>
     <t-dropdown
-    options={[{ content: '操作一', value: 1 }, { content: '操作二', value: 2 }]}
-  >
-    <t-button>更多...</t-button>
-  </t-dropdown>
+        options={[{ content: '操作一', value: 1 }, { content: '操作二', value: 2 }]}
+    >
+        <t-button>更多...</t-button>
+    </t-dropdown>
 </div>
 
 const coll = ref(false);
 
 const contenText = ref('首页')
 
-const routes = [
+const routes = ref([
     {
         title: () => <div>Hello Home</div>,
         path: '/home',
@@ -49,11 +49,11 @@ const routes = [
             }
         ]
     }
-]
+])
 
 function handleMenuClick(path: string, route: ProLayoutRoute) {
     console.log('path', path);
-    contenText.value = typeof route.title === 'string'? route.title : '其他页面';
+    contenText.value = typeof route.title === 'string' ? route.title : '其他页面';
 }
 
 </script>
