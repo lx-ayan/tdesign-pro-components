@@ -1,5 +1,5 @@
 import { PropType, defineComponent, ref } from "vue";
-import { Layout, Content, Aside, Footer } from "tdesign-vue-next";
+import { Layout, Content, Aside, Footer, Header } from "tdesign-vue-next";
 import { ProLayoutHeader } from "./components/ProLayoutHeader/ProLayoutHeader";
 import { ProLayoutProps, ProLayoutRoute } from "./types";
 import { ProLayoutAside } from "./components/ProLayoutAside/ProLayoutAside";
@@ -83,7 +83,7 @@ const ProLayoutComponent = defineComponent({
         return () => <Layout style={{ minHeight: '100%', minWidth: '100%' }}>
             {{
                 default: () => <>
-                    {slots.header ? slots.header() : props.headerRender && <HeaderRender />}
+                    {slots.header ? <Header>{slots.header()}</Header> : props.headerRender && <HeaderRender />}
                     <Layout>
                         {
                             slots.aside ? <Aside>

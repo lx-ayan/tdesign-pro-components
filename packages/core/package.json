@@ -1,9 +1,33 @@
 {
-  "name": "tdesign-pro-components",
-  "version": "1.0.0",
+  "name": "tdesign-pro-component",
+  "version": "1.0.11",
+  "private": false,
   "description": "ProComponents tdesign-vue-next + Vue3 + TS",
-  "main": "index.js",
+  "main": "./dist/umd/index.umd.cjs",
   "type": "module",
+  "module": "./dist/es/index.js",
+  "types": "./dist/types/core/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/umd/index.umd.cjs",
+      "types": "./dist/types/core/index.d.ts"
+    },
+    "./dist/": {
+      "import": "./dist/",
+      "require": "./dist/"
+    },
+    "./index.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
+    }
+  },
+  "sideEffects": [
+    "./dist/index.css"
+  ],
   "scripts": {
     "build": "run-s build-only move-style",
     "build-only": "run-p build-es build-umd",
@@ -12,12 +36,16 @@
     "move-style": "move-file dist/es/index.css dist/index.css"
   },
   "dependencies": {
-    "@tdesign-pro-components/components": "workspace:*"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Vue", "Typescript", "ProComponent", "TDesign"],
+  "author": "pangza",
   "license": "ISC",
   "devDependencies": {
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "@tdesign-pro-component/components": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": ">=3.2.0",
+    "tdesign-vue-next": ">=1.9.0"
   }
 }

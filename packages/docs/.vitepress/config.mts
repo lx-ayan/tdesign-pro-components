@@ -19,6 +19,7 @@ export default defineConfig({
         items: [
           { text: 'ProTable 表格', link: '/components/pro-table.md' },
           { text: 'ProForm 表单', link: '/components/pro-form.md' },
+          { text: 'ProLayout 布局', link: '/components/pro-layout.md' },
           { text: 'ProFormText 文本输入框', link: '/components/pro-form-text.md' },
         ]
       }
