@@ -32,7 +32,7 @@ export const ProLayoutAside = defineComponent({
 
         return () => <Aside style={{ width: 'auto' }}>
             {
-                (props.routes && props.routes.length) ? <LayoutMenu ref={menuRef} onClick={(path: string, route: ProLayoutRoute) => handleClick(path, route)} {...props} /> : (slots && slots.default) ? slots?.default() : null
+                (props.routes && props.routes.length) ? <LayoutMenu  {...props} ref={menuRef} onClick={handleClick} /> : (slots && slots.default) ? slots?.default() : null
             }
         </Aside>
     }
