@@ -13,7 +13,7 @@ const ProLayoutComponent = defineComponent({
             type: [Boolean, Function] as PropType<ProLayoutProps['logoRender']>,
             default: false
         },
-        actionRender: {
+        actionsRender: {
             type: [Boolean, Function] as PropType<ProLayoutProps['actionsRender']>,
             default: false
         },

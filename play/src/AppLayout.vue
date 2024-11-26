@@ -5,6 +5,7 @@ const HeaderRender = () => <div>啊萨达萨达</div>
 const LogoRender = () => <div style={{ background: 'red' }}>lOGO</div>
 const AsideRender = () => <div style={{ width: '220px' }}>菜单</div>;
 const FooterRender = () => <div style={{ width: '220px' }}>菜单</div>;
+const ActionsRender = () => <div style={{ width: '220px' }}>菜单</div>;
 
 const coll = ref(false);
 
@@ -45,7 +46,7 @@ function handleMenuClick(path: string) {
 
 <template>
     <ProLayout @menuClick="handleMenuClick" routeGroup menuTheme="dark" :footerRender="FooterRender"
-        v-model:collapsed="coll" :routes :headerRender="HeaderRender" :logoRender="LogoRender"
+        v-model:collapsed="coll" :routes :headerRender="HeaderRender" :logoRender="LogoRender" :actionsRender="ActionsRender"
         :asideRender="AsideRender">
         <div>
             Hello 我是内容
