@@ -1,4 +1,5 @@
 import { WithFalse } from "@tdesign-pro-component/utils";
+import { MenuProps } from "tdesign-vue-next";
 import { VNode } from "vue";
 
 export interface ProLayoutProps {
@@ -6,4 +7,18 @@ export interface ProLayoutProps {
     logoRender?: WithFalse<(props: ProLayoutProps) => VNode>;
     actionsRender?: WithFalse<(props: ProLayoutProps) => VNode>;
     asideRender?: WithFalse<(props: ProLayoutProps) => VNode>;
+    footerRender?: WithFalse<(props: ProLayoutProps) => VNode>;
+    routes?: ProLayoutRoute[];
+    routeGroup?: boolean;
+    collapsed?: boolean;
+    menuTheme?: 'light' | 'dark';
+    menuProps?: MenuProps;
+}
+
+export interface ProLayoutRoute {
+    title: string | (() => VNode);
+    path: string;
+    iconName: string | (() => VNode);
+    disabled?: boolean;
+    children?: ProLayoutRoute[]
 }
