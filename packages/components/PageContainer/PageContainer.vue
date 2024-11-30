@@ -20,7 +20,7 @@ function handleTabsChange(v: string) {
 }
 
 function handleBreadcrumbClick(v: string, item: PageContainerBreadcrumb) {
-    emits('tabChange', v, item);
+    emits('breadcrumbClick', v, item);
 }
 
 </script>
