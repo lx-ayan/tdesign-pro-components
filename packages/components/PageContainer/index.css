@@ -1,0 +1,42 @@
+
+
+.page-container-header {
+    padding-block-start: 8px;
+    padding-block-end: 16px;
+    padding-inline-start: 40px;
+    padding-inline-end: 40px;
+}
+
+.page-container-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.page-container-header-breadcrumb {
+    padding-top: 18px;
+}
+
+.page-container-header-content-title {
+    padding-top: 8px;
+    margin-inline-end: 12px;
+    margin-block-end: 0;
+    color: rgba(0, 0, 0, 0.88);
+    font-weight: 600;
+    font-size: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.page-container-header-tablist {
+    margin-top: 16px;
+}
+
+.page-container-body {
+    padding-block-start: 8px;
+    padding-block-end: 16px;
+    padding-inline-start: 40px;
+    padding-inline-end: 40px;
+}

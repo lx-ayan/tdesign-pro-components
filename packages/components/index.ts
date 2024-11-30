@@ -8,4 +8,5 @@ export * from './ProFormTextarea';
 export * from './ProFormTreeSelect';
 export * from './ProForm';
 export * from './ProTable';
-export * from './ProLayout'
+export * from './ProLayout';
+export * from './PageContainer';

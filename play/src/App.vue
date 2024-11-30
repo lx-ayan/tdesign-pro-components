@@ -65,7 +65,6 @@ const options: ProTableOption[] = [
   {
     key: 'author',
     title: '作者',
-    initalValue: '刘续',
   },
   {
     key: 'steps',
@@ -116,7 +115,7 @@ function request(data) {
 
 <template>
   {{ selectData }}
-  <div style="background-color: #333; height: 100vh;">
+  <div>
     <ProTable ref="proTableRef" :tableProps selectAble v-model:selectData="selectData" rowKey="id" v-model:page="page" :request :options>
       <template #pro-table-title>
         高级表格
