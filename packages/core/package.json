@@ -11,13 +11,12 @@
     "build-es": "vite build --config vite.es.config.ts",
     "move-style": "move-file dist/es/index.css dist/index.css"
   },
-  "dependencies": {
-    "@tdesign-pro-components/components": "workspace:*"
-  },
+  "dependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "@tdesign-pro-components/components": "workspace:*"
   }
 }
