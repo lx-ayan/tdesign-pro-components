@@ -3,12 +3,16 @@ import { computed, useSlots } from 'vue';
 import { PageContainerProps, PageContainerEmit, PageContainerBreadcrumb } from './types';
 import { PageContainerHeader } from './PageContainerHeader';
 import './index.css';
+import { isFunction } from '@tdesign-pro-component/utils';
 
 defineOptions({ name: 'PageContainer' });
 
 const props = withDefaults(defineProps<PageContainerProps>(), {
     footer: false,
-    bodyBordered: false
+    bodyBordered: false,
+    loading: {
+        status: false
+    }
 });
 
 const emits = defineEmits<PageContainerEmit>();
@@ -22,6 +26,11 @@ function handleTabsChange(v: string) {
 function handleBreadcrumbClick(v: string, item: PageContainerBreadcrumb) {
     emits('breadcrumbClick', v, item);
 }
+
+const Content = () => isFunction(props.content) ? (props.content as Function)() : props.content;
+
+const Footer = () => isFunction(props.footer) ? (props.footer as Function)() : props.footer;
+
 
 </script>
 
@@ -43,7 +52,20 @@ function handleBreadcrumbClick(v: string, item: PageContainerBreadcrumb) {
 
         <div class="page-container-body">
             <t-card :bordered="props.bodyBordered">
-                <slot />
+                <t-loading :loading="props.loading.status" :text="props.loading?.text" v-bind="props.loading">
+                    <slot v-if="slots.default" />
+
+                    <Content v-else />
+                </t-loading>
+
+            </t-card>
+        </div>
+
+        <div v-if="slots.footer || props.footer" class="page-container-footer">
+            <t-card :bordered="false">
+                <slot v-if="slots.footer" name="footer" />
+
+                <Footer v-else />
             </t-card>
         </div>
     </div>

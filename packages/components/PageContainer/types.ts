@@ -1,5 +1,5 @@
 import { VueNode, WithFalse } from "@tdesign-pro-component/utils/types";
-import { BreadcrumbItemProps, TabsProps } from "tdesign-vue-next";
+import { BreadcrumbItemProps, LoadingProps, TabsProps } from "tdesign-vue-next";
 
 export interface PageContainerProps {
     header?: PageContainerHeaderProps;
@@ -9,6 +9,11 @@ export interface PageContainerProps {
         closeable?: boolean;
         disabled?: boolean;
     }[];
+    loading?: {
+        status: boolean;
+        text?: WithFalse<VueNode>;
+        loadingProps: LoadingProps;
+    },
     tabActiveKey?: string;
     tabBarExtraContent?: VueNode;
     tabsProps?: TabsProps;

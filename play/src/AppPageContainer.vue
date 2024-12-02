@@ -21,6 +21,8 @@ const tabBarExtraContent = <div style="height: 49px; display:flex; align-items: 
     <t-button onClick={handleAddTag}>添加标签</t-button>
 </div>
 
+const content = () => <div>content</div>
+
 function handleAddTag() {
     tabList.value.push({
         value: tabList.value.length + 1 + '',
@@ -36,11 +38,14 @@ function handleTabsChange(v: string) {
 
 <template>
     <div style="height: 100vh; background-color: #f5f7fa;">
-        <PageContainer :tabsProps="{ theme: 'normal' }" @tabChange="handleTabsChange" :tabBarExtraContent tabActiveKey="1" :tabList  :header="header">
+        <PageContainer :content :tabsProps="{ theme: 'normal' }" @tabChange="handleTabsChange" :tabBarExtraContent tabActiveKey="1" :tabList  :header="header">
             <template #actions>
                 <div>
                     <t-button>操作</t-button>
                 </div>
+            </template>
+            <template #footer>
+                <div>Footer</div>
             </template>
             <div>
                 <AppVue />

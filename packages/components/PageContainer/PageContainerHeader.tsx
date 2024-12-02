@@ -11,8 +11,6 @@ export const PageContainerHeader = defineComponent({
     },
     setup(props: PageContainerProps['header'], { slots, emit }) {
 
-        const NODETYPE = ['string', 'object'];
-
         const RenderActions = () => {
             if (slots.actions) {
                 return slots.actions();
@@ -42,7 +40,6 @@ export const PageContainerHeader = defineComponent({
                                 icon: item.icon ? (isFunction(item.icon) ? (item.icon as Function)() : item.icon) : void 0,
                                 default: () => <span>{item.title}</span>
                             }}
-
                         </BreadcrumbItem>)
                     }
                 </Breadcrumb>
@@ -50,7 +47,7 @@ export const PageContainerHeader = defineComponent({
 
             <div class="page-container-header-content">
                 <div class="page-container-header-content-title">
-                    {props.title && NODETYPE.includes(typeof props.title) ? props.title : (props as any).title()}
+                    {props.title && isFunction(props.title) ? (props.title as Function)() : props.title}
                 </div>
                 <div class="page-container-header-content-actions">
                     <RenderActions />

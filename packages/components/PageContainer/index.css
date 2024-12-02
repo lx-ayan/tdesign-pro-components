@@ -40,3 +40,11 @@
     padding-inline-start: 40px;
     padding-inline-end: 40px;
 }
+
+.page-container-footer {
+    margin-top: 24px;
+    padding-block-start: 8px;
+    padding-block-end: 16px;
+    padding-inline-start: 40px;
+    padding-inline-end: 40px;
+}
