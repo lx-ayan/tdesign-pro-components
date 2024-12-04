@@ -1,4 +1,3 @@
-```typescript
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ProTableOption, ProTableRequest } from 'tdesign-pro-component';
@@ -45,5 +44,3 @@ function request(data: ProTableRequest<any>) {
 </template>
 
 <style scoped></style>
-
-```

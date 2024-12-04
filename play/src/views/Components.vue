@@ -6,10 +6,14 @@
     <div>
         <t-row>
             <t-col :span="2">
-                组件
+                <div style="margin-top: 24px">
+                    <t-menu>
+                        <t-menu-item>ProTable 表格组件</t-menu-item>
+                    </t-menu>
+                </div>
             </t-col>
             <t-col :span="8">
-                <router-view/>
+                <router-view />
             </t-col>
             <t-col :span="2">
 
