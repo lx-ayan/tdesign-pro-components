@@ -2,18 +2,14 @@ import { VueNode, WithFalse } from "@tdesign-pro-component/utils/types";
 import { BreadcrumbItemProps, LoadingProps, TabsProps } from "tdesign-vue-next";
 
 export interface PageContainerProps {
-    header?: PageContainerHeaderProps;
+    header: PageContainerHeaderProps;
     tabList?: {
         value: string;
         label: string | VueNode;
         closeable?: boolean;
         disabled?: boolean;
     }[];
-    loading?: {
-        status: boolean;
-        text?: WithFalse<VueNode>;
-        loadingProps: LoadingProps;
-    },
+    loading?: PageContainerLoadingProps;
     tabActiveKey?: string;
     tabBarExtraContent?: VueNode;
     tabsProps?: TabsProps;
@@ -21,6 +17,12 @@ export interface PageContainerProps {
     footer?: WithFalse<VueNode>;
     bodyBordered?: boolean;
 }
+
+export interface PageContainerLoadingProps {
+    status?: boolean;
+    text?: WithFalse<VueNode>;
+    loadingProps?: LoadingProps;
+};
 
 export interface PageContainerBreadcrumb {
     path: string;
@@ -38,6 +40,7 @@ export interface PageContainerHeaderProps {
     breadcrumb?: WithFalse<{
         items: PageContainerBreadcrumb[]
     }>;
+    description?: WithFalse<VueNode>;
 }
 
 export interface PageContainerEmit {

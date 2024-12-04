@@ -1,4 +1,4 @@
-import { Optional, PromiseFunction } from "@tdesign-pro-component/utils";
+import { Optional, PromiseFunction, VueNode, WithFalse } from "@tdesign-pro-component/utils";
 import { ButtonProps, FormItemProps, FormProps, FormRule, FormRules, TNode, UploadProps, ValueType } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";
@@ -25,8 +25,8 @@ export interface ProFormProps {
     disabled?: boolean;
     layout?: 'vertical' | 'inline';
     footerAligin?: 'left' | 'center' | 'right';
-    resetText?: string;
-    submitText?: string;
+    resetText?: string | WithFalse<VueNode>;
+    submitText?: string | WithFalse<VueNode>;
     showReset?: boolean;
     formProps?: FormProps;
     filterEmptyStr?: boolean; // 过滤空字符串
@@ -34,6 +34,7 @@ export interface ProFormProps {
     submitButtonProps?: ButtonProps;
     resetButtonProps?: ButtonProps;
     hideFooter?: boolean;
+    footer?: WithFalse<VueNode>
 }
 
 export interface ProFormOption {

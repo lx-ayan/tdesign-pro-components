@@ -1,9 +1,23 @@
-import { Slots } from "vue";
+import { isFunction } from "./is";
 
-export function getSlots<T>(slots: Slots, props: Record<string, unknown>, prop = 'default') {
-    if (props[prop] === false) {
+export function getSlots<T = Record<string, any>, K = keyof T>(slots: any, props: T, prop?: K) {
+    let _prop: any = prop || ('default' as any);
+
+    if (slots[_prop]) {
+        return slots[_prop]();
+    }
+
+    if ((props as any)[_prop] === false) {
         return void 0;
     }
 
-    return (slots[prop]?.() || props[prop]) as T;
+    if (!(props as any)[_prop]) {
+        return void 0;
+    }
+
+    if (isFunction((props as any)[_prop])) {
+        return ((props as any)[_prop] as Function)();
+    }
+
+    return (props as any)[_prop];
 }

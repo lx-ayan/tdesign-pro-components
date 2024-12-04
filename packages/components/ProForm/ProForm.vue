@@ -1,8 +1,16 @@
-<script setup lang='ts'>
+<script setup lang='tsx'>
 import { onMounted, ref, watch } from 'vue';
 import { ProFormOption, ProFormProps, ProFormRef } from './types';
 import { initFormData, initFormValue, filterChangedValues, removeEmptyStringFields } from './utils';
 import { warn } from '@tdesign-pro-component/utils';
+import { ProFormText } from "../ProFormText";
+import { ProFormCheckbox } from "../ProFormCheckbox";
+import { ProFormSelect } from "../ProFormSelect";
+import { ProFormRadio } from "../ProFormRadio";
+import { ProFormDatepicker } from "../ProFormDatepicker";
+import { ProFormInputNumber } from "../ProFormInputNumber";
+import { ProFormTextarea } from "../ProFormTextarea";
+import { ProFormTreeSelect } from "../ProFormTreeSelect";
 
 defineOptions({ name: 'ProForm' });
 
@@ -138,7 +146,103 @@ watch(() => props.options, () => {
                 <t-col :span="item.span || 6" :key="index" v-for="item, index in innerOptions">
                     <template v-if="item.type != 'upload'">
                         <div class="pro-form-item">
-                            <component :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName"
+                            <template v-if="!slots[`form-${item.name}`]">
+                                <ProFormText v-if="!item.type || item.type === 'text'"
+                                    v-model="innerFormValue[item.name]" :key="item.name + index" :label="item.label"
+                                    :labelName="item.labelName" :valueName="item.valueName"
+                                    :childrenName="item.childrenName" :rules="item.rules" :multiple="item.multiple"
+                                    :name="item.name" :data="item.data" :readonly="props.readonly || item.readonly"
+                                    :range="item.range" :disabled="props.disabled || item.disabled"
+                                    :placeholder="item.placeholder" :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+                                </ProFormText>
+
+                                <ProFormSelect v-if="item.type === 'select'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormSelect>
+
+                                <ProFormRadio v-if="item.type === 'radio'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormRadio>
+
+                                <ProFormCheckbox v-if="item.type === 'checkbox'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormCheckbox>
+
+                                <ProFormDatepicker v-if="item.type === 'datepicker'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormDatepicker>
+
+                                <ProFormTextarea v-if="item.type === 'textarea'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormTextarea>
+
+                                <ProFormInputNumber v-if="item.type === 'number'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormInputNumber>
+
+                                <ProFormTreeSelect v-if="item.type === 'treeSelect'" v-model="innerFormValue[item.name]"
+                                    :key="item.name + index" :label="item.label" :labelName="item.labelName"
+                                    :valueName="item.valueName" :childrenName="item.childrenName" :rules="item.rules"
+                                    :multiple="item.multiple" :name="item.name" :data="item.data"
+                                    :readonly="props.readonly || item.readonly" :range="item.range"
+                                    :disabled="props.disabled || item.disabled" :placeholder="item.placeholder"
+                                    :formItemProps="item.formItemProps"
+                                    @change="(v: any) => item.onChange && item.onChange(v, item.name)"
+                                    v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]">
+
+                                </ProFormTreeSelect>
+                            </template>
+                            <!-- <component :is="TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].componentName"
                                 v-model="innerFormValue[item.name]" :key="item.name + index" :label="item.label"
                                 :labelName="item.labelName" :valueName="item.valueName"
                                 :childrenName="item.childrenName" :rules="item.rules" :multiple="item.multiple"
@@ -148,7 +252,7 @@ watch(() => props.options, () => {
                                 @change="(v: any) => item.onChange && item.onChange(v, item.name)"
                                 v-bind="item[TYPE_CONSTABLE[(item.type as TYPEKEY) || 'text'].propsName as keyof ProFormOption]"
                                 v-if="!slots[`form-${item.name}`]">
-                            </component>
+                            </component> -->
 
                             <slot v-else :name="`form-${item.name}`" :form="innerFormValue" v-bind="item"></slot>
                         </div>
@@ -167,7 +271,8 @@ watch(() => props.options, () => {
                     <template v-if="!props.hideFooter && !slots.footer">
                         <t-button v-bind="props.submitButtonProps" class="pro-form-submit-button" type="submit">{{
         props.submitText }}</t-button>
-                        <t-button style="margin-left: 12px;" v-bind="props.resetButtonProps" v-if="props.showReset" theme="default" type="reset">{{
+                        <t-button style="margin-left: 12px;" v-bind="props.resetButtonProps" v-if="props.showReset"
+                            theme="default" type="reset">{{
         props.resetText }}</t-button>
 
                         <slot v-if="slots.extra" name="extra"></slot>

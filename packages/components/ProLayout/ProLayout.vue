@@ -6,7 +6,7 @@ import { ProLayoutProps } from './types';
 import { ref, watch } from 'vue';
 defineOptions({
     name: 'ProLayout'
-});
+}); 
 const slots = defineSlots();
 const props = defineProps<ProLayoutProps>();
 const emits = defineEmits();

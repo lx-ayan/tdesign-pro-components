@@ -13,7 +13,7 @@ export interface ProLayoutProps {
     collapsed?: boolean;
     menuTheme?: 'light' | 'dark';
     menuProps?: MenuProps;
-    onClick: (path: string, route: ProLayoutRoute) => void
+    onClick?: (path: string, route: ProLayoutRoute) => void
 }
 
 export interface ProLayoutRoute {

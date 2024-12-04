@@ -7,6 +7,10 @@
     padding-inline-end: 40px;
 }
 
+.page-container-header-description {
+    margin-top: 12px;
+}
+
 .page-container-header-content {
     display: flex;
     justify-content: space-between;

@@ -1,5 +1,5 @@
 <script setup lang='tsx'>
-import { computed, useSlots } from 'vue';
+import { useSlots } from 'vue';
 import { PageContainerProps, PageContainerEmit, PageContainerBreadcrumb } from './types';
 import { PageContainerHeader } from './PageContainerHeader';
 import './index.css';
@@ -9,10 +9,7 @@ defineOptions({ name: 'PageContainer' });
 
 const props = withDefaults(defineProps<PageContainerProps>(), {
     footer: false,
-    bodyBordered: false,
-    loading: {
-        status: false
-    }
+    bodyBordered: false
 });
 
 const emits = defineEmits<PageContainerEmit>();
@@ -31,7 +28,6 @@ const Content = () => isFunction(props.content) ? (props.content as Function)() 
 
 const Footer = () => isFunction(props.footer) ? (props.footer as Function)() : props.footer;
 
-
 </script>
 
 <template>
@@ -40,6 +36,10 @@ const Footer = () => isFunction(props.footer) ? (props.footer as Function)() : p
             <PageContainerHeader @breadcrumbClick="handleBreadcrumbClick" v-bind="props.header">
                 <template v-if="slots.actions" #actions>
                     <slot name="actions"></slot>
+                </template>
+
+                <template v-if="slots.description" #description>
+                    <slot name="description"></slot>
                 </template>
             </PageContainerHeader>
             <div class="page-container-header-tablist" v-if="props.tabList && props.tabList.length">
@@ -52,7 +52,7 @@ const Footer = () => isFunction(props.footer) ? (props.footer as Function)() : p
 
         <div class="page-container-body">
             <t-card :bordered="props.bodyBordered">
-                <t-loading :loading="props.loading.status" :text="props.loading?.text" v-bind="props.loading">
+                <t-loading :loading="props?.loading?.status || false" :text="props.loading?.text" v-bind="props.loading?.loadingProps">
                     <slot v-if="slots.default" />
 
                     <Content v-else />
