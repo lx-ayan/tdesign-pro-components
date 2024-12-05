@@ -34,6 +34,10 @@ const Footer = () => isFunction(props.footer) ? (props.footer as Function)() : p
     <div class="page-container">
         <div class="page-container-header">
             <PageContainerHeader @breadcrumbClick="handleBreadcrumbClick" v-bind="props.header">
+                <template v-if="slots.title" #title>
+                    <slot name="title"></slot>
+                </template>
+
                 <template v-if="slots.actions" #actions>
                     <slot name="actions"></slot>
                 </template>

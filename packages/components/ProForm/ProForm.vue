@@ -275,7 +275,7 @@ watch(() => props.options, () => {
                             theme="default" type="reset">{{
         props.resetText }}</t-button>
 
-                        <slot v-if="slots.extra" name="extra"></slot>
+                        <slot v-if="slots.actions" name="actions"></slot>
                     </template>
 
                     <template v-else>

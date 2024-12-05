@@ -15,6 +15,18 @@ const router = createRouter({
                 {
                     path: '/pro-table',
                     component: () => import('../views/ProTable.vue')
+                },
+                {
+                    path: '/pro-form',
+                    component: () => import('../views/ProForm.vue')
+                },
+                {
+                    path: '/pro-layout',
+                    component: () => import('../views/ProLayout.vue')
+                },
+                {
+                    path: '/page-container',
+                    component: () => import('../views/PageContainer.vue')
                 }
             ]
         }
