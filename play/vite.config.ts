@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [vue(), VueJSX()],
   base: './',
   server: {
-    port: 5269
+    port: 20000,
+    headers: {
+      'access-control-allow-origin': '*'
+    }
   }
 })
