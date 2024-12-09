@@ -9,7 +9,8 @@ defineOptions({ name: 'PageContainer' });
 
 const props = withDefaults(defineProps<PageContainerProps>(), {
     footer: false,
-    bodyBordered: false
+    bodyBordered: false,
+    hideBody: false
 });
 
 const emits = defineEmits<PageContainerEmit>();
@@ -54,7 +55,7 @@ const Footer = () => isFunction(props.footer) ? (props.footer as Function)() : p
             </div>
         </div>
 
-        <div class="page-container-body">
+        <div v-if="props.hideBody === false" class="page-container-body">
             <t-card :bordered="props.bodyBordered">
                 <t-loading :loading="props?.loading?.status || false" :text="props.loading?.text" v-bind="props.loading?.loadingProps">
                     <slot v-if="slots.default" />

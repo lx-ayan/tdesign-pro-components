@@ -17,6 +17,7 @@ function changeHandler(path: string) {
                         <t-menu-item key="/pro-form" value="/pro-form">ProForm 表单组件</t-menu-item>
                         <t-menu-item key="/pro-layout" value="/pro-layout">ProLayout 布局组件</t-menu-item>
                         <t-menu-item key="/page-container" value="/page-container">PageContainer 页容器组件</t-menu-item>
+                        <t-menu-item key="/pro-button" value="/pro-button">ProButton 操作按钮组件</t-menu-item>
                     </t-menu>
                 </div>
             </t-col>

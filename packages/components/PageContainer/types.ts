@@ -16,6 +16,7 @@ export interface PageContainerProps {
     content?: VueNode;
     footer?: WithFalse<VueNode>;
     bodyBordered?: boolean;
+    hideBody?: boolean;
 }
 
 export interface PageContainerLoadingProps {

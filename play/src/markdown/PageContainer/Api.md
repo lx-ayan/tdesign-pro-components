@@ -10,7 +10,7 @@
 |content| VueNode |-| 内容区域，JSX 可用 | FALSE |
 |footer|Boolean/ VueNode|-| 脚部区域 | FALSE |
 |bodyBordered|Boolean|-| 内容区域边框 | FALSE |
-
+|hideBody| Boolean| false | 隐藏主体区域| FALSE |
 
 
 ## PageContainerLoadingProps

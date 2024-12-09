@@ -10,7 +10,8 @@ import {
     ProFormTreeSelect, 
     ProTable, 
     ProLayout,
-    PageContainer
+    PageContainer,
+    ProButton
 } from '@tdesign-pro-component/components';
 import {Plugin} from 'vue';
 
@@ -26,5 +27,6 @@ export default [
     ProForm,
     ProTable,
     ProLayout,
-    PageContainer
+    PageContainer,
+    ProButton
 ] as Plugin[]

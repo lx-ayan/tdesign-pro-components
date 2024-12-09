@@ -10,3 +10,4 @@ export * from './ProForm';
 export * from './ProTable';
 export * from './ProLayout';
 export * from './PageContainer';
+export * from './ProButton';

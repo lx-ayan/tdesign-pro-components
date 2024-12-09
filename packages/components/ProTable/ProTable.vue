@@ -248,79 +248,80 @@ watch(() => props.options, () => {
         <div v-if="!formHideForm" class="pro-table-form">
             <t-card>
                 <ProForm :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" @reset="onReset" hideFooter
-                    ref="proFormRef" :options="formOptions">
+                    ref="proFormRef" :options="formOptions as any">
                     <template :key="item" v-for="item in formSlotsName" #[item]="{ form }">
                         <template v-if="!slots[item]">
-                            <ProFormText v-if="!item.type || item.type! === 'text'"
+                            <ProFormText
+                                v-if="!getOptionByKey(item)!.option.type || getOptionByKey(item)!.option.type! === 'text'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormText>
 
-                            <ProFormSelect v-if="item.type! === 'select'"
+                            <ProFormSelect v-if="getOptionByKey(item)!.option.type! === 'select'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormSelect>
 
-                            <ProFormRadio v-if="item.type! === 'radio'"
+                            <ProFormRadio v-if="getOptionByKey(item)!.option.type! === 'radio'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormRadio>
 
-                            <ProFormCheckbox v-if="item.type! === 'checkbox'"
+                            <ProFormCheckbox v-if="getOptionByKey(item)!.option.type! === 'checkbox'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormCheckbox>
 
-                            <ProFormInputNumber v-if="item.type! === 'number'"
+                            <ProFormInputNumber v-if="getOptionByKey(item)!.option.type! === 'number'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormInputNumber>
 
-                            <ProFormDatepicker v-if="item.type! === 'datepicker'"
+                            <ProFormDatepicker v-if="getOptionByKey(item)!.option.type! === 'datepicker'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormDatepicker>
 
-                            <ProFormTreeSelect v-if="item.type! === 'treeSelect'"
+                            <ProFormTreeSelect v-if="getOptionByKey(item)!.option.type! === 'treeSelect'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormTreeSelect>
 
-                            <ProFormTextarea v-if="item.type! === 'textarea'"
+                            <ProFormTextarea v-if="getOptionByKey(item)!.option.type! === 'textarea'"
                                 :name="getOptionByKey(item)!.option.key" :label="getOptionByKey(item)!.option.title"
                                 v-model="form[getOptionByKey(item).option.key]" v-bind="{
-                                ...getOptionByKey(item).option,
-                                //@ts-ignore
-                                ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
-                                }">
+            ...getOptionByKey(item).option,
+            //@ts-ignore
+            ...getOptionByKey(item).option[getOptionByKey(item).component.propsName as keyof ProTableOption]
+        }">
                             </ProFormTextarea>
                         </template>
                         <slot v-else :name="item" :form="form"></slot>
