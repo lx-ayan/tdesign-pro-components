@@ -5,7 +5,7 @@
 }
 
 .pro-layout-header-logo {
-    width: 12.2%;
+    min-width: 12.2%;
 }
 
 .pro-layout-header-body {
@@ -15,5 +15,5 @@
 }
 
 .pro-layout-header-actions {
-    width: 12%;
+    min-width: 12%;
 }
