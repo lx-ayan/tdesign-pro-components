@@ -11,7 +11,8 @@ import {
     ProTable, 
     ProLayout,
     PageContainer,
-    ProButton
+    ProButton,
+    RowContainer
 } from '@tdesign-pro-component/components';
 import {Plugin} from 'vue';
 
@@ -28,5 +29,6 @@ export default [
     ProTable,
     ProLayout,
     PageContainer,
-    ProButton
+    ProButton,
+    RowContainer
 ] as Plugin[]

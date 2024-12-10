@@ -36,6 +36,10 @@ const router = createRouter({
                 {
                     path: '/pro-button',
                     component: () => import('../views/ProButton.vue')
+                },
+                {
+                    path: '/row-container',
+                    component: () => import('../views/RowContainer.vue')
                 }
             ]
         }

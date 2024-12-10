@@ -3,7 +3,6 @@ import Button from './components/ProButton/Button.vue';
 //@ts-ignore
 import ApiMarkdown from '../markdown/ProButton/Api.md?raw';
 import useTabActiveKey, { tabList } from '../utils/useTabActiveKey';
-import {API_TABLE_COLUMNS} from '../common/const';
 const header = {
     title: () => <t-typography-title>ProButton 高级按钮</t-typography-title>
 }
