@@ -18,7 +18,6 @@ function handleMenuChange(path: string) {
 
 <template>
   <ProLayout :headerRender>
-
     <template #actions>
      <t-head-menu :defaultValue="route.fullPath" @change="handleMenuChange">
       <t-menu-item value="/">首页</t-menu-item>

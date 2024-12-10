@@ -37,7 +37,7 @@ function handleClick() {
 }
 
 const ButtonOrLink = () => {
-    return props.theme === 'button' ? <t-button theme={props.colorTheme} icon={() => Icon} {...props.buttonProps} onClick={handleClick}>
+    return props.theme !== 'link' ? <t-button theme={props.colorTheme} icon={() => Icon} {...props.buttonProps} onClick={handleClick}>
         {{
             default: () => slots.default ? (slots.default as Function)() : '高级按钮',
             icon: slots.icon ? slots.icon as Function : null
@@ -105,7 +105,7 @@ defineExpose<ProButtonRef>({
 </script>
 
 <template>
-    <RenderDialog v-if="props.action === 'dialog'">
+    <RenderDialog v-if="props.action !== 'popup'">
 
     </RenderDialog>
 

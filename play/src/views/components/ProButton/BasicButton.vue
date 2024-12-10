@@ -21,7 +21,7 @@ const content = () => <div>我是弹出层</div>
                 弹窗按钮
             </ProButton>
 
-            <ProButton theme="link" colorTheme="danger" :content action="popup">
+            <ProButton  theme="link" colorTheme="danger" :content action="popup">
                 弹出层连接（按钮主题）
             </ProButton>
 

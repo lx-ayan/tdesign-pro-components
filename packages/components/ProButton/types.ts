@@ -9,8 +9,8 @@ export interface ProButtonProps {
     title?: string | WithFalse<VueNode>;
     dialogProps?: DialogProps;
     popupProps?: PopconfirmProps;
-    confirmBtn?: WithFalse<VueNode>;
-    cancelBtn?: WithFalse<VueNode>;
+    confirmBtn?: string | WithFalse<VueNode>;
+    cancelBtn?: string | WithFalse<VueNode>;
     buttonProps?: ButtonProps;
     linkProps?: LinkProps;
     colorTheme?: ButtonProps['theme'];
