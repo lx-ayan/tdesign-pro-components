@@ -40,6 +40,10 @@ const router = createRouter({
                 {
                     path: '/row-container',
                     component: () => import('../views/RowContainer.vue')
+                },
+                {
+                    path: '/modal-form',
+                    component: () => import('../views/ModalForm.vue')
                 }
             ]
         }

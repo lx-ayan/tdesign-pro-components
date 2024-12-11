@@ -121,6 +121,8 @@ const options = ref<ProFormOption[]>([
     }
 ]);
 
+const loading = ref(true);
+
 function handleSubmit(value) {
     console.log('value', value);
 }
@@ -134,7 +136,7 @@ function request() {
 </script>
 
 <template>
-    <ProForm labelAlign="top" :marginY="20" @submit="handleSubmit" :options="options">
+    <ProForm v-model:loading="loading" loadingText="正在提交数据，请稍后..." labelAlign="top" :marginY="20" @submit="handleSubmit" :options="options as any">
         <template #form-username="{ form, rules, requiredMark }">
             <ProFormText :rules="rules" name="username" label="用户名" v-model="form.username" />
         </template>

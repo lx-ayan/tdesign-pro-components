@@ -55,34 +55,18 @@ const RenderImage = () => {
 }
 
 const RenderTitle = () => {
-    if (typeof props.title === 'string') {
-        return props.title;
-    }
-
     return Title;
 }
 
 const RenderDescription = () => {
-    if (typeof props.description === 'string') {
-        return props.description;
-    }
-
     return Description;
 }
 
 const RenderActions = () => {
-    if (typeof props.actions === 'string') {
-        return props.actions;
-    }
-
     return Actions;
 }
 
 const RenderFooter = () => {
-    if (typeof props.footer === 'string') {
-        return props.footer;
-    }
-
     return Footer;
 }
 

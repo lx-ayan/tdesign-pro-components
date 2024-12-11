@@ -12,3 +12,4 @@ export * from './ProLayout';
 export * from './PageContainer';
 export * from './ProButton';
 export * from './RowContainer';
+export * from './ModalForm';
