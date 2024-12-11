@@ -8,7 +8,6 @@ import useTabActiveKey, { tabList } from '../utils/useTabActiveKey';
 const header = {
     title: () => <t-typography-title>RowContainer 行容器组件</t-typography-title>
 }
-document.documentElement.setAttribute('theme-mode', 'dark');
 const { tabActiveKey, tabChange } = useTabActiveKey('1');
 </script>
 
