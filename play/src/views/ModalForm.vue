@@ -1,68 +1,31 @@
 <script setup lang='tsx'>
-import { ref } from 'vue';
-
-const options = ref<ProFormOption[]>([
-    {
-        name: 'username',
-        initalValue: '',
-        label: '用户名',
-        type: 'text',
-        span: 12,
-        rules: [
-            { required: true, message: '请输入用户名' }
-        ]
-    },
-    {
-        name: 'password',
-        label: '密码',
-        type: 'text',
-        span: 12,
-        textProps: {
-            type: 'password',
-        },
-        rules: [
-            { required: true, message: '请输入密码' }
-        ]
-    },
-    {
-        name: 'header',
-        label: '头像',
-        type: 'upload',
-        labelAlign: 'left',
-        uploadProps: {
-            theme: 'image'
-        },
-        formItemProps: {
-            labelAlign: 'left'
-        }
-    }
-]);
-
-const visible = ref(false);
-
-const header = <div>新增表单</div>
-
-function request() {
-    return Promise.resolve({
-        password: '',
-        username: 'requestAdmin',
-        header: 'https://images.unsplash.com/photo-1719997794492-b51b453a162e?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-    })
+import ModalFormVue from './components/ModalForm/ModalForm.vue';
+//@ts-ignore
+import ApiMarkdown from '../markdown/ModalForm/Api.md?raw';
+import useTabActiveKey, { tabList } from '../utils/useTabActiveKey';
+const header = {
+    title: () => <t-typography-title>ModalForm 弹窗表单</t-typography-title>
 }
 
-function handleSubmit(value: any) {
-    request().then(res => {
-        console.log('value', value);
-    })
-}
+const { tabActiveKey, tabChange } = useTabActiveKey('1');
+
 </script>
 
 <template>
     <div>
-        <t-button @click="visible = true">新增表单</t-button>
-        <ModalForm @submit="handleSubmit" :header v-model:visible="visible" :options="options" :request="request">
-
-        </ModalForm>
+        <PageContainer :tabActiveKey="tabActiveKey" :tabList @tab-change="tabChange" :header>
+            <template #description>
+                <t-typography-paragraph>
+                    <t-typography-text>
+                        ModalForm 将 ProForm 与 Dialog 组件进行结合，通过配置项可以快速完成一个弹窗表单。
+                    </t-typography-text>
+                </t-typography-paragraph>
+            </template>
+            <ModalFormVue v-if="tabActiveKey === '1'" />
+            <div v-else>
+                <MdPreview id="ButtonApi" :modelValue="ApiMarkdown" />
+            </div>
+        </PageContainer>
     </div>
 </template>
 

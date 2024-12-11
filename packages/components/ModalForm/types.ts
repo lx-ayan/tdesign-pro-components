@@ -1,6 +1,6 @@
 import { Optional, PromiseFunction, VueNode, WithFalse } from "@tdesign-pro-component/utils";
 import { ProFormOption, ProFormProps, ProFormRef } from "../ProForm";
-import { DialogProps, LoadingProps, MessageProps } from "tdesign-vue-next";
+import { DialogProps, FormProps, LoadingProps, MessageProps } from "tdesign-vue-next";
 
 export interface ModalFormProps {
     options: ProFormOption[];
@@ -19,6 +19,7 @@ export interface ModalFormProps {
     autoClose?: boolean;
     enableTip?: boolean;
     tipTheme?: MessageProps['theme'];
+    labelAlign?: FormProps['labelAlign'];
 }
 
 export interface ModalFormSlots {

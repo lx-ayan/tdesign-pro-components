@@ -1,7 +1,7 @@
 <script setup lang='tsx'>
 import { onMounted, ref } from 'vue';
 import { ProForm, ProFormOption, ProFormRef } from '../ProForm';
-import { ModalFormProps, ModalFormEmits, ModalFormSlots } from './types';
+import { ModalFormProps, ModalFormEmits, ModalFormSlots, ModalFormRef } from './types';
 import { useVModel } from '@tdesign-pro-component/hooks';
 import { getSlots } from '@tdesign-pro-component/utils';
 import { MessagePlugin } from 'tdesign-vue-next';
@@ -51,7 +51,8 @@ const TYPE_CONSTABLE = {
 const props = withDefaults(defineProps<ModalFormProps>(), {
     autoClose: false,
     enableTip: false,
-    tipTheme: 'error'
+    tipTheme: 'error',
+    labelAlign: 'top'
 });
 
 const emits = defineEmits<ModalFormEmits>();
@@ -73,28 +74,39 @@ onMounted(() => {
 })
 
 function handleOpen() {
+    emits('opened');
     proFormRef.value?.resetRequest();
+    visible.value = true;
 }
 
 function handleClose() {
+    emits('close');
     proFormRef.value?.reset();
+    visible.value = false;
 }
 
-async function handleConfirm() {
+function handleConfirm() {
+
     proFormRef.value.validate().then(async v => {
-        await emits('submit', proFormRef.value?.getFormValue());
-        if (props.autoClose) {
-            setTimeout(() => {
-                visible.value = false;
-            }, 200)
+        loading.value = true;
+        try {
+            await emits('submit', v);
+            if (props.autoClose) {
+                setTimeout(() => {
+                    handleClose();
+                    loading.value = false;
+                }, 200)
+            }
+        } catch {
+            loading.value = false;
         }
     }).catch(e => {
-        emits('error', e);
-        if(props.enableTip) {
-            const key = Object.keys(e)[0];
-            MessagePlugin[props.tipTheme](e[key][0].message);
-        }
-    });
+            emits('error', e);
+            if (props.enableTip) {
+                const key = Object.keys(e)[0];
+                MessagePlugin[props.tipTheme](e[key][0].message);
+            }
+        })
 }
 
 const Header = getSlots(slots, props, 'header');
@@ -115,12 +127,20 @@ function getOptionByname(name: string): { option: ProFormOption, component: { co
     };
 }
 
+defineExpose<ModalFormRef>({
+    submit: handleConfirm,
+    reset: () => proFormRef.value?.reset(),
+    open: () => visible.value = true,
+    close: () => visible.value = false,
+    getFormRef: () => proFormRef.value
+})
+
 </script>
 
 <template>
     <div>
-        <t-dialog @confirm="handleConfirm" @opened="handleOpen" @cancel="handleClose" @close="handleClose"
-            v-model:visible="visible" v-bind="props.dialogProps">
+        <t-dialog :confirmLoading="loading" @confirm="handleConfirm" @opened="handleOpen" @cancel="handleClose"
+            @close="handleClose" v-model:visible="visible" :width="props.width" v-bind="props.dialogProps">
             <template #header>
                 <RenderHeader />
             </template>
@@ -129,87 +149,95 @@ function getOptionByname(name: string): { option: ProFormOption, component: { co
                 <RenderFooter></RenderFooter>
             </template>
 
-            <ProForm v-model:loading="loading" :loading-text="props.loadingText" :loading-props="props.loadingProps"
-                hide-footer ref="proFormRef" :options="props.options" :request="visible ? props.request : requestFn"
-                v-bind="props.proFormProps">
-                <template :name="item" v-for="item in slotNames" #[item]="{ form }">
+            <ProForm :label-align="props.labelAlign" v-model:loading="loading" :loading-text="props.loadingText"
+                :loading-props="props.loadingProps" hide-footer ref="proFormRef" :options="props.options"
+                :request="visible ? props.request : requestFn" v-bind="props.proFormProps">
+                <template v-for="item in slotNames" #[item]="{ form }">
                     <template v-if="!slots[item]">
-                        <ProFormText
+                        <ProFormText :label-align="props.labelAlign"
                             v-if="!getOptionByname(item)!.option.type || getOptionByname(item)!.option.type! === 'text'"
                             :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormText>
 
                         <ProFormSelect v-if="getOptionByname(item)!.option.type! === 'select'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormSelect>
 
                         <ProFormRadio v-if="getOptionByname(item)!.option.type! === 'radio'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormRadio>
 
                         <ProFormCheckbox v-if="getOptionByname(item)!.option.type! === 'checkbox'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormCheckbox>
 
                         <ProFormInputNumber v-if="getOptionByname(item)!.option.type! === 'number'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormInputNumber>
 
                         <ProFormDatepicker v-if="getOptionByname(item)!.option.type! === 'datepicker'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormDatepicker>
 
                         <ProFormTreeSelect v-if="getOptionByname(item)!.option.type! === 'treeSelect'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormTreeSelect>
 
                         <ProFormTextarea v-if="getOptionByname(item)!.option.type! === 'textarea'"
-                            :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
+                            :label-align="props.labelAlign" :name="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label"
                             v-model="form[getOptionByname(item).option.name]" v-bind="{
-                ...getOptionByname(item).option,
-                //@ts-ignore
-                ...getOptionByname(item).option[getOptionByname(item).component.propsName]
-            }">
+            ...getOptionByname(item).option,
+            //@ts-ignore
+            ...getOptionByname(item).option[getOptionByname(item).component.propsName]
+        }">
                         </ProFormTextarea>
 
                         <t-form-item v-if="getOptionByname(item)!.option.type! === 'upload'"
-                            :key="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
-                            :rules="getOptionByname(item)!.option.rules" :name="getOptionByname(item)!.option.name"
+                            :label-align="props.labelAlign" :key="getOptionByname(item)!.option.name"
+                            :label="getOptionByname(item)!.option.label" :rules="getOptionByname(item)!.option.rules"
+                            :name="getOptionByname(item)!.option.name"
                             v-bind="getOptionByname(item)!.option.formItemProps">
                             <t-upload v-model="form[getOptionByname(item).option.name]"
                                 :multiple="getOptionByname(item)!.option.multiple"
