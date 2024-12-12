@@ -86,7 +86,6 @@ function handleClose() {
 }
 
 function handleConfirm() {
-
     proFormRef.value.validate().then(async v => {
         loading.value = true;
         try {
@@ -96,17 +95,20 @@ function handleConfirm() {
                     handleClose();
                     loading.value = false;
                 }, 200)
+            } else {
+                loading.value = false;
+                proFormRef.value?.resetRequest();
             }
         } catch {
             loading.value = false;
         }
     }).catch(e => {
-            emits('error', e);
-            if (props.enableTip) {
-                const key = Object.keys(e)[0];
-                MessagePlugin[props.tipTheme](e[key][0].message);
-            }
-        })
+        emits('error', e);
+        if (props.enableTip) {
+            const key = Object.keys(e)[0];
+            MessagePlugin[props.tipTheme](e[key][0].message);
+        }
+    })
 }
 
 const Header = getSlots(slots, props, 'header');

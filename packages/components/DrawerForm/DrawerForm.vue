@@ -80,7 +80,6 @@ function handleClose() {
 }
 
 function handleConfirm() {
-
     proFormRef.value?.validate().then(async v => {
         loading.value = true;
         try {
@@ -90,6 +89,9 @@ function handleConfirm() {
                     handleClose();
                     loading.value = false;
                 }, 200)
+            } else {
+                loading.value = false;
+                proFormRef.value?.resetRequest();
             }
         } catch {
             loading.value = false;
@@ -143,8 +145,8 @@ watch(visible, (value) => {
 
 <template>
     <div>
-        <t-drawer @confirm="handleConfirm" :onBeforeOpen="handleOpen" @cancel="handleClose"
-            @close="handleClose" v-model:visible="visible" :size="props.width" v-bind="props.drawerProps">
+        <t-drawer @confirm="handleConfirm" :onBeforeOpen="handleOpen" @cancel="handleClose" @close="handleClose"
+            v-model:visible="visible" :size="props.width" v-bind="props.drawerProps">
             <template #header>
                 <RenderHeader />
             </template>
@@ -152,9 +154,9 @@ watch(visible, (value) => {
             <template v-if="slots.footer || props.footer" #footer>
                 <RenderFooter></RenderFooter>
             </template>
-            <ProForm v-if="visible" :label-align="props.labelAlign" v-model:loading="loading" :loading-text="props.loadingText"
-                :loading-props="props.loadingProps" hide-footer ref="proFormRef" :options="props.options"
-                :request="props.request" v-bind="props.proFormProps">
+            <ProForm v-if="visible" :label-align="props.labelAlign" v-model:loading="loading"
+                :loading-text="props.loadingText" :loading-props="props.loadingProps" hide-footer ref="proFormRef"
+                :options="props.options" :request="props.request" v-bind="props.proFormProps">
                 <template v-for="item in slotNames" #[item]="{ form }">
                     <template v-if="!slots[item]">
                         <ProFormText :label-align="props.labelAlign"

@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import {useRouter, useRoute} from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 function changeHandler(path: string) {
@@ -12,15 +12,24 @@ function changeHandler(path: string) {
         <t-row>
             <t-col :span="2">
                 <div style="margin-top: 24px">
-                    <t-menu  @change="changeHandler" :default-value="route.fullPath">
-                        <t-menu-item key="/pro-table" value="/pro-table">ProTable 表格组件</t-menu-item>
-                        <t-menu-item key="/pro-form" value="/pro-form">ProForm 表单组件</t-menu-item>
-                        <t-menu-item key="/pro-layout" value="/pro-layout">ProLayout 布局组件</t-menu-item>
-                        <t-menu-item key="/page-container" value="/page-container">PageContainer 页容器组件</t-menu-item>
-                        <t-menu-item key="/pro-button" value="/pro-button">ProButton 操作按钮组件</t-menu-item>
-                        <t-menu-item key="/row-container" value="/row-container">RowContainer 行容器</t-menu-item>
-                        <t-menu-item key="/modal-form" value="/modal-form">ModalForm 弹窗表单组件</t-menu-item>
-                        <t-menu-item key="/drawer-form" value="/drawer-form">DrawerForm 抽屉表单组件</t-menu-item>
+                    <t-menu @change="changeHandler" :default-value="route.fullPath">
+                        <t-menu-group title="列表">
+                            <t-menu-item key="/pro-table" value="/pro-table">ProTable 表格组件</t-menu-item>
+                        </t-menu-group>
+                        <t-menu-group title="布局">
+                            <t-menu-item key="/pro-layout" value="/pro-layout">ProLayout 布局组件</t-menu-item>
+                            <t-menu-item key="/page-container" value="/page-container">PageContainer 页容器组件</t-menu-item>
+                            <t-menu-item key="/row-container" value="/row-container">RowContainer 行容器</t-menu-item>
+                        </t-menu-group>
+                        <t-menu-group title="表单">
+                            <t-menu-item key="/pro-form" value="/pro-form">ProForm 表单组件</t-menu-item>
+                            <t-menu-item key="/modal-form" value="/modal-form">ModalForm 弹窗表单组件</t-menu-item>
+                            <t-menu-item key="/drawer-form" value="/drawer-form">DrawerForm 抽屉表单组件</t-menu-item>
+                        </t-menu-group>
+                        <t-menu-group title="操作">
+                            <t-menu-item key="/pro-button" value="/pro-button">ProButton 操作按钮组件</t-menu-item>
+                        </t-menu-group>
+
                     </t-menu>
                 </div>
             </t-col>
@@ -42,6 +51,6 @@ function changeHandler(path: string) {
 }
 
 .my-container::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 </style>

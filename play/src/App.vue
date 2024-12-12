@@ -7,7 +7,7 @@ const router = useRouter();
 const route = useRoute();
 
 const headerRender = () => <div style="height: 100%; display: flex; align-items: center; padding: 0 24px;">
-  Tdesign-pro-component
+  <h3><a href="https://pangzablog.cn" style="color:#101d37; font-size: 18px; text-decoration:none;" target="_blank">Pangza IT 社区</a></h3>
 </div>
 
 function handleMenuChange(path: string) {

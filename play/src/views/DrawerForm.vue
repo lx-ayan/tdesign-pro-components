@@ -17,7 +17,7 @@ const { tabActiveKey, tabChange } = useTabActiveKey('1');
             <template #description>
                 <t-typography-paragraph>
                     <t-typography-text>
-                        DrawerForm 将 ProForm 与 Dialog 组件进行结合，通过配置项可以快速完成一个弹窗表单。
+                        DrawerForm 将 ProForm 与 Drawer 组件进行结合，通过配置项可以快速完成一个弹窗表单。
                     </t-typography-text>
                 </t-typography-paragraph>
             </template>
