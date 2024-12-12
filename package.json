@@ -7,7 +7,7 @@
     "test": "echo Hello Test",
     "dev": "pnpm --filter @tdesign-pro-component/play dev",
     "docs:dev": "pnpm --filter @tdesign-pro-component/docs dev",
-    "docs:build": "pnpm --filter @tdesign-pro-component/docs build",
+    "docs:build": "pnpm --filter @tdesign-pro-component/play build",
     "build": "pnpm --filter tdesign-pro-component build"
   },
   "keywords": [],
