@@ -27,12 +27,12 @@ export interface ModalFormSlots {
 }
 
 export interface ModalFormEmits {
-    (e: 'submit', value: any);
-    (e: 'close');
-    (e: 'opened');
-    (e: 'update:visible', value: boolean);
-    (e: 'update:loading', value: boolean);
-    (e: 'error', value: any);
+    (e: 'submit', value: any): void;
+    (e: 'close'): void;
+    (e: 'opened'): void;
+    (e: 'update:visible', value: boolean): void;
+    (e: 'update:loading', value: boolean): void;
+    (e: 'error', value: any): void;
 }
 
 export interface ModalFormRef {

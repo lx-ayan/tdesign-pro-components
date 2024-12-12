@@ -1,5 +1,5 @@
 import { Optional, PromiseFunction, VueNode, WithFalse } from "@tdesign-pro-component/utils";
-import { ButtonProps, FormItemProps, FormProps, FormRule, FormRules, LoadingProps, TNode, UploadProps, ValueType, Input } from "tdesign-vue-next";
+import { ButtonProps, FormItemProps, FormProps, FormRule, FormRules, LoadingProps, TNode, UploadProps, ValueType } from "tdesign-vue-next";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
 import { ProFormRadioProps } from "../ProFormRadio/types";
 import { ProFormTextProps } from "../ProFormText";
@@ -15,7 +15,7 @@ export type ProFormItemType = 'text' | 'treeSelect' | 'number' | 'textarea' | 's
 export type FilterKey = 'name' | 'modelValue';
 
 export interface ProFormProps {
-    options?: ProFormOption[];
+    options: ProFormOption[];
     request?: PromiseFunction<any>;
     rules?: FormRules;
     labelAlign?: 'left' | 'top' | 'right';

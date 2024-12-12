@@ -1,5 +1,4 @@
 import { VueNode, WithFalse } from "@tdesign-pro-component/utils";
-import { ImageProps } from 'tdesign-vue-next';
 import { CSSProperties } from "vue";
 
 export interface RowContainerProps {

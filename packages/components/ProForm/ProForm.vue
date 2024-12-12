@@ -109,7 +109,7 @@ function setInnerFormValue(data: any, isRequest = false) {
 }
 
 function resetRequest() {
-    props.request().then(res => {
+    props.request!().then(res => {
         if (res) {
             innerFormValue.value = { ...initFormValue(JSON.parse(JSON.stringify(res)), innerOptions.value as any[]) };
         } else {

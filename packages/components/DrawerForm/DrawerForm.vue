@@ -59,8 +59,6 @@ const emits = defineEmits<DrawerFormEmits>();
 
 const slots = defineSlots<DrawerFormSlots>();
 
-const requestFn = () => Promise.resolve(null);
-
 const proFormRef = ref<ProFormRef>();
 
 const slotNames = ref<string[]>([]);
@@ -158,7 +156,7 @@ watch(visible, (value) => {
                 :loading-text="props.loadingText" :loading-props="props.loadingProps" hide-footer ref="proFormRef"
                 :options="props.options" :request="props.request" v-bind="props.proFormProps">
                 <template v-for="item in slotNames" #[item]="{ form }">
-                    <template v-if="!slots[item]">
+                    <template v-if="!slots[item as keyof DrawerFormSlots]">
                         <ProFormText :label-align="props.labelAlign"
                             v-if="!getOptionByname(item)!.option.type || getOptionByname(item)!.option.type! === 'text'"
                             :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
@@ -252,7 +250,7 @@ watch(visible, (value) => {
                             </t-upload>
                         </t-form-item>
                     </template>
-                    <slot v-else :name="item" :form="form"></slot>
+                    <slot v-else :name="item as keyof DrawerFormSlots" :form="form as any"></slot>
                 </template>
             </ProForm>
         </t-drawer>

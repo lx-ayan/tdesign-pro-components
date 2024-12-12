@@ -36,8 +36,8 @@ const RenderImage = () => {
             return <div class="row-container-image" style={{ ...imageMargin.value }}>
                 <t-image-viewer images={[props.image]}>
                     {{
-                        trigger: ({ open }) => <div class="tdesign-demo-image-viewer__ui-image">
-                            <img alt="test" style={{ height: props.imageHeight, width: imageWidth.value, ...props.imageStyle  }} src={props.image} class="tdesign-demo-image-viewer__ui-image--img" />
+                        trigger: ({ open }: any) => <div class="tdesign-demo-image-viewer__ui-image">
+                            <img alt="test" style={{ height: props.imageHeight, width: imageWidth.value, ...props.imageStyle  }} src={props.image as string} class="tdesign-demo-image-viewer__ui-image--img" />
                             <div class="tdesign-demo-image-viewer__ui-image--hover" onClick={() => open()}>
                                 <t-icon name="browse" size="1.1em" style={{ marginRight: '4px' }} /><span>预览</span>
                             </div>

@@ -86,7 +86,7 @@ function handleClose() {
 }
 
 function handleConfirm() {
-    proFormRef.value.validate().then(async v => {
+    proFormRef.value?.validate().then(async v => {
         loading.value = true;
         try {
             await emits('submit', v);
@@ -134,7 +134,7 @@ defineExpose<ModalFormRef>({
     reset: () => proFormRef.value?.reset(),
     open: () => visible.value = true,
     close: () => visible.value = false,
-    getFormRef: () => proFormRef.value
+    getFormRef: () => proFormRef.value!
 })
 
 </script>
@@ -155,7 +155,7 @@ defineExpose<ModalFormRef>({
                 :loading-props="props.loadingProps" hide-footer ref="proFormRef" :options="props.options"
                 :request="visible ? props.request : requestFn" v-bind="props.proFormProps">
                 <template v-for="item in slotNames" #[item]="{ form }">
-                    <template v-if="!slots[item]">
+                    <template v-if="!slots[item as keyof ModalFormSlots]">
                         <ProFormText :label-align="props.labelAlign"
                             v-if="!getOptionByname(item)!.option.type || getOptionByname(item)!.option.type! === 'text'"
                             :name="getOptionByname(item)!.option.name" :label="getOptionByname(item)!.option.label"
@@ -249,7 +249,7 @@ defineExpose<ModalFormRef>({
                             </t-upload>
                         </t-form-item>
                     </template>
-                    <slot v-else :name="item" :form="form"></slot>
+                    <slot v-else :name="item as keyof ModalFormSlots" :form="form as any"></slot>
                 </template>
             </ProForm>
         </t-dialog>
