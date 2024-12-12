@@ -1,22 +1,22 @@
 <script setup lang='ts'>
 import One from './One.vue';
 //@ts-ignore
-import OneMarkdown from '../../../markdown/ModalForm/One.md?raw';
+import OneMarkdown from '../../../markdown/DrawerForm/One.md?raw';
 
 import Two from './Two.vue';
 //@ts-ignore
-import TwoMarkdown from '../../../markdown/ModalForm/Two.md?raw';
+import TwoMarkdown from '../../../markdown/DrawerForm/Two.md?raw';
 import Three from './Three.vue';
 //@ts-ignore
-import ThreeMarkdown from '../../../markdown/ModalForm/Three.md?raw';
+import ThreeMarkdown from '../../../markdown/DrawerForm/Three.md?raw';
 
 import Four from './Four.vue';
 //@ts-ignore
-import FourMarkdown from '../../../markdown/ModalForm/Four.md?raw';
+import FourMarkdown from '../../../markdown/DrawerForm/Four.md?raw';
 
 import Five from './Five.vue';
 //@ts-ignore
-import FiveMarkdown from '../../../markdown/ModalForm/Five.md?raw';
+import FiveMarkdown from '../../../markdown/DrawerForm/Five.md?raw';
 </script>
 
 <template>
@@ -54,7 +54,7 @@ import FiveMarkdown from '../../../markdown/ModalForm/Five.md?raw';
         <t-typography-title level="h3"><span id="four">自定义底部（手动提交）</span></t-typography-title>
         <t-typography-paragraph>
             <t-typography-text>
-                通过 modalForm 实例,手动提交。手动提交时会触发 submit 方法，所以 @submit 不可少。
+                通过 DrawerForm 实例,手动提交。手动提交时会触发 submit 方法，所以 @submit 不可少。
             </t-typography-text>
         </t-typography-paragraph>
         <Five />

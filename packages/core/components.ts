@@ -13,7 +13,8 @@ import {
     PageContainer,
     ProButton,
     RowContainer,
-    ModalForm
+    ModalForm,
+    DrawerForm
 } from '@tdesign-pro-component/components';
 import {Plugin} from 'vue';
 
@@ -32,5 +33,6 @@ export default [
     PageContainer,
     ProButton,
     RowContainer,
-    ModalForm
+    ModalForm,
+    DrawerForm
 ] as Plugin[]

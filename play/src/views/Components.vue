@@ -20,6 +20,7 @@ function changeHandler(path: string) {
                         <t-menu-item key="/pro-button" value="/pro-button">ProButton 操作按钮组件</t-menu-item>
                         <t-menu-item key="/row-container" value="/row-container">RowContainer 行容器</t-menu-item>
                         <t-menu-item key="/modal-form" value="/modal-form">ModalForm 弹窗表单组件</t-menu-item>
+                        <t-menu-item key="/drawer-form" value="/drawer-form">DrawerForm 抽屉表单组件</t-menu-item>
                     </t-menu>
                 </div>
             </t-col>

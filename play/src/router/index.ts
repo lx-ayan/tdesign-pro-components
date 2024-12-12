@@ -44,6 +44,10 @@ const router = createRouter({
                 {
                     path: '/modal-form',
                     component: () => import('../views/ModalForm.vue')
+                },
+                {
+                    path: '/drawer-form',
+                    component: () => import('../views/DrawerForm.vue')
                 }
             ]
         }

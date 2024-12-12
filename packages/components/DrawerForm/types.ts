@@ -1,8 +1,8 @@
 import { Optional, PromiseFunction, VueNode, WithFalse } from "@tdesign-pro-component/utils";
 import { ProFormOption, ProFormProps, ProFormRef } from "../ProForm";
-import { DialogProps, FormProps, LoadingProps, MessageProps } from "tdesign-vue-next";
+import { DrawerProps, FormProps, LoadingProps, MessageProps } from "tdesign-vue-next";
 
-export interface ModalFormProps {
+export interface DrawerFormProps {
     options: ProFormOption[];
     visible: boolean;
     request?: PromiseFunction<any>;
@@ -11,22 +11,21 @@ export interface ModalFormProps {
     loadingText?: string;
     loadingProps?: LoadingProps;
     width?: string | number;
-    theme?: DialogProps['theme'];
     header?: string | WithFalse<VueNode>;
     footer?: string | WithFalse<VueNode>;
-    dialogProps?: DialogProps;
+    drawerProps?: DrawerProps;
     autoClose?: boolean;
     enableTip?: boolean;
     tipTheme?: MessageProps['theme'];
     labelAlign?: FormProps['labelAlign'];
 }
 
-export interface ModalFormSlots {
+export interface DrawerFormSlots {
     header?: string | WithFalse<VueNode>;
     footer?: string | WithFalse<VueNode>;
 }
 
-export interface ModalFormEmits {
+export interface DrawerFormEmits {
     (e: 'submit', value: any);
     (e: 'close');
     (e: 'opened');
@@ -35,7 +34,7 @@ export interface ModalFormEmits {
     (e: 'error', value: any);
 }
 
-export interface ModalFormRef {
+export interface DrawerFormRef {
     submit: () => void;
     reset: () => void;
     open: () => void;

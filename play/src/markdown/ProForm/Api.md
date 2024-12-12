@@ -20,6 +20,10 @@
 |submitButtonProps| Object / `ButtonProps` | - | 提交按钮其他参数。[参考详情](https://tdesign.tencent.com/vue-next/components/button?tab=api "ButtonProps") | FALSE |
 |resetButtonProps| Object / `ButtonProps` | - | 重置表单其他参数。[参考详情](https://tdesign.tencent.com/vue-next/components/button?tab=api "ButtonProps") | FALSE |
 |hideFooter| boolean | false | 隐藏表单操作位置。| FALSE |
+|footer| Object \| `WithFalse<VueNode>` | - | 提交表单操作区域。| FALSE |
+|loading| boolean  | false | 加载状态 | FALSE |
+|loadingText| string | false | 加载文本 | FALSE |
+|loadingProps| Object \| `LoadingProps` | false |  loading其他属性 [参考详情](https://tdesign.tencent.com/vue-next/components/loading?tab=api "ButtonProps") | FALSE |
 
 ## ProFormOption
 |属性名|类型|默认值|描述|必填|
