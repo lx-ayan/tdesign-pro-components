@@ -46,7 +46,7 @@ export interface ProTableProps {
     tableProps?: TableProps;
 
     // page
-    page: { pageNum: number, pageSize: number, total: number }
+    page?: { pageNum: number, pageSize: number, total: number }
     pageProps?: PaginationProps;
 
     searchText?: string;

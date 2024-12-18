@@ -21,5 +21,6 @@ export interface ProLayoutRoute {
     path: string;
     icon?: string | (() => VNode);
     disabled?: boolean;
-    children?: ProLayoutRoute[]
+    children?: ProLayoutRoute[],
+    [name: string]: any
 }
