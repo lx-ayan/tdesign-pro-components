@@ -61,7 +61,12 @@ const props = withDefaults(defineProps<ProTableProps>(), {
     filterEmptyStr: true,
     rowKey: 'id',
     loadingAble: true,
-    searchText: '查询'
+    searchText: '查询',
+    page: ()=> ({
+        pageSize: 10,
+        pageNum: 1,
+        total: 10
+    })
 });
 
 const emits = defineEmits<{
@@ -247,7 +252,7 @@ watch(() => props.options, () => {
         </div>
         <div v-if="!formHideForm" class="pro-table-form">
             <t-card>
-                <ProForm :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" @reset="onReset" hideFooter
+                <ProForm :marginY="0" :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" @reset="onReset" hideFooter
                     ref="proFormRef" :options="formOptions as any">
                     <template :key="item" v-for="item in formSlotsName" #[item]="{ form }">
                         <template v-if="!slots[item]">

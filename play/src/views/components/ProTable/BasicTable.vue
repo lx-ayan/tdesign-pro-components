@@ -33,7 +33,7 @@ function request(data: ProTableRequest<any>) {
 <template>
     <div>
         <div>
-            <ProTable  rowKey="id" v-model:page="page" :request :options>
+            <ProTable  rowKey="id"  :request :options>
             </ProTable>
         </div>
     </div>
