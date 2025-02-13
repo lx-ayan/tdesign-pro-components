@@ -252,7 +252,7 @@ watch(() => props.options, () => {
         </div>
         <div v-if="!formHideForm" class="pro-table-form">
             <t-card>
-                <ProForm :marginY="0" :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" @reset="onReset" hideFooter
+                <ProForm :marginY="showMoreState? 16: 0" :filterEmptyStr="props.filterEmptyStr" filter @submit="onSearch" @reset="onReset" hideFooter
                     ref="proFormRef" :options="formOptions as any">
                     <template :key="item" v-for="item in formSlotsName" #[item]="{ form }">
                         <template v-if="!slots[item]">
@@ -333,7 +333,7 @@ watch(() => props.options, () => {
                     </template>
 
                     <template #form-search-extral>
-                        <div class="pro-table-form-actions">
+                        <div class="pro-table-form-actions" >
                             <t-button :loading="innerLoading" type="submit">{{ props.searchText }}</t-button>
                             <t-button :loading="innerLoading" theme="default" type="reset">重置</t-button>
                             <t-button v-if="showMoreButton" @click="handleMoreClick(!showMoreState)">{{ showMoreState ?

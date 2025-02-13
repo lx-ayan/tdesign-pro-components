@@ -22,7 +22,6 @@ const options: ProTableOption[] = [
 ];
 
 function request(data: ProTableRequest<any>) {
-    console.log('request', data);
     return Promise.resolve({
         total: 10,
         list: [{ id: 1, title: '标题1', author: 'Tom Hardy' }, { id: 2, title: '标题2', author: 'Tom Hardy' }, { id: 3, title: '标题3', author: 'Tom Hardy' }, { id: 4, title: '标题4', author: 'Tom Hardy' }, { id: 5, title: '标题', author: 'Tom Hardy' }]
