@@ -8,7 +8,7 @@ import 'tdesign-vue-next/es/style/index.css';
 import ProComponents from 'tdesign-pro-component';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import 'tdesign-pro-component/index.css';
+// import 'tdesign-pro-component/index.css';
 
 import router from './router';
 
