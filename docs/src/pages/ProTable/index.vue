@@ -32,6 +32,13 @@ const dataSource = [
     required: 'Y'
   },
   {
+    name: 'bordered',
+    type: <span>Boolean</span>,
+    defaultValue: '-',
+    description: '表示开启表单和表格卡片的边框，非表格自身的边框',
+    required: 'N'
+  },
+  {
     name: 'dragAble',
     type: <span>Boolean</span>,
     defaultValue: '-',

@@ -17,7 +17,7 @@ function handleClick(key: string) {
         <t-menu-group title="表单项组件">
           <t-menu-item value="/pro-form-text"> 输入框 </t-menu-item>
           <t-menu-item value="/pro-form-select"> 选择器 </t-menu-item>
-          <t-menu-item value="/pro-form-radio"> 单选框 </t-menu-item>
+          <t-menu-item value="/pro-form-radio"> 单选框 <t-tag theme="warning" style="margin-left: 12px;">update</t-tag></t-menu-item>
           <t-menu-item value="/pro-form-checkbox"> 复选框 </t-menu-item>
           <t-menu-item value="/pro-form-date-picker"> 日期选择器 </t-menu-item>
           <t-menu-item value="/pro-form-date-picker-range"> 日期范围选择器 </t-menu-item>
@@ -28,7 +28,7 @@ function handleClick(key: string) {
           <t-menu-item value="/modal-form">弹窗/抽屉表单</t-menu-item>
         </t-menu-group>
         <t-menu-group title="数据组件">
-          <t-menu-item value="/pro-table"> 表格组件 </t-menu-item>
+          <t-menu-item value="/pro-table"> 表格组件 <t-tag theme="warning" style="margin-left: 12px;">update</t-tag></t-menu-item>
         </t-menu-group>
         <t-menu-group title="布局组件">
           <t-menu-item value="/page-container"> 页面容器 </t-menu-item>

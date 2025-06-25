@@ -1,7 +1,7 @@
 //@ts-ignore
 import { VNode, VNodeChild } from "vue";
 
-export type VueNode = VNode | VNodeChild | ((...args: any[]) => VNode) | string;
+export type VueNode = VNode | VNodeChild | ((...args: any[]) => VNode) | string | Element ;
 
 export type WithFalse<T extends any = any> = T | false;
 

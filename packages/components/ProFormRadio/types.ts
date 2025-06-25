@@ -13,14 +13,14 @@ export interface ProFormRadioProps {
     placeholder?: string;
     readonly?: boolean;
     disabled?: boolean;
-    vertical?: 'row' | 'column';
+    direction?: 'vertical' | 'horizontal';
     loadingText?: string | VueNode;
     radioProps?: RadioProps | Optional<TagRadioProps, 'data'>;
 }
 
 export interface TagRadioProps {
     data: OptionData[];
-    vertical?: 'column' | 'row';
+    direction?: 'vertical' | 'horizontal';
     onChange?: (value: BasicValueType) => void;
     modelValue?: BasicValueType;
     gap?: string;

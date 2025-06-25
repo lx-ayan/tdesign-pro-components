@@ -53,7 +53,7 @@ async function request(data: any) {
 <template>
     <div>
     <t-typography-title level="h3"><span id="ProTableBasic">基本使用</span></t-typography-title>
-        <ProTable :request :options="options"/>
+        <ProTable :bordered="false" :request :options="options"/>
         <MdPreview style="margin-top: 24px;"  id="pro-form-text-password" v-model="MarkdownContent" :preview="true" />
     </div>
 </template>

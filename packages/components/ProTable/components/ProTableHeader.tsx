@@ -11,6 +11,7 @@ interface ProTableHeaderProps<T = any> {
     onReset?: () => void;
     formHeader?: VueNode;
     loading?: boolean;
+    bordered?: boolean;
 }
 
 //@ts-ignore
@@ -74,7 +75,7 @@ const ProTableHeader = defineComponent(
         })
 
         return () => (
-            <Card>
+            <Card bordered={props.bordered}>
                 {
                     formHeaderRender() && formHeaderRender()
                 }

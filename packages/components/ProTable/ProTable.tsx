@@ -201,10 +201,9 @@ const ProTable = defineComponent(
             getFormValue: tableHeaderRef.value?.getSearchValue,
         })
 
-        return () => <div>
-            {(!hideForm.value && !props.hideForm) && <div  style="margin-bottom: 16px;"><ProTableHeader formHeader={props.formHeader} ref={tableHeaderRef} loading={loading.value} onSearch={handleSearch} onReset={handleSearch} options={options.value} /></div>}
-            <div>
-                <Card>
+        return () =><>
+            {(!hideForm.value && !props.hideForm) && <div  style="margin-bottom: 16px;"><ProTableHeader bordered={props.bordered} formHeader={props.formHeader} ref={tableHeaderRef} loading={loading.value} onSearch={handleSearch} onReset={handleSearch} options={options.value} /></div>}
+            <Card bordered={props.bordered}>
                     {{
                         title: titleRender() ? titleRender(): undefined,
                         actions: actionsRender() ? actionsRender(): undefined,
@@ -217,7 +216,7 @@ const ProTable = defineComponent(
                                         }
                                     <div>
                                         {
-                                            slots['card'] ?  <div v-loading={loading.value}>
+                                            slots['card'] ?  <div style="width: 100%;" v-loading={loading.value}>
                                                 {slots['card']({list: dataSource.value})}
                                             </div>:
                                             <Table onSelectChange={onSelectChange} onDragSort={onDragSort} drag-sort={props.dragType} loading={loading.value} data={dataSource.value} columns={tableColumns.value} {...props.tableProps}>
@@ -252,9 +251,8 @@ const ProTable = defineComponent(
                             
                         </>
                     }}
-                </Card>
-            </div>
-        </div>
+            </Card>
+        </>
     },
     {
         name: 'ProTable',
@@ -268,6 +266,10 @@ const ProTable = defineComponent(
             formHeader: [String, Function, Object],
             tableProps: [Object],
             dragAble: Boolean,
+            bordered: {
+                type: Boolean,
+                default: true
+            },
             dragType: {
                 type: String,
                 default: 'row-handler'

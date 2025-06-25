@@ -60,9 +60,9 @@ const dataSource = [
         required: 'N'
     },
     {
-        name: 'vertical',
-        type: <span>String, <CodeContainer>TS: 'row' | 'column'</CodeContainer></span>,
-        defaultValue: 'row',
+        name: 'direction',
+        type: <span>String, <CodeContainer>TS: 'vertical' | 'horizontal'</CodeContainer></span>,
+        defaultValue: 'horizontal',
         description: '布局形式，注意：纵向布局按钮不生效',
         required: 'N'
     },
@@ -112,9 +112,9 @@ const dataSource = [
 
 const typeData = [
     {
-        name: 'vertical',
+        name: 'direction',
         description: '选项布局',
-        type:<span>String, <CodeContainer>TS: row | column </CodeContainer></span>
+        type:<span>String, <CodeContainer>TS: vertical | horizontal </CodeContainer></span>
     },
     {
         name: 'gap',

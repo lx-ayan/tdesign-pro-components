@@ -29,6 +29,7 @@ export interface ProTableProps<T = any> {
     formHeader?: VueNode  | string;
     hideForm?: boolean;
     dataActionsAlign?: 'left' | 'right';
+    bordered?: boolean;
 
     [name: string]: any;
 }

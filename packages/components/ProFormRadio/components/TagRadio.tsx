@@ -1,5 +1,5 @@
 import { BasicValueType, OptionData } from "@tdesign-pro-component/utils";
-import { Col,Row } from "tdesign-vue-next";
+import { Col, Row, Space } from "tdesign-vue-next";
 import { defineComponent, PropType, ref, watch } from "vue";
 import TagItem from "./TagItem";
 
@@ -9,9 +9,9 @@ const TagRadio = defineComponent({
         data: {
             type: Array as PropType<OptionData[]>
         },
-        vertical: {
-            type: String as PropType<'row' | 'column'>,
-            default: 'row'
+        direction: {
+            type: String as PropType<'vertical' | 'horizontal'>,
+            default: 'horizontal'
         },
         onChange: {
             type: Function
@@ -46,9 +46,9 @@ const TagRadio = defineComponent({
     emits: ['update:modelValue', 'change'],
     setup(props, { emit }) {
         const innerValue = ref<BasicValueType>(props.modelValue || '');
-        
+
         function handleClick(value: BasicValueType, item: OptionData) {
-            if(props.readonly || props.disabled || item.disabled) {
+            if (props.readonly || props.disabled || item.disabled) {
                 return
             }
             emit('change', value);
@@ -64,19 +64,12 @@ const TagRadio = defineComponent({
             emit('update:modelValue', value);
         });
 
-        const RenderRowRadio = () => {
-            //@ts-ignore
-            return props.data.map(item => <span style={{marginRight: props.gap}}><TagItem disabled={props.disabled || item.disabled} fill={props.fill} updateColor={props.updateColor} currentIndex={innerValue.value} key={item.value} onClick={() => handleClick(item.value, item)} data={item}>{item.render(item)}</TagItem></span>)
-        }
 
-        const RenderColRadio = () => <Row gutter={20} style={{width: '100%'}}>
+        return () => <Space direction={props.direction}>
             {
-                //@ts-ignore
-                props.data.map(item => <Col style={{marginBottom: props.gap}} key={item.value} span={12}><TagItem disabled={props.disabled || item.disabled} fill={props.fill} updateColor={props.updateColor} currentIndex={innerValue.value} key={item.value} onClick={() => handleClick(item.value, item)} data={item}>{item.render(item)}</TagItem></Col>)
+                props.data.map(item => <TagItem disabled={props.disabled || item.disabled} fill={props.fill} updateColor={props.updateColor} currentIndex={innerValue.value} key={item.value} onClick={() => handleClick(item.value, item)} data={item}>{item.render(item)}</TagItem>)
             }
-        </Row>
-
-        return () => props.vertical == 'row' ? RenderRowRadio() : RenderColRadio()
+        </Space>
     }
 })
 

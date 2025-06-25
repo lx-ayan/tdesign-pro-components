@@ -2,7 +2,7 @@ export * from './ProFormSelect';
 export * from './ProFormText';
 export * from './ProFormRadio';
 export * from './ProFormCheckbox';
-export * from './ProFormDatePicker';
+export * from './ProFormDatepicker';
 export * from './ProFormDatePickerRange';
 export * from './ProFormInputNumber';
 export * from './ProFormTreeSelect';

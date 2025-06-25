@@ -1,5 +1,5 @@
 import { BasicValueType, OptionData } from "@tdesign-pro-component/utils";
-import { Col, Radio, RadioGroup, Row } from "tdesign-vue-next";
+import { Col, Radio, RadioGroup, Row, Space } from "tdesign-vue-next";
 import { defineComponent, PropType, ref, watch } from "vue";
 
 const DefaultRadio = defineComponent({
@@ -8,9 +8,9 @@ const DefaultRadio = defineComponent({
         data: {
             type: Array as PropType<OptionData[]>
         },
-        vertical: {
-            type: String as PropType<'row' | 'column'>,
-            default: 'row'
+        direction: {
+            type: String as PropType<'vertical' | 'horizontal'>,
+            default: 'horizontal'
         },
         onChange: {
             type: Function as PropType<(value: BasicValueType) => void>
@@ -44,25 +44,15 @@ const DefaultRadio = defineComponent({
             emit('change', value);
         };
 
-        const RenderRowRadio = () => <>
+        return () =>
             <RadioGroup v-model={innerValue.value} onChange={handleChange}>
-                {
-                    //@ts-ignore
-                    props.data.map(item => <Radio disabled={props.disabled || item.disabled} key={item.value} value={item.value}>{item.render(item)}</Radio>)
-                }
+                <Space direction={props.direction}>
+                    {
+                        //@ts-ignore
+                        props.data.map(item => <Radio disabled={props.disabled || item.disabled} key={item.value} value={item.value}>{item.render(item)}</Radio>)
+                    }
+                </Space>
             </RadioGroup>
-        </>
-
-        const RenderColRadio = () => <Row>
-            <RadioGroup v-model={innerValue.value} onChange={handleChange}>
-                {
-                    //@ts-ignore
-                    props.data.map(item => <Col key={item.value} span={12}><Radio disabled={props.disabled || item.disabled} value={item.value}>{item.render(item)}</Radio></Col>)
-                }
-            </RadioGroup>
-        </Row>
-
-        return () => props.vertical != 'column' ? RenderRowRadio() : RenderColRadio()
     }
 })
 

@@ -19,13 +19,13 @@ const data2 = [{label: '甜的', value: '1'}, {label: '咸的', value: '2'}];
         <div style="margin-top: 28px; font-size: 19px; margin-bottom: 14px; font-weight: bold;">
             渲染函数
         </div>
-        <ProFormRadio vertical="column" :data="data" label="豆腐脑吃甜的还是咸的" name="taste" v-model="taste"/>
-        <ProFormRadio vertical="column" :radio-props="{ gap: '12px' }"  theme="tag" :data="data" label="豆腐脑吃甜的还是咸的" name="taste" v-model="taste"/>
+        <ProFormRadio direction="vertical" :data="data" label="豆腐脑吃甜的还是咸的" name="taste" v-model="taste"/>
+        <ProFormRadio direction="vertical" :radio-props="{ gap: '12px' }"  theme="tag" :data="data" label="豆腐脑吃甜的还是咸的" name="taste" v-model="taste"/>
 
         <div style="margin-top: 28px; font-size: 19px; margin-bottom: 14px; font-weight: bold;">
             插槽
         </div>
-        <ProFormRadio vertical="column" :data="data2" label="豆腐脑吃甜的还是咸的" name="taste" v-model="taste">
+        <ProFormRadio direction="vertical" :data="data2" label="豆腐脑吃甜的还是咸的" name="taste" v-model="taste">
             <template #option-1="{option}">
                 <div>
                     {{ JSON.stringify(option) }}

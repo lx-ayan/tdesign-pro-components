@@ -26,9 +26,9 @@ const ProFormRaido = defineComponent({
             type: String,
             default: 'value'
         },
-        vertical: {
-            type: String as PropType<'row' | 'col'>,
-            default: 'row'
+        direction: {
+            type: String as PropType<'vertical' | 'horizontal'>,
+            default: 'horizontal'
         },
         loadingText: {
             type: String,
@@ -80,9 +80,9 @@ const ProFormRaido = defineComponent({
             buildData(props.data, props.labelName, props.valueName).then(res => {
                 innerOption.value = res.map(item => {
                     return {
-                       ...item,
-                       //@ts-ignore
-                        render: (current: any) => item.render? item.render(current) : slots[`option-${item[props.valueName]}`]? slots[`option-${item[props.valueName]}`]({ option: item }) : item[props.labelName]
+                        ...item,
+                        //@ts-ignore
+                        render: (current: any) => item.render ? item.render(current) : slots[`option-${item[props.valueName]}`] ? slots[`option-${item[props.valueName]}`]({ option: item }) : item[props.labelName]
                     }
                 })
             }).finally(() => {
@@ -101,30 +101,30 @@ const ProFormRaido = defineComponent({
         });
 
         watch(() => props.data, (value) => {
-            if(Array.isArray(value)) {
+            if (Array.isArray(value)) {
                 createData()
             }
-        }, {deep: true})
+        }, { deep: true })
 
         function RenderRadio() {
             switch (props.theme) {
                 case 'radio':
                 default:
                     //@ts-ignore
-                    return <><DefaultRadio onChange={handleChange} {...props.radioProps} readonly={props.readonly} disabled={props.disabled} vertical={props.vertical} v-model={innerValue.value} data={innerOption.value} /></>;
+                    return <><DefaultRadio direction={props.direction} onChange={handleChange} {...props.radioProps} readonly={props.readonly} disabled={props.disabled} vertical={props.vertical} v-model={innerValue.value} data={innerOption.value} /></>;
                 case 'button':
                     //@ts-ignore
                     return <ButtonRadio onChange={handleChange} {...props.radioProps} readonly={props.readonly} disabled={props.disabled} vertical={props.vertical} v-model={innerValue.value} data={innerOption.value} />;
                 case 'tag':
                     //@ts-ignore
-                    return <TagRadio onChange={handleChange} {...props.radioProps} readonly={props.readonly} disabled={props.disabled} vertical={props.vertical} v-model={innerValue.value} data={innerOption.value} />
+                    return <TagRadio direction={props.direction} onChange={handleChange} {...props.radioProps} readonly={props.readonly} disabled={props.disabled} vertical={props.vertical} v-model={innerValue.value} data={innerOption.value} />
             }
         }
 
         return () => <FormItem rules={props.rules} name={props.name} {...props.formItemProps}>
             {{
-                default: () => (innerLoading.value? loadingTextRender() : RenderRadio()),
-                label: labelRender()? labelRender() : null,
+                default: () => (innerLoading.value ? loadingTextRender() : RenderRadio()),
+                label: labelRender() ? labelRender() : null,
             }}
         </FormItem>
     }
