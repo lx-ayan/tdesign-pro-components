@@ -1,11 +1,10 @@
-import { PromiseFunction, ValueType } from "@tdesign-pro-component/utils";
+import { PromiseFunction, BasicValueType } from "@tdesign-pro-component/utils";
 import { FormItemProps, FormRule, SizeEnum, TNode, TreeSelectProps } from "tdesign-vue-next";
-import { ProFormSelectRef } from "../ProFormSelect";
 import { VNode } from "vue";
 
 export interface ProFormTreeSelectProps {
     name: string;
-    modelValue: ValueType | Array<ValueType>;
+    modelValue: BasicValueType | Array<BasicValueType>;
     data: TreeSelectOptionProps[] | PromiseFunction<TreeSelectOptionProps[]>;
 
     // form
@@ -37,11 +36,17 @@ export interface ProFormTreeSelectProps {
     prepend?: string | (() => (TNode | VNode)) | TNode | VNode;
 }
 
-export interface TreeSelectOptionProps {
+export interface TreeSelectOptionProps {    
     label?: string;
-    value?: ValueType;
+    value?: BasicValueType;
     children?: TreeSelectOptionProps[];
     [name: string]: any;
 }
 
-export interface ProFormTreeSelectRef extends ProFormSelectRef { }
+export interface ProFormTreeSelectRef { 
+    getValue: () => BasicValueType;
+    focus: () => void;
+    blur: () => void;
+    clear: () => void;
+    getRef: <T extends any = any> () => T;
+}

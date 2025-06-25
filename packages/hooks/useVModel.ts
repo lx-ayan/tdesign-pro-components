@@ -14,4 +14,3 @@ export function useVModel<T = object>(props: T, key: keyof T, emits: any, defaul
 
     return innerModel;
 }
-

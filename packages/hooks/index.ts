@@ -1,1 +1,1 @@
-export * from './useVModel';
+export * from './useVModel'

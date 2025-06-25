@@ -1,24 +1,30 @@
+//@ts-ignore
 import { VNode, VNodeChild } from "vue";
 
-export type ElementSize = 'small' | 'medium' | 'large';
-
-export type ValueType = string | number | boolean | undefined | null;
-
-export type ElementPosition = 'left' | 'right' | 'top';
-
-export type Nullable<T> = T | null;
-
-export interface SelectDataOption {
-    label: string;
-    value: 'string' | 'number' | 'boolean';
-    disabled?: boolean;
-    options?: SelectDataOption[];
-}
-
-export type PromiseFunction<T> = (...args: any[]) => Promise<T>;
-
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+export type VueNode = VNode | VNodeChild | ((...args: any[]) => VNode) | string;
 
 export type WithFalse<T extends any = any> = T | false;
 
-export type VueNode = VNode | VNodeChild | (() => VNode);
+export type PromiseFunction<T> = (...args: any[]) => Promise<T>;
+
+export type StringOrVueNode = string | VueNode | (() => VueNode);
+
+export interface OptionData {
+    label: string,
+    value: any,
+    span?: number;
+    disabled?: boolean;
+    render?: (item: any) => VueNode;
+}
+
+export type RequestOptionData = () => Promise<OptionData[]>;
+
+export type FormOptionData = Array<OptionData> | RequestOptionData | Array<any>;
+
+export type BasicValueType = string | number | boolean;
+
+export type ReturnType<T> = T extends () => infer R ? R: never;
+
+export type ParamType<T> = T extends (...args: infer P) => any ? P: never;
+
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

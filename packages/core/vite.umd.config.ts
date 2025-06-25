@@ -1,14 +1,15 @@
 import { defineConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import VueJSX from '@vitejs/plugin-vue-jsx';
-
 import { resolve } from 'path';
+
+
 export default defineConfig({
     plugins: [Vue(), VueJSX()],
     build: {
         outDir: 'dist/umd',
         lib: {
-            entry: resolve(__dirname, './index.ts'),
+            entry: resolve(__dirname, 'index.ts'),
             name: 'tdesign-pro-component',
             fileName: 'index',
             formats: ['umd']

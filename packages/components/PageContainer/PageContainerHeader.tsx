@@ -25,7 +25,7 @@ export const PageContainerHeader = defineComponent({
             {
                 props.breadcrumb && <Breadcrumb class="page-container-header-breadcrumb">
                     {
-                        props.breadcrumb.items.map(item => <BreadcrumbItem onClick={() => handleBreadcrumbItemClick(item.path, item)} {...item as any}>
+                        props.breadcrumb.items.map((item: any) => <BreadcrumbItem onClick={() => handleBreadcrumbItemClick(item.path, item)} {...item as any}>
                             {{
                                 icon: item.icon ? (isFunction(item.icon) ? (item.icon as Function)() : item.icon) : void 0,
                                 default: () => <span>{item.title}</span>

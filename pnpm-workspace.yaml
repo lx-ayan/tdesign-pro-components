@@ -1,5 +1,5 @@
 packages:
-  # 我的项目存储地方
-  - 'packages/*'
-  - 'example/**'
-  - 'play/**'
+  - packages/*
+  - docs/*
+ignoredBuiltDependencies:
+  - esbuild

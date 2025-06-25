@@ -1,88 +1,67 @@
-import { Optional, PromiseFunction } from "@tdesign-pro-component/utils";
-import { BaseTableCol, FormRule, LoadingProps, PaginationProps, SizeEnum, TNode, TableProps, TableRowData } from "tdesign-vue-next";
-import { ProFormCheckboxProps } from "../ProFormCheckbox";
-import { ProFormRadioProps } from "../ProFormRadio/types";
-import { ProFormTextProps } from "../ProFormText";
-import { ProFormTextareaProps } from "../ProFormTextarea";
-import { ProFormInputNumberProps } from "../ProFormInputNumber";
-import { ProFormSelectProps } from "../ProFormSelect";
-import { ProFormDatepickerProps } from "../ProFormDatepicker";
-import { ProFormTreeSelectProps } from "../ProFormTreeSelect";
+import { BasicValueType, Optional, PromiseFunction, VueNode, WithFalse } from "@tdesign-pro-component/utils"
 import { FilterKey } from "../ProForm";
-import { CSSProperties, VNode } from "vue";
+import { ProFormDatePickerProps } from "../ProFormDatePicker";
+import { ProFormSelectProps } from "../ProFormSelect";
+import { ProFormInputNumberProps } from "../ProFormInputNumber";
+import { ProFormTextareaProps } from "../ProFormTextarea";
+import { ProFormTextProps } from "../ProFormText";
+import { ProFormRadioProps } from "../ProFormRadio";
+import { ProFormCheckboxProps } from "../ProFormCheckbox";
+import { BaseTableCol, FormRule, PrimaryTableOnEditedContext, TableEditableCellConfig, TableProps } from "tdesign-vue-next";
+import { Ref } from "vue";
 
-export interface ProTableRequest<T = any> {
-    form: T;
-    pageNum: number;
-    pageSize: number;
-}
-
-export interface ProTableResult<T = any> {
-    list: T[];
-    total: number;
-    pageNum?: number;
-    pageSize?: number;
-}
-
-export interface ProTableProps {
-    options: ProTableOption[];
-    request: <T = any> (data: ProTableRequest<T>) => Promise<ProTableResult<T>>;
+export interface ProTableProps<T = any> {
     rowKey?: string;
-    onSearchSuccess?: (data: ProTableResult<any>) => any;
-    onSearchFail?: (exception: Error | string) => void;
-    hideForm?: boolean;
-    hidePage?: boolean;
-    searchNum?: number;
-    loadingAble?: boolean;
-    size?: SizeEnum;
-    filterEmptyStr?: boolean;
-    bordered?: boolean;
-    stripe?: boolean;
-    hover?: boolean;
-    empty?: string | VNode | TNode | (() => VNode | TNode);
-    cellEmptyContent?: string | VNode | TNode | (() => VNode | TNode);
-    selectData?: any[];
-    selectAble?: boolean;
+    options: ProTableOption<T>[];
+    request: <REQ, RES>(data: ProTableRequest<REQ>) => Promise<ProTableResult<RES>>;
+    dragAble?: boolean;
+    dragType?: 'row' | 'col' | 'row-handler';
+    dragHandler?: (params: any) => any[];
+    empty?: VueNode | string;
     tableProps?: TableProps;
+    selectData?: BasicValueType[];
+    selectAble?: boolean;
+    selectType?: 'single' | 'multiple';
+    editAble?: boolean;
+    hideFooter?: boolean;
+    dataActions?: VueNode  | string;
+    expanedRow?: VueNode  | string;
+    formHeader?: VueNode  | string;
+    hideForm?: boolean;
+    dataActionsAlign?: 'left' | 'right';
 
-    // page
-    page?: { pageNum: number, pageSize: number, total: number }
-    pageProps?: PaginationProps;
-
-    searchText?: string;
-    searchStyle?: CSSProperties;
-    searchIcon?: string;
-    loadingProps?: LoadingProps;
+    [name: string]: any;
 }
 
-export interface ProTableOption<T = any> {
-    // table
+interface ProTableTitle {
+    formTitle: VueNode,
+    tableTitle: VueNode
+}
+
+export interface ProTableOption<T> {
     key: string;
-    title: string | (() => TNode | VNode) | TNode | VNode;
+    title: string | ProTableTitle;
+    render?: (row: T, rowIndex?: number) => VueNode;
     hideInTable?: boolean;
-    tableColumnsProps?: TableProps['columns'];
-    render?: (data: { row: T, colIndex: number, rowIndex: number }) => VNode | TNode;
-    fixed?: 'left' | 'right';
-    children?: Array<BaseTableCol<TableRowData>>;
-    sorter?: boolean;
-    ellipsisTitle?: boolean;
+    titleRender?: (...args: any[]) => VueNode;
+    tableColumnsProps?: Optional<BaseTableCol, 'colKey'>;
     ellipsis?: boolean;
+    ellipsisTitle?: boolean;
+    fixed?: 'left' | 'right';
+    sorter?: boolean;
     width?: string | number;
-    isSlot?: boolean;
-
-
+    footer?: (...args: any[]) => VueNode;
+    tableType?: WithFalse<'single' | 'multiple'>;
+    edit?: TableEditableCellConfig & {beforeEdit?: () => Promise<any>; onEditSuccess?: (data?: PrimaryTableOnEditedContext<T>) => void, onEditFail?: (e: any) => void};
+    
 
     // form props
     hideInSearch?: boolean;
     placeholder?: string;
-    labelWidth?: string;
-    type?: 'text' | 'treeSelect' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'datepicker';
+    type?: 'text' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'date' | 'date-range';
     span?: number;
-    offset?: number;
     data?: any[] | PromiseFunction<any[]>;
     labelAlign?: 'left' | 'right' | 'top';
-    multiple?: boolean;
-    range?: boolean;
     disabled?: boolean;
     rules?: FormRule[];
     checkboxProps?: Optional<ProFormCheckboxProps, FilterKey>;
@@ -91,18 +70,27 @@ export interface ProTableOption<T = any> {
     numberProps?: Optional<ProFormInputNumberProps, FilterKey>;
     textareaProps?: Optional<ProFormTextareaProps, FilterKey>;
     selectProps?: Optional<ProFormSelectProps, FilterKey>;
-    datepickerProps?: Optional<ProFormDatepickerProps, FilterKey>;
-    treeSelectProps?: Optional<ProFormTreeSelectProps, FilterKey>;
+    datePickerProps?: Optional<ProFormDatePickerProps, FilterKey>;
     readonly?: boolean;
-    labelText?: string;
+}
+
+export interface ProTableRequest<T = any> {
+    form: T;
+    pageNum: number;
+    pageSize: number;
+    [name: string]: any;
+}
+
+export interface ProTableResult<T = any> {
+    list: T[];
+    total: number;
+    success: boolean;
+    [name: string]: any;
 }
 
 export interface ProTableRef {
-    getFormValue: () => any;
-    reset: (resetParam?: boolean) => void;
+    reset: () => void;
     reload: () => void;
-    getTdesignTable: () => any;
-    insertTableData: (index: number, data: any) => void;
+    getTableData: () => Ref<any[]>;
+    getFormValue: () => any,
 }
-
-export type TableOrder = 'desc' | 'asc';

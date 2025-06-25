@@ -1,57 +1,51 @@
-import { Optional, PromiseFunction, VueNode, WithFalse } from "@tdesign-pro-component/utils";
-import { ButtonProps, FormItemProps, FormProps, FormRule, FormRules, LoadingProps, TNode, UploadProps, ValueType } from "tdesign-vue-next";
+import { Optional, PromiseFunction, VueNode} from "@tdesign-pro-component/utils";
+import { FormInstanceFunctions, FormItemProps, FormProps, FormRule, UploadProps } from "tdesign-vue-next";
+import { VNode } from "vue";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
-import { ProFormRadioProps } from "../ProFormRadio/types";
+import { ProFormRadioProps } from "../ProFormRadio";
 import { ProFormTextProps } from "../ProFormText";
 import { ProFormInputNumberProps } from "../ProFormInputNumber";
 import { ProFormTextareaProps } from "../ProFormTextarea";
 import { ProFormSelectProps } from "../ProFormSelect";
-import { ProFormDatepickerProps } from "../ProFormDatepicker";
-import { ProFormTreeSelectProps } from "../ProFormTreeSelect";
-import { VNode } from "vue";
-
-export type ProFormItemType = 'text' | 'treeSelect' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'datepicker' | 'upload';
-
+import { ProFormDatePickerProps } from "../ProFormDatePicker";
+import { ProFormDatePickerRangeProps } from "../ProFormDatePickerRange";
+export type ProFormItemType = 'text' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'date' | 'upload' | 'date-range';
 export type FilterKey = 'name' | 'modelValue';
 
-export interface ProFormProps {
-    options: ProFormOption[];
-    request?: PromiseFunction<any>;
-    rules?: FormRules;
-    labelAlign?: 'left' | 'top' | 'right';
-    labelWidth?: string | number;
-    marginY?: number;
+export interface ProFormProps<T = any> {
+    options?: ProFormOption<T>[];
+    request?: PromiseFunction<T>;
+    initalData?: any;
+    onSubmit?: (value: T) => Promise<any>;
+    footer?: VueNode;
+    onSuccess?: () => void;
+    onFail?: (error?: any) => void;
+    increment?: boolean;
+    filterEmptyStr?: boolean;
+    filterEmptyArray?: boolean;
     readonly?: boolean;
     disabled?: boolean;
-    layout?: 'vertical' | 'inline';
-    footerAligin?: 'left' | 'center' | 'right';
-    resetText?: string | WithFalse<VueNode>;
-    submitText?: string | WithFalse<VueNode>;
-    showReset?: boolean;
+    submitText?: string;
+    resetText?: string;
+    hideReset?: boolean;
+    extral?: VueNode;
     formProps?: FormProps;
-    filterEmptyStr?: boolean; // 过滤空字符串
-    submitFilter?: boolean; // 提交时候是否只要修改变化的数据（增量提交）
-    submitButtonProps?: ButtonProps;
-    resetButtonProps?: ButtonProps;
+    labelAlign?: FormProps['labelAlign'];
+    rules?: FormProps['rules'];
+    footerAligin?: 'left' | 'center' | 'right';
     hideFooter?: boolean;
-    footer?: WithFalse<VueNode>;
-    loading?: boolean;
-    loadingText?: string;
-    loadingProps?: LoadingProps;
+    gap?: number;
+    footerSpan?: number | string;
+    onChange?: (key: string, value: any) => void;
 }
 
-export interface ProFormOption {
-    name: string;
+export interface ProFormOption<T = any> {
+    name: keyof T | string;
     hidden?: boolean;
     type?: ProFormItemType;
     placeholder?: string;
-    labelName?: string;
-    valueName?: string;
-    childrenName?: string;
-    label?: string | TNode | VNode | (() => TNode | VNode);
+    label?: VNode | string;
     data?: any[] | PromiseFunction<any[]>;
-    multiple?: boolean;
-    range?: boolean;
     disabled?: boolean;
     readonly?: boolean;
     rules?: FormRule[];
@@ -61,27 +55,23 @@ export interface ProFormOption {
     numberProps?: Optional<ProFormInputNumberProps, FilterKey>;
     textareaProps?: Optional<ProFormTextareaProps, FilterKey>;
     selectProps?: Optional<ProFormSelectProps, FilterKey | 'data'>;
-    datepickerProps?: Optional<ProFormDatepickerProps, FilterKey>;
-    treeSelectProps?: Optional<ProFormTreeSelectProps, FilterKey | 'data'>;
+    datePickerProps?: Optional<ProFormDatePickerProps, FilterKey>;
+    datePickerRangeProps?: Optional<ProFormDatePickerRangeProps, FilterKey>
     uploadProps?: UploadProps;
-    urlName?: string;
     span?: number;
-    offset?: number;
-    initalValue?: ValueType | Array<ValueType>;
     formItemProps?: FormItemProps;
-    onChange?: (value: any, name?: string) => void;
+    urlName?: string;
+    onChange?: (value: any, key: string) => void
+
 }
 
-export interface ProFormRef {
-    getFormValue: () => any;
-    submit: () => void;
-    reset: () => void;
-    initForm: () => void;
-    setItem: (key: string, value: any) => void;
-    resetRequest: () => void;
-    validate: () => Promise<any>;
-}
-
-export interface IObjectWithPossibleEmptyStrings {
-    [key: string]: string | IObjectWithPossibleEmptyStrings | null | undefined;
+export interface ProFormRef<T = any> {
+    setItem: (key: keyof T, value: any) => void,
+    getItem: (key: keyof T) => any,
+    resetRequest: () => void,
+    validate: () => Promise<any>,
+    submit: () => void,
+    reset: () => void,
+    getFormInstance: () => FormInstanceFunctions,
+    getFormValue: () => T
 }

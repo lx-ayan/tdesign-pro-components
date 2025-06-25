@@ -1,12 +1,32 @@
-import { IObjectWithPossibleEmptyStrings, ProFormOption } from "./types";
-
-export function initFormData(options: ProFormOption[]) {
+import { ProFormOption } from "./types";
+export interface IObjectWithPossibleEmptyStrings {
+    [key: string]: string | IObjectWithPossibleEmptyStrings | null | undefined;
+}
+export function initFormData(options: ProFormOption<any>[], initalData: any) {
     const obj: any = {};
     options.forEach(option => {
-        if (![null, undefined].includes(option.initalValue)) {
-            obj[option.name] = option.initalValue;
+        if (![null, undefined].includes(initalData[option.name])) {
+            obj[option.name] = initalData[option.name];
         } else {
-            obj[option.name] = null;
+            if (option.type === undefined || ['text', 'textarea', 'radio', 'number'].includes(option.type)) {
+                obj[option.name] = '';
+            } else if (['select', 'treeSelect'].includes(option.type)) {
+                obj[option.name] = option.selectProps?.multiple ? [] : '';
+            }
+            // else if (['treeSelect'].includes(option.type)) {
+            //     obj[option.name] = option.treeSelectProps.multiple ? [] : '';
+            // }
+            else if (['checkbox', 'upload'].includes(option.type)) {
+                obj[option.name] = [];
+            }
+            else if (option.type === 'date') {
+                obj[option.name] = null;
+            } else if (option.type === 'date-range') {
+                obj[option.name] = [];
+            }
+            else {
+                obj[option.name] = ''
+            }
         }
     });
 
@@ -22,13 +42,21 @@ export function initFormValue(data: any, options: ProFormOption[]) {
                 if (option.type === undefined || ['text', 'textarea', 'radio', 'number'].includes(option.type)) {
                     result[option.name] = '';
                 } else if (['select', 'treeSelect'].includes(option.type)) {
-                    result[option.name] = option.multiple ? [] : '';
-                } else if (['checkbox', 'upload'].includes(option.type)) {
+                    result[option.name] = option.selectProps?.multiple ? [] : '';
+                }
+                // else if (['treeSelect'].includes(option.type)) {
+                //     result[option.name] = option.treeSelectProps.multiple ? [] : '';
+                // }
+                else if (['checkbox', 'upload'].includes(option.type)) {
                     result[option.name] = [];
-                } else if (option.type === 'datepicker') {
-                    result[option.name] = option.range ? [] : null;
-                } else {
-                    result[option.name] = ''
+                }
+                else if (option.type === 'date') {
+                    result[option.name] = null;
+                } else if (option.type === 'date-range') {
+                    result[option.name] = [];
+                }
+                else {
+                    result[option.name] = option.type === 'upload' ? [] : ''
                 }
             } else {
                 if (option.type === 'upload') {
@@ -89,18 +117,34 @@ export function filterChangedValues(obj1: any, obj2: any, result: any = {}) {
 }
 
 
-export function removeEmptyStringFields(obj: IObjectWithPossibleEmptyStrings): IObjectWithPossibleEmptyStrings {
+export function removeEmptyArray(obj: IObjectWithPossibleEmptyStrings): IObjectWithPossibleEmptyStrings {
     const result: IObjectWithPossibleEmptyStrings = {};
     for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
             const value = obj[key];
-            if (typeof value === 'object' && value !== null) {
-                const processedSubObject = removeEmptyStringFields(value);
-                if (Object.keys(processedSubObject).length > 0) {
-                    result[key] = processedSubObject;
+            if(typeof value === 'object') {
+                if(Array.isArray(value) && value.length) {
+                    result[key] = value
                 }
-            } else if (value !== '' && value !== undefined && value !== null) {
+            } else {
                 result[key] = value;
+            }
+        }
+    }
+    return result;
+}
+
+export function removeEmptyString(obj: IObjectWithPossibleEmptyStrings) {
+    const result: IObjectWithPossibleEmptyStrings = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if(typeof value === 'object') {
+                result[key] = value;
+            } else {
+                if (value !== '' && value !== undefined && value !== null) {
+                    result[key] = value;
+                }
             }
         }
     }

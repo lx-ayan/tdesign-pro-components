@@ -1,0 +1,32 @@
+.tag-item {
+    padding: 4px 8px;
+    border: 1px solid;
+    border-color: var(--td-component-border);
+    cursor: pointer;
+    transition: all 0.3;
+    border-radius: 2px;
+
+    &-disabled {
+        color: var(--td-text-color-disabled);
+        border-color: var(--td-text-color-disabled);
+        cursor: not-allowed;
+
+        &-active {
+            cursor: not-allowed;
+            color: var(--td-gray-color-8);
+            border-color: var(--td-gray-color-8);
+        }
+    }
+
+    &-active {
+        border-color: var(--td-brand-color);
+    }
+
+    &-active-fill {
+        background-color: var(--td-brand-color-light);
+    }
+
+    &-color-active {
+        color: var(--td-brand-color);
+    }
+}

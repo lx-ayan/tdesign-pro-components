@@ -1,0 +1,19 @@
+.pro-layout-header {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.pro-layout-header-logo {
+    min-width: 12.2%;
+}
+
+.pro-layout-header-body {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+}
+
+.pro-layout-header-actions {
+    min-width: 12%;
+}

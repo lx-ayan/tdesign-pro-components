@@ -1,38 +1,39 @@
 import {
-    ProFormSelect, 
     ProFormText, 
+    ProFormSelect, 
     ProFormRadio, 
     ProFormCheckbox, 
-    ProFormDatepicker, 
+    ProFormDatePicker, 
+    ProFormDatePickerRange, 
     ProFormInputNumber, 
-    ProFormTextarea, 
-    ProForm, 
     ProFormTreeSelect, 
-    ProTable, 
-    ProLayout,
-    PageContainer,
-    ProButton,
-    RowContainer,
+    ProForm, 
+    ProFormTextarea, 
+    ProTable,
     ModalForm,
-    DrawerForm
-} from '@tdesign-pro-component/components';
-import {Plugin} from 'vue';
+    DrawerForm,
+    PageContainer,
+    ProLayout,
+    ProButton,
+    RowContainer
+} from '../components';
 
 export default [
-    ProFormSelect,
     ProFormText,
+    ProFormSelect,
     ProFormRadio,
     ProFormCheckbox,
-    ProFormDatepicker,
+    ProFormDatePicker,
+    ProFormDatePickerRange,
     ProFormInputNumber,
-    ProFormTextarea,
     ProFormTreeSelect,
     ProForm,
+    ProFormTextarea,
     ProTable,
-    ProLayout,
-    PageContainer,
-    ProButton,
-    RowContainer,
     ModalForm,
-    DrawerForm
-] as Plugin[]
+    DrawerForm,
+    PageContainer,
+    ProLayout,
+    ProButton,
+    RowContainer
+];
