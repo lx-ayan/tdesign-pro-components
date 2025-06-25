@@ -1,5 +1,48 @@
-# Vue 3 + TypeScript + Vite
+## tdesign-pro-component
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### 快速开始
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+#### 1. 安装 TDesign
+
+```javascript
+npm install tdesign-vue-next
+```
+
+#### 2. 使用 TDesign
+
+```javascript
+import { createApp } from 'vue';
+import TDesign from 'tdesign-vue-next';
+import App from './app.vue';
+
+// 引入组件库的少量全局样式变量
+import 'tdesign-vue-next/es/style/index.css';
+
+const app = createApp(App);
+app.use(TDesign);
+```
+
+#### 3. 安装 tdesign-pro-component
+
+```javascript
+npm install tdesign-pro-component
+```
+
+#### 4. 使用 tdesign-pro-component
+
+```javascript
+import { createApp } from 'vue'
+import TDesign from 'tdesign-vue-next';
+
+// 引入组件库的少量全局样式变量
+import 'tdesign-vue-next/es/style/index.css';
+import App from './App.vue'
+import ProComponents from 'tdesign-pro-component';
+import 'tdesign-pro-component/index.css';
+import router from './router';
+createApp(App).use(router).use(TDesign).use(ProComponents).mount('#app')
+
+```
+
+使用文档
+> https://pangzablog.cn/tdesign-pro-component/
