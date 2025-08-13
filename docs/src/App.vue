@@ -1,53 +1,66 @@
-<script setup lang="tsx">
-import { RouterView, useRouter } from 'vue-router';
+<script setup lang='tsx'>
+import { onMounted, ref, useTemplateRef } from 'vue';
+import ProFormText from '../../packages/components/ProFormText/ProFormText.vue';
+import { ProFormTextRef } from '../../packages/components';
+import ProFormSelect from '../../packages/components/ProFormSelect/ProFormSelect.vue';
+import ProFormRadio from '../../packages/components/ProFormRadio/ProFormRadio.vue';
+import ProFormCheckbox from '../../packages/components/ProFormCheckbox/ProFormCheckbox.vue';
+import ProFormDatePicker from '../../packages/components/ProFormDatePicker/ProFormDatePicker.vue';
+import ProFormDateRangePicker from '../../packages/components/ProFormDateRangePicker/ProFormDateRangePicker.vue';
+import ProFormInputNumber from '../../packages/components/ProFormInputNumber/ProFormInputNumber.vue';
+import ProFormTreeSelect from '../../packages/components/ProFormTreeSelect/ProFormTreeSelect.vue';
+const formData = ref({
+  name: '',
+  options: '',
+  radio: '',
+  checkbox: [],
+  datePicker: '',
+  datePickerRange: [],
+  number: 0,
+  tree: ''
+});
 
-const router = useRouter();
+const inputRef = useTemplateRef<ProFormTextRef>('inputRef');
 
-function handleClick(key: string) {
-  router.push(key);
+function data() {
+  return Promise.resolve([{ label: '选项1', value: '1', children: [{label: '1-1', value: '1-1'}] }, { label: '选项2', value: '2' }, { label: '选项3', value: '3' }, { label: '选项4', value: '4' }])
 }
 
+onMounted(() => {
+})
+
+setTimeout(() => {
+}, 3000)
 </script>
-
 <template>
-  <t-layout style="height: 100vh;">
-    <t-aside>
-      <t-menu @change="handleClick">
-        <t-menu-item value="/"> 快速开始 </t-menu-item>
-        <t-menu-group title="表单项组件">
-          <t-menu-item value="/pro-form-text"> 输入框 </t-menu-item>
-          <t-menu-item value="/pro-form-select"> 选择器 </t-menu-item>
-          <t-menu-item value="/pro-form-radio"> 单选框 <t-tag theme="warning" style="margin-left: 12px;">update</t-tag></t-menu-item>
-          <t-menu-item value="/pro-form-checkbox"> 复选框 </t-menu-item>
-          <t-menu-item value="/pro-form-date-picker"> 日期选择器 </t-menu-item>
-          <t-menu-item value="/pro-form-date-picker-range"> 日期范围选择器 </t-menu-item>
-          <t-menu-item value="/pro-form-input-number"> 数字输入框 </t-menu-item>
-        </t-menu-group>
-        <t-menu-group title="表单组件">
-          <t-menu-item value="/pro-form">高级表单</t-menu-item>
-          <t-menu-item value="/modal-form">弹窗/抽屉表单</t-menu-item>
-        </t-menu-group>
-        <t-menu-group title="数据组件">
-          <t-menu-item value="/pro-table"> 表格组件 <t-tag theme="warning" style="margin-left: 12px;">update</t-tag></t-menu-item>
-        </t-menu-group>
-        <t-menu-group title="布局组件">
-          <t-menu-item value="/page-container"> 页面容器 </t-menu-item>
-          <t-menu-item value="/row-container"> 行容器 </t-menu-item>
-          <t-menu-item value="/pro-layout"> 布局组件 </t-menu-item>
-        </t-menu-group>
-        <t-menu-group title="操作">
-          <t-menu-item value="/pro-button"> 操作按钮 </t-menu-item>
-        </t-menu-group>
-      </t-menu>
-    </t-aside>
-    <t-content style="overflow-y: auto;">
-      <RouterView />
-    </t-content>
-  </t-layout>
-</template>
+  <div>
+    {{ formData }}
+    <t-form>
+      <ProFormText ref="inputRef" label-width="0px" placeholder="请输入 username" label-align="left" name="username"
+        v-model="formData.name">
+      </ProFormText>
 
-<style scoped>
-/* span {
-  justify-content: end;
-} */
-</style>
+      <ProFormSelect label-width="0px" v-model="formData.options" :data="data" name="options">
+      </ProFormSelect>
+
+      <ProFormRadio label-width="0px" v-model="formData.radio" name="raido" :data="data">
+
+      </ProFormRadio>
+
+      <ProFormCheckbox label-width="0px" v-model="formData.checkbox" name="checkbox" :data="data">
+
+      </ProFormCheckbox>
+
+      <ProFormDatePicker label-width="0px" v-model="formData.datePicker" name="datepicker">
+
+      </ProFormDatePicker>
+
+      <ProFormDateRangePicker label-width="0px" v-model="formData.datePickerRange" name="datepickerrange">
+      </ProFormDateRangePicker>
+
+      <ProFormInputNumber v-model="formData.number" name="number" />
+
+      <ProFormTreeSelect :data="data" v-model="formData.tree" name="tree"></ProFormTreeSelect>
+    </t-form>
+  </div>
+</template>

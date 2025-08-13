@@ -1,52 +1,16 @@
-import { PromiseFunction, BasicValueType } from "@tdesign-pro-component/utils";
-import { FormItemProps, FormRule, SizeEnum, TNode, TreeSelectProps } from "tdesign-vue-next";
-import { VNode } from "vue";
+import { BaseFormItemProps, FormOptionData } from "@tdesign-pro-component/utils";
+import { OptionData, TdFormItemProps, TdInputAdornmentProps, TdTreeSelectProps } from "tdesign-vue-next";
 
-export interface ProFormTreeSelectProps {
-    name: string;
-    modelValue: BasicValueType | Array<BasicValueType>;
-    data: TreeSelectOptionProps[] | PromiseFunction<TreeSelectOptionProps[]>;
-
-    // form
-    label?: string;
-    rules?: FormRule[];
-    formItemProps?: FormItemProps;
-    labelWidth?: string | number;
-    labelAlign?: 'left' | 'top' | 'right';
-    requiredMark?: boolean;
-
-    // tree-select
-    placeholder?: string;
-    labelName?: string;
+export interface ProFormTreeSelectProps extends BaseFormItemProps {
+    data: FormOptionData | (() => Array<OptionData | any>);
+    treeSelectProps?: TdTreeSelectProps & TdInputAdornmentProps;
+    formItemProps?: TdFormItemProps;
+    keyName?: string;
     valueName?: string;
-    childrenName?: string;
-    autoWidth?: boolean;
-    borderless?: boolean;
-    size?: SizeEnum;
-    clearable?: boolean;
-    disabled?: boolean;
-    filterable?: boolean;
-    loading?: boolean;
-    multiple?: boolean;
-    readonly?: boolean;
-    treeSelectProps?: TreeSelectProps;
-
-    // input dectorator
-    append?: string | (() => (TNode | VNode)) | TNode | VNode;
-    prepend?: string | (() => (TNode | VNode)) | TNode | VNode;
+    childName?: string;
 }
 
-export interface TreeSelectOptionProps {    
-    label?: string;
-    value?: BasicValueType;
-    children?: TreeSelectOptionProps[];
-    [name: string]: any;
-}
-
-export interface ProFormTreeSelectRef { 
-    getValue: () => BasicValueType;
-    focus: () => void;
-    blur: () => void;
+export interface ProFormTreeSelectRef {
     clear: () => void;
-    getRef: <T extends any = any> () => T;
+    resetData: () => void;
 }

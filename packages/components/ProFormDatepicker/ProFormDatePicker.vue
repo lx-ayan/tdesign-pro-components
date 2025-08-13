@@ -1,12 +1,14 @@
 <script setup lang='ts'>
-import { getCurrentInstance, h, useAttrs, useSlots } from 'vue';
-import { ProFormInputNumberProps } from './types';
-import useSlotKey from '@tdesign-pro-component/hooks/useSlotKeys';
-import { FormItem, TdFormItemProps, InputAdornment, InputNumber } from 'tdesign-vue-next';
+import { DatePicker, FormItem, InputAdornment, TdFormItemProps } from 'tdesign-vue-next';
+import { ProFormDatePickerProps } from './types';
+import { computed, getCurrentInstance, h, useAttrs, useSlots } from 'vue';
+import './index.css';
 
 defineOptions({
-    name: 'ProFormInputNumber'
+    name: 'ProFormDatePicker'
 });
+
+const props = defineProps<ProFormDatePickerProps>();
 
 const slots = useSlots();
 
@@ -14,11 +16,23 @@ const attrs = useAttrs();
 
 const vm = getCurrentInstance();
 
-const slotsKeys = useSlotKey(slots);
+const modelValue = defineModel();
 
-const props = withDefaults(defineProps<ProFormInputNumberProps>(), {
-    theme: 'normal'
-});
+buildExposed({
+    clear() {
+        modelValue.value = '';
+    }
+})
+
+const IDatePicker = h(DatePicker, {
+    ...attrs,
+    readonly: props.readonly,
+    disabled: props.disabled,
+    placeholder: props.placeholder,
+    format: props.format,
+    ...props.datePickerProps,
+    range: false,
+}, { ...slots, label: slots.datePickerLabel });
 
 const IFormItem = h(FormItem, {
     name: props.name,
@@ -28,23 +42,6 @@ const IFormItem = h(FormItem, {
     rules: props.rules,
     ...props.formItemProps
 } as TdFormItemProps, { ...slots });
-
-const IInputNumber = h(InputNumber, {
-    ...attrs,
-    readonly: props.readonly,
-    disabled: props.disabled,
-    placeholder: props.placeholder,
-    theme: props.theme,
-    ...props.inputNumberProps,
-}, { ...slots, label: slots.inputLabel });
-
-const modelValue = defineModel();
-
-buildExposed({
-    clear() {
-        modelValue.value = '';
-    }
-});
 
 function buildExposed(fn: Object) {
     vm.exposed = {
@@ -58,6 +55,7 @@ function buildExposed(fn: Object) {
     }
 }
 
+const slotsKeys = computed(() => Object.keys(slots));
 </script>
 
 <template>
@@ -66,12 +64,12 @@ function buildExposed(fn: Object) {
             <slot :name="key"></slot>
         </template>
         <component :is="h(InputAdornment, {
-            ...props.inputNumberProps,
+            ...props.datePickerProps,
         })">
             <template v-for="key in slotsKeys" :key="key" #[key]>
                 <slot :name="key"></slot>
             </template>
-            <component v-model="modelValue" :is="IInputNumber">
+            <component v-model="modelValue" :is="IDatePicker">
 
             </component>
         </component>

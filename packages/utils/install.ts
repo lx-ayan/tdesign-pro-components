@@ -8,7 +8,6 @@ export function createInstaller(components: Plugin[]) {
             app.use(component);
         });
     }
-    console.log('欢迎使用 tdesign-pro-component')
     return installer as Plugin;
 }
 
@@ -17,6 +16,5 @@ export function withInstall<T>(component: T) {
         const name = (component as any).name;
         app.component(name, component as Plugin);
     }
-
     return component as SFCWithInstall<T>;
 }

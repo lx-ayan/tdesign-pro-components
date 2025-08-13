@@ -1,12 +1,9 @@
 <script setup lang='ts'>
-import { getCurrentInstance, h, useAttrs, useSlots } from 'vue';
-import { ProFormInputNumberProps } from './types';
-import useSlotKey from '@tdesign-pro-component/hooks/useSlotKeys';
-import { FormItem, TdFormItemProps, InputAdornment, InputNumber } from 'tdesign-vue-next';
-
-defineOptions({
-    name: 'ProFormInputNumber'
-});
+import { FormItem, Input, InputAdornment, TdFormItemProps } from 'tdesign-vue-next';
+import { ProFormTextProps } from './types';
+import { computed, getCurrentInstance, h, useAttrs, useSlots } from 'vue';
+import './index.css';
+const props = defineProps<ProFormTextProps>();
 
 const slots = useSlots();
 
@@ -14,11 +11,27 @@ const attrs = useAttrs();
 
 const vm = getCurrentInstance();
 
-const slotsKeys = useSlotKey(slots);
+buildExposed({
+    clear() {
+        modelValue.value = '';
+    }
+})
 
-const props = withDefaults(defineProps<ProFormInputNumberProps>(), {
-    theme: 'normal'
+defineOptions({
+    name: 'ProFormText'
 });
+
+function changeRef(inputRef) {
+    buildExposed({ ...inputRef });
+}
+
+const IInput = h(Input, {
+    ...attrs,
+    readonly: props.readonly,
+    disabled: props.disabled,
+    placeholder: props.placeholder,
+    ...props.inputProps,
+}, { ...slots, label: slots.inputLabel });
 
 const IFormItem = h(FormItem, {
     name: props.name,
@@ -29,22 +42,7 @@ const IFormItem = h(FormItem, {
     ...props.formItemProps
 } as TdFormItemProps, { ...slots });
 
-const IInputNumber = h(InputNumber, {
-    ...attrs,
-    readonly: props.readonly,
-    disabled: props.disabled,
-    placeholder: props.placeholder,
-    theme: props.theme,
-    ...props.inputNumberProps,
-}, { ...slots, label: slots.inputLabel });
-
 const modelValue = defineModel();
-
-buildExposed({
-    clear() {
-        modelValue.value = '';
-    }
-});
 
 function buildExposed(fn: Object) {
     vm.exposed = {
@@ -58,6 +56,7 @@ function buildExposed(fn: Object) {
     }
 }
 
+const slotsKeys = computed(() => Object.keys(slots));
 </script>
 
 <template>
@@ -66,12 +65,12 @@ function buildExposed(fn: Object) {
             <slot :name="key"></slot>
         </template>
         <component :is="h(InputAdornment, {
-            ...props.inputNumberProps,
+            ...props.inputProps,
         })">
             <template v-for="key in slotsKeys" :key="key" #[key]>
                 <slot :name="key"></slot>
             </template>
-            <component v-model="modelValue" :is="IInputNumber">
+            <component :ref="changeRef" v-model="modelValue" :is="IInput">
 
             </component>
         </component>

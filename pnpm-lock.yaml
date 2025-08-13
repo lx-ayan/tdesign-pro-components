@@ -75,8 +75,6 @@ importers:
 
   packages/components: {}
 
-  packages/components copy: {}
-
   packages/core:
     dependencies:
       tdesign-vue-next:

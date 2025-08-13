@@ -1,21 +1,12 @@
-import { VueNode } from "@tdesign-pro-component/utils";
-import { DatePickerProps, FormItemProps, FormRule } from "tdesign-vue-next";
+import { BaseFormItemProps } from "@tdesign-pro-component/utils";
+import { InputAdornmentProps, TdDatePickerProps, TdFormItemProps } from "tdesign-vue-next";
 
-export interface ProFormDatePickerProps {
-    name: string;
-    label?: VueNode;
-    rules?: FormRule[];
-    formItemProps?: FormItemProps;
-    modelValue?: string | string[];
-    placeholder?: string;
-    readonly?: boolean;
-    borderless?: boolean;
-    disabled?: boolean;
-    enableTimePicker?: boolean;
-    clearable?: boolean;
-    multiple?: boolean;
-    format?: string;
-    datePickerLabel?: VueNode;
-    prefixIcon?: VueNode;
-    datePickerProps?: DatePickerProps;
+export interface ProFormDatePickerProps extends BaseFormItemProps {
+    format?: TdDatePickerProps['format'];
+    datePickerProps?: TdDatePickerProps & InputAdornmentProps;
+    formItemProps?: TdFormItemProps;
+}
+
+export interface ProFormDatePickerRef {
+    clear: () => void;
 }

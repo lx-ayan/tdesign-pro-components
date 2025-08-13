@@ -1,18 +1,18 @@
 <script setup lang='tsx'>
-import { FormItem, Select, InputAdornment, TdFormItemProps, Option, TreeSelect } from 'tdesign-vue-next';
-import { ProFormTreeSelectProps } from './types';
-import { getCurrentInstance, h, onMounted, ref, useAttrs, useSlots } from 'vue';
+import { FormItem, Select, InputAdornment, TdFormItemProps, Option } from 'tdesign-vue-next';
+import { ProFormSelectProps } from './types';
+import { getCurrentInstance, h, onMounted, ref, useSlots } from 'vue';
 import { buildData, OptionData } from '@tdesign-pro-component/utils';
 import useSlotKey from '../../hooks/useSlotKeys';
+import { OptionRenderer } from '@tdesign-pro-component/utils/components';
 
 defineOptions({
-    name: 'ProFormTreeSelect'
+    name: 'ProFormSelect'
 });
 
-const props = withDefaults(defineProps<ProFormTreeSelectProps>(), {
+const props = withDefaults(defineProps<ProFormSelectProps>(), {
     keyName: 'label',
-    valueName: 'value',
-    childName: 'children'
+    valueName: 'value'
 });
 
 const slots = useSlots();
@@ -21,28 +21,18 @@ const slotsKeys = useSlotKey(slots);
 
 const options = ref<OptionData[]>([]);
 
-const attrs = useAttrs();
-
 const modelValue = defineModel();
 
 const vm = getCurrentInstance();
 
 buildExposed({
     clear() {
-        modelValue.value = props.treeSelectProps.multiple ? [] : '';
+        modelValue.value = props.selectProps.multiple ? [] : '';
     },
     resetData() {
         makeData();
     }
-});
-
-const ITreeSelect = h(TreeSelect, {
-    ...attrs,
-    readonly: props.readonly,
-    disabled: props.disabled,
-    placeholder: props.placeholder,
-    ...props.treeSelectProps,
-}, { ...slots, label: slots.inputLabel });
+})
 
 const IFormItem = h(FormItem, {
     name: props.name,
@@ -74,7 +64,6 @@ function buildExposed(fn: Object) {
         ...fn
     }
 }
-
 </script>
 
 <template>
@@ -83,14 +72,27 @@ function buildExposed(fn: Object) {
             <slot :name="key"></slot>
         </template>
         <component :is="h(InputAdornment, {
-            ...props.treeSelectProps,
+            ...props.selectProps,
         })">
             <template v-for="key in slotsKeys" :key="key" #[key]>
                 <slot :name="key"></slot>
             </template>
-            <component :data="options" v-model="modelValue" :is="ITreeSelect">
 
-            </component>
+            <Select :placeholder="props.selectProps?.placeholder || props.placeholder"
+                :readonly="props.selectProps?.readonly || props.readonly"
+                :disabled="props.selectProps?.disabled || props.disabled" v-bind="{ ...$attrs, ...props.selectProps }"
+                v-model="modelValue">
+                <template v-for="key in slotsKeys" :key="key" #[key]>
+                    <slot :name="key"></slot>
+                </template>
+                <template v-if="$slots.selectLabel" #label>
+                    <slot name="selectLabel"></slot>
+                </template>
+                <Option :label="option.label" :disabled="option.disabled" :value="option.value"
+                    v-for="option in options" :key="option.value">
+                    <OptionRenderer :option="option"></OptionRenderer>
+                </Option>
+            </Select>
         </component>
     </component>
 </template>
