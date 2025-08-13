@@ -1,6 +1,6 @@
 import { withInstall } from "@tdesign-pro-component/utils";
-import _ProFormDatePickerRange from "./ProFormDateRangePicker.vue";
+import _ProFormDateRangePicker from "./ProFormDateRangePicker.vue";
 
-export const ProFormDatePickerRange = withInstall(_ProFormDatePickerRange);
+export const ProFormDateRangePicker = withInstall(_ProFormDateRangePicker);
 
 export * from './types';
