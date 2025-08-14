@@ -3,11 +3,11 @@ import { ProFormTextProps } from "../ProFormText";
 import { ProFormSelectProps } from "../ProFormSelect";
 import { ProFormRadioProps } from "../ProFormRadio";
 import { ProFormCheckboxProps } from "../ProFormCheckbox";
-import { ProFormDatePickerProps } from "../ProFormDatepicker";
 import { ProFormDateRangePickerProps } from "../ProFormDateRangePicker";
 import { ProFormTreeSelectProps } from "../ProFormTreeSelect";
 import { ProFormInputNumberProps } from "../ProFormInputNumber";
 import { FormOptionData, OptionData } from "@tdesign-pro-component/utils";
+import { ProFormDatePickerProps } from "../ProFormDatePicker";
 
 export type FormComponentType = 'text' | 'select' | 'radio' | 'checkbox' | 'date' | 'dateRange' | 'treeSelect' | 'inputNumber' | 'textarea'
 
@@ -15,7 +15,8 @@ type ProFormItemProps = ProFormTextProps | ProFormSelectProps | ProFormRadioProp
 
 export interface ProFormProps {
     options: ProFormOption[];
-    request?: () => Promise<any>;
+    submit: (data: any) => boolean | Promise<boolean>;
+    request?: (...args: any) => any;
     formProps?: TdFormProps;
     rowProps?: TdRowProps;
 }
@@ -25,7 +26,7 @@ export interface ProFormOption {
     label?: string;
     rules?: Array<FormRule>;
     hidden?: boolean;
-    type?: FormComponentType | ((...args: any[]) => any);
+    type?: FormComponentType | ((...args: any[]) => any) | any;
     data?: FormOptionData | (() => Array<OptionData | any>);
     colProps?: TdColProps;
     props?: Partial<ProFormItemProps>;
@@ -35,3 +36,5 @@ export interface ProFormOption {
 export interface ProFormRef {
 
 }
+
+export type ExtractNames<T extends ProFormOption[]> = T[number]['name'];
