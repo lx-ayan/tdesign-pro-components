@@ -66,7 +66,7 @@ function request(data: ProTableRequest<any>): ProTableResult<any> {
 
 </script>
 <template>
-  <ProTable select-type="multiple" :select-able="true" :request="request" :options="options">
+  <ProTable :drag-able="true" select-type="multiple" :select-able="true" :request="request" :options="options">
 
   </ProTable>
 </template>

@@ -30,6 +30,7 @@ export interface ProTableProps {
     bordered?: boolean;
     tableProps?: TableProps;
     selectAble?: boolean;
+    dragAble?: boolean;
     selectType?: 'multiple' | 'single';
 }
 

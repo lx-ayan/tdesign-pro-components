@@ -1,4 +1,4 @@
-<script setup generic="T extends Object" lang='ts'>
+<script setup generic="T extends Object" lang='tsx'>
 import { Card, Table, Pagination, BaseTableColumns, BaseTableCol, Loading, Icon, PageInfo, TableCol } from 'tdesign-vue-next';
 import ProForm from '../ProForm/ProForm.vue';
 import { FormItem } from 'tdesign-vue-next';
@@ -30,8 +30,6 @@ const page = ref<{ pageNum: number, pageSize: number, total: number }>({
     total: 0
 });
 
-
-
 const formModelValue = ref<any>();
 
 const proFormOptions = computed<ProFormOption[]>(() => {
@@ -55,6 +53,21 @@ const hasMoreOptions = computed(() =>
 const toggleExpand = () => {
     expandState.value = !expandState.value;
 };
+
+function initDragTable(options: TableCol[]) {
+    if (options.filter(item => item.colKey === 'drag').length > 0) return
+    if (props.dragAble) {
+        options.unshift({
+            colKey: 'drag',
+            cell: () => (
+                <span>
+                    <t-icon name="move" />
+                </span>
+            ),
+            width: 46,
+        })
+    }
+}
 
 onMounted(async () => {
     request(1, page.value.pageSize);
@@ -114,6 +127,7 @@ function getTableProps(tableOptions: ProTableOption[]) {
         return option;
     });
     initSelectTable(options);
+    initDragTable(options);
     return options;
 }
 
@@ -128,6 +142,10 @@ function initSelectTable(options: TableCol[]) {
     }
 
     return options;
+}
+
+function initEditable(options: TableCol[]) {
+
 }
 
 function handlePageChange(pageInfo: PageInfo) {
