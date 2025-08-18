@@ -31,6 +31,7 @@ export interface ProTableProps {
     tableProps?: TableProps;
     selectAble?: boolean;
     dragAble?: boolean;
+    dataSource?: any[];
     selectType?: 'multiple' | 'single';
 }
 
@@ -45,4 +46,5 @@ export interface ProTableOption<T = any> {
     colProps?: TdColProps;
     formProps?: Partial<ProFormOption>;
     tableProps?: BaseTableCol;
+    edit?: TableCol['edit'];
 }

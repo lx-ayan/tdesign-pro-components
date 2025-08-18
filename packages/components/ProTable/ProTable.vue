@@ -1,9 +1,9 @@
 <script setup generic="T extends Object" lang='tsx'>
-import { Card, Table, Pagination, BaseTableColumns, BaseTableCol, Loading, Icon, PageInfo, TableCol } from 'tdesign-vue-next';
+import { Card, Table, Pagination, BaseTableColumns, BaseTableCol, Loading, Icon, PageInfo, TableCol, DragSortContext, TableRowData, TableInstanceFunctions, ValueType, SelectOptions } from 'tdesign-vue-next';
 import ProForm from '../ProForm/ProForm.vue';
 import { FormItem } from 'tdesign-vue-next';
 import { ProTableOption, ProTableProps } from './types';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { ProFormOption } from '../ProForm';
 
 defineOptions({
@@ -16,13 +16,22 @@ const props = withDefaults(defineProps<ProTableProps>(), {
     cardBordered: true
 });
 
-const dataSource = defineModel<T[]>('dataSource');
+const emits = defineEmits<{
+    (e: 'dragSort', data: DragSortContext<T>): void,
+    (e: 'update:dataSource', data: T[]): void;
+}>();
+
+const innerDataSource = ref<T[]>([]);
 
 const showCountWhenCollapsed = props.showSearchNum || 3;
 
 const expandState = ref(false);
 
 const loading = ref(false);
+
+const tableRef = useTemplateRef<TableInstanceFunctions>('tableRef');
+
+const selectData = defineModel<{values:  Array<string | number>, context: SelectOptions<T>}>('selectData');
 
 const page = ref<{ pageNum: number, pageSize: number, total: number }>({
     pageNum: 1,
@@ -82,7 +91,7 @@ async function request(pageNum: number, pageSize: number) {
                 form: formModelValue.value,
                 pageSize
             });
-            dataSource.value = result.list;
+            innerDataSource.value = result.list;
             page.value.pageNum = pageNum;
             page.value.pageSize = pageSize;
             page.value.total = result.total;
@@ -93,7 +102,6 @@ async function request(pageNum: number, pageSize: number) {
 }
 
 function getProFormProps(tableOptions: ProTableOption[]): ProFormOption[] {
-
     const options: ProFormOption[] = tableOptions.map(item => {
         const option: ProFormOption = {
             name: item.key,
@@ -106,24 +114,35 @@ function getProFormProps(tableOptions: ProTableOption[]): ProFormOption[] {
         }
         return option;
     });
-
     return options;
 }
 
 function getTableProps(tableOptions: ProTableOption[]) {
     const options: BaseTableColumns = tableOptions.map(item => {
-        const option: BaseTableCol = {
+        const option: TableCol = {
             colKey: item.key,
             title: item.title,
             ellipsis: item.tableProps?.ellipsis || true,
-            ...item.tableProps
+            ...item.tableProps,
         }
         if (item.render) {
             option.cell = (_h, { row, rowIndex }) => {
                 return item.render(row, rowIndex);
             }
         }
-
+        if (item.edit) {
+            option['edit'] = {
+                ...item.edit,
+                onEdited: (context) => {
+                    if (item.edit.onEdited) {
+                        item.edit.onEdited(context);
+                    } else {
+                        innerDataSource.value[context.rowIndex] = context.newRowData as unknown as any;
+                        console.log('innerDataSource.value =', innerDataSource.value);
+                    }
+                }
+            }
+        }
         return option;
     });
     initSelectTable(options);
@@ -144,10 +163,6 @@ function initSelectTable(options: TableCol[]) {
     return options;
 }
 
-function initEditable(options: TableCol[]) {
-
-}
-
 function handlePageChange(pageInfo: PageInfo) {
     request(pageInfo.current, pageInfo.pageSize);
 }
@@ -156,6 +171,34 @@ async function handleSubmit() {
     await request(1, page.value.pageSize);
     return true;
 }
+
+function handleDragSort(params: DragSortContext<T>) {
+    innerDataSource.value = params.newData;
+    emits('dragSort', params);
+}
+
+function handleSelectChange(values: string[], context: SelectOptions<T>) {
+    console.log('context =', context);
+    selectData.value = {
+        values,
+        context
+    }
+
+}
+
+defineExpose({
+    validate: tableRef.value?.validateRowData,
+    clearValidate: tableRef.value?.clearValidateData,
+    getSelectData: () => selectData.value
+});
+
+watch(() => props.dataSource, () => {
+    innerDataSource.value = props.dataSource;
+}, { deep: true });
+
+watch(innerDataSource, () => {
+    emits('update:dataSource', innerDataSource.value as unknown as T[]);
+}, { deep: true });
 
 </script>
 
@@ -183,8 +226,11 @@ async function handleSubmit() {
     </Card>
     <Loading :loading="loading">
         <Card :bordered="props.cardBordered">
-            <Table v-bind="props.tableProps" :row-key="props.rowKey" :columns="tableOptions" :bordered="props.bordered"
-                :data="dataSource">
+            <Table @select-change="handleSelectChange" ref="tableRef" @drag-sort="handleDragSort" drag-sort="row" v-bind="props.tableProps"
+                :row-key="props.rowKey" :columns="tableOptions" :bordered="props.bordered" :data="innerDataSource">
+                <template v-for="item in Object.keys($slots)" #[item]="args">
+                    <slot :name="item" v-bind="{ ...args }"></slot>
+                </template>
             </Table>
 
             <div style="margin-top: 40px;">
