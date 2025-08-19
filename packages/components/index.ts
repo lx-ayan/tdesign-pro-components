@@ -8,7 +8,7 @@ export * from './ProFormInputNumber';
 export * from './ProFormTreeSelect';
 export * from './ProFormTextarea';
 export * from './ProForm';
-// export * from './ProTable';
+export * from './ProTable';
 // export * from './ModalForm';
 // export * from './DrawerForm';
 // export * from './RowContainer';

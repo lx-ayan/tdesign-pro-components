@@ -1,9 +1,9 @@
 <script setup lang='tsx'>
 import { computed, ref } from 'vue';
-import DrawerForm from '../../packages/components/DrawerForm/DrawerForm.vue';
+import ModalForm from '../../packages/components/ModalForm/ModalForm.vue';
 import { ProFormOption } from 'tdesign-pro-component';
 
-const visible = ref(true);
+const visible = ref(false);
 
 const formData = ref<any>({});
 
@@ -35,9 +35,6 @@ const options = computed<ProFormOption[]>(() => ([
     onChange() {
       console.log('改变了')
     },
-    colProps: {
-      span: 6
-    },
     data: () => Promise.resolve([{ label: '-----1', value: '1' }, { label: '2', value: '2' }])
   },
   {
@@ -50,6 +47,14 @@ const options = computed<ProFormOption[]>(() => ([
     rules: [
       { required: true, message: '请输入用户名', trigger: 'blur' }
     ]
+  },
+  {
+    name: 'other.description',
+    type: 'textarea',
+    label: '备注',
+    colProps: {
+      span: 12
+    },
   }
 ]));
 
@@ -64,17 +69,15 @@ function request() {
 function handleSubmit(data) {
   console.log('data =', data);
 }
-
 function error(e) {
   console.log('e =', e);
 }
 
 </script>
 <template>
-  <div>
-    <DrawerForm size="800" @error="error" @submit="handleSubmit" :request="request" title="标题" :options="options"
-      v-model:visible="visible">
-    </DrawerForm>
-    <t-button @click="visible = true">hello world</t-button>
-  </div>
+  <ModalForm @error="error" @submit="handleSubmit" :request="request" title="标题" :options="options" v-model:visible="visible">
+  </ModalForm>
+
+
+  <t-button @click="visible = true">hello world</t-button>
 </template>

@@ -28,7 +28,7 @@ const IInput = h(Textarea, {
     ...attrs,
     readonly: props.readonly,
     disabled: props.disabled,
-    placeholder: props.placeholder,
+    placeholder: props.placeholder || '请输入',
     ...props.textareaProps,
 }, { ...slots });
 

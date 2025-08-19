@@ -4,7 +4,7 @@ import ProForm from '../ProForm/ProForm.vue';
 import { FormItem } from 'tdesign-vue-next';
 import { ProTableOption, ProTableProps } from './types';
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
-import { ProFormOption } from '../ProForm';
+import { ProFormOption, ProFormRef } from '../ProForm';
 
 defineOptions({
     name: 'ProTable'
@@ -31,7 +31,9 @@ const loading = ref(false);
 
 const tableRef = useTemplateRef<TableInstanceFunctions>('tableRef');
 
-const selectData = defineModel<{values:  Array<string | number>, context: SelectOptions<T>}>('selectData');
+const proFormRef = useTemplateRef<ProFormRef>('proFormRef');
+
+const selectData = defineModel<{ values: Array<string | number>, context: SelectOptions<T> }>('selectData');
 
 const page = ref<{ pageNum: number, pageSize: number, total: number }>({
     pageNum: 1,
@@ -39,7 +41,7 @@ const page = ref<{ pageNum: number, pageSize: number, total: number }>({
     total: 0
 });
 
-const formModelValue = ref<any>();
+let formModelValue: any = {};
 
 const proFormOptions = computed<ProFormOption[]>(() => {
     return getProFormProps(props.options).filter(item => item.hidden !== true);
@@ -88,7 +90,7 @@ async function request(pageNum: number, pageSize: number) {
             loading.value = true
             const result = await props.request<T>({
                 pageNum,
-                form: formModelValue.value,
+                form: formModelValue,
                 pageSize
             });
             innerDataSource.value = result.list;
@@ -167,7 +169,8 @@ function handlePageChange(pageInfo: PageInfo) {
     request(pageInfo.current, pageInfo.pageSize);
 }
 
-async function handleSubmit() {
+async function handleSubmit(data) {
+    formModelValue = data;
     await request(1, page.value.pageSize);
     return true;
 }
@@ -178,18 +181,32 @@ function handleDragSort(params: DragSortContext<T>) {
 }
 
 function handleSelectChange(values: string[], context: SelectOptions<T>) {
-    console.log('context =', context);
     selectData.value = {
         values,
         context
     }
+}
 
+function handleReset() {
+    formModelValue = {};
+}
+
+function reload() {
+    proFormRef.value.reset();
+    request(1, page.value.pageSize)
 }
 
 defineExpose({
     validate: tableRef.value?.validateRowData,
     clearValidate: tableRef.value?.clearValidateData,
-    getSelectData: () => selectData.value
+    getSelectData: () => selectData.value,
+    reset: () => {
+        proFormRef.value.reset();
+        request(page.value.pageNum, page.value.pageSize)
+    },
+    reload,
+    getFormInstance: () => proFormRef.value,
+    getTableInstance: () => tableRef.value
 });
 
 watch(() => props.dataSource, () => {
@@ -205,16 +222,17 @@ watch(innerDataSource, () => {
 <template>
     <Card :bordered="props.cardBordered" style="margin-bottom: 28px;"
         v-if="proFormOptions.length > 0 || props.hideForm !== true">
-        <ProForm :submit="handleSubmit" v-model="formModelValue" :options="displayedOptions">
+        <ProForm @reset="handleReset" ref="proFormRef" :submit="handleSubmit" :options="displayedOptions">
             <template #actions>
                 <FormItem :label-width="40" style="flex: 1">
                     <div style="width: 100%; float: right;">
                         <t-space style="float: right; overflow: hidden;">
-                            <t-button type="submit" :loading="loading">搜索</t-button>
-                            <t-button type="reset" :loading="loading" theme="default">重置</t-button>
+                            <t-button type="submit" :loading="loading">{{ props.searchText || '搜索' }}</t-button>
+                            <t-button type="reset" @click="reload" :loading="loading" theme="default">{{ props.resetText || '重置'
+                            }}</t-button>
                             <t-button @click="toggleExpand" v-if="hasMoreOptions" theme="primary" variant="text">
                                 <div style="display: flex; align-items: center;">
-                                    {{ expandState ? '收起' : '展开' }}
+                                    {{ expandState ? (props.lessText || '收起') : (props.moreText || '展开') }}
                                     <Icon :name="expandState ? 'chevron-up' : 'chevron-down'" />
                                 </div>
                             </t-button>
@@ -226,8 +244,9 @@ watch(innerDataSource, () => {
     </Card>
     <Loading :loading="loading">
         <Card :bordered="props.cardBordered">
-            <Table @select-change="handleSelectChange" ref="tableRef" @drag-sort="handleDragSort" drag-sort="row" v-bind="props.tableProps"
-                :row-key="props.rowKey" :columns="tableOptions" :bordered="props.bordered" :data="innerDataSource">
+            <Table @select-change="handleSelectChange" ref="tableRef" @drag-sort="handleDragSort" drag-sort="row"
+                v-bind="props.tableProps" :row-key="props.rowKey" :columns="tableOptions" :bordered="props.bordered"
+                :data="innerDataSource">
                 <template v-for="item in Object.keys($slots)" #[item]="args">
                     <slot :name="item" v-bind="{ ...args }"></slot>
                 </template>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
+import { computed, getCurrentInstance, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
 import ProFormCheckbox from '../ProFormCheckbox/ProFormCheckbox.vue';
 import ProFormDatePicker from '../ProFormDatePicker/ProFormDatePicker.vue';
 import ProFormDateRangePicker from '../ProFormDateRangePicker/ProFormDateRangePicker.vue';
@@ -10,9 +10,11 @@ import ProFormText from '../ProFormText/ProFormText.vue';
 import ProFormTextarea from '../ProFormTextarea/ProFormTextarea.vue';
 import ProFormTreeSelect from '../ProFormTreeSelect/ProFormTreeSelect.vue';
 import { ExtractNames, ProFormOption, ProFormProps } from './types';
-import { FormInstanceFunctions } from 'tdesign-vue-next';
+import { FormInstanceFunctions, Form, Data, SubmitContext, Row, Col } from 'tdesign-vue-next';
 
 const formRef = useTemplateRef<FormInstanceFunctions>('formRef');
+
+const vm = getCurrentInstance();
 
 const COMPONENT_MAP = {
     'text': ProFormText,
@@ -34,6 +36,8 @@ const ROOT_PROPS = ['name', 'label', 'type', 'hidden', 'colProps', 'data', 'rule
 
 const props = defineProps<ProFormProps>();
 
+const emits = defineEmits<{ (e: 'update:modelValue', value: Record<string, any>): void }>();
+
 const loading = ref(false);
 
 const innerOptions = computed(() => {
@@ -50,9 +54,7 @@ const innerOptions = computed(() => {
     return options.filter(item => item.hidden !== true);
 });
 
-const modelValue = defineModel<Record<string, any>>({
-    default: () => ({})
-});
+const innerModelValue = ref<Record<string, any>>({});
 
 const getNestedValue = (obj: Record<string, any>, path: string) => {
     return path.split('.').reduce((current, part) => {
@@ -75,7 +77,7 @@ const setNestedValue = (obj: Record<string, any>, path: string, value: any) => {
     });
 
     current[lastPart] = value;
-    modelValue.value = { ...modelValue.value };
+    innerModelValue.value = { ...innerModelValue.value };
 };
 
 function buildNestedObject(items: ProFormOption[]): Record<string, any> {
@@ -91,7 +93,6 @@ function buildNestedObject(items: ProFormOption[]): Record<string, any> {
             const isLastPart = index === pathParts.length - 1;
 
             if (isLastPart) {
-                // 如果有默认值则使用默认值，否则为空字符串
                 currentLevel[part] = item.defaultValue ?? '';
             } else {
                 if (!currentLevel[part] || typeof currentLevel[part] !== 'object') {
@@ -106,13 +107,13 @@ function buildNestedObject(items: ProFormOption[]): Record<string, any> {
 }
 
 onMounted(() => {
-    if (Object.keys(modelValue.value).length === 0) {
-        modelValue.value = buildNestedObject(innerOptions.value);
+    if (Object.keys(innerModelValue.value).length === 0) {
+        innerModelValue.value = buildNestedObject(innerOptions.value);
     }
     nextTick(async () => {
         if (props.request) {
             const result = await props.request();
-            modelValue.value = result;
+            innerModelValue.value = result;
         }
     });
 });
@@ -141,47 +142,78 @@ function getComponent(option: ProFormOption) {
 }
 type FormOptionNames = ExtractNames<typeof innerOptions.value>;
 
-defineExpose({
+buildExposed({
     setItem: <K extends FormOptionNames>(key: K, value: any) => {
-        setNestedValue(modelValue.value, key, value);
+        setNestedValue(innerModelValue.value, key, value);
     },
-    reset: formRef.value?.reset,
-    validate: formRef.value?.validate,
-    clearValidate: formRef.value?.clearValidate,
-    submit: formRef.value?.submit
-});
+    getFormData: () => innerModelValue.value
+})
 
-async function handleSubmit() {
-    if (props.submit) {
-        loading.value = true;
-        try {
-            await props.submit(modelValue.value);
-        } finally {
-            loading.value = false;
+function changeRef(form: FormInstanceFunctions<Data>) {
+    buildExposed(form ? {
+        reset: form.reset,
+        validate: form.validate,
+        clearValidate: form.clearValidate,
+        submit: form.submit
+    } : {});
+}
+
+async function handleSubmit(e: SubmitContext) {
+    loading.value = true;
+    try {
+        if (e.validateResult) {
+            if (props.submit) {
+                await props.submit(innerModelValue.value);
+            }
+        } else {
+            props.error(e.firstError)
         }
+    } finally {
+        loading.value = false;
     }
 }
+
+function buildExposed(fn: Object) {
+    vm.exposed = {
+        ...vm.exposed,
+        ...fn
+    }
+
+    vm.exposeProxy = {
+        ...vm.exposed,
+        ...fn
+    }
+}
+
+watch(innerModelValue, (value) => {
+    emits('update:modelValue', value)
+}, { deep: true });
+
+watch(() => props.modelValue, (value) => {
+    innerModelValue.value = value;
+})
 </script>
 
 <template>
-    <t-form @submit="handleSubmit" v-bind="{ ...$attrs, ...props.formProps }" ref="formRef" :data="modelValue">
-        <t-row v-bind="{ ...props.rowProps, gutter: props?.rowProps?.gutter || [12, 24] }">
-            <t-col v-for="item in innerOptions" :key="item.name" v-bind="item.colProps">
+    <Form v-loading="loading" @submit="handleSubmit"
+        v-bind="{ ...$attrs, ...props.formProps }" :ref="changeRef as unknown as any" :data="innerModelValue">
+        <Row v-bind="{ ...props.rowProps, gutter: props?.rowProps?.gutter || [20, 16] }">
+            <Col v-for="item in innerOptions" :key="item.name" v-bind="item.colProps">
                 <slot :name="item.name" :option="item">
-                    <component :model-value="getNestedValue(modelValue, item.name)"
-                        @update:model-value="(value: any) => setNestedValue(modelValue, item.name, value)"
+                    <component :model-value="getNestedValue(innerModelValue, item.name)"
+                        @update:model-value="(value: any) => setNestedValue(innerModelValue, item.name, value)"
                         :data="item.data" :label="item.label" :rules="item.rules" :name="item.name"
                         :is="getComponent(item)" v-bind="getProps(item)"></component>
                 </slot>
-            </t-col>
+            </Col>
             <slot name="actions">
-                <t-col :span="12">
+                <Col v-if="props.hideActions !== true" :span="12">
                     <t-space style="float: right;">
                         <t-button :loading="loading" theme="default" type="reset">重置</t-button>
                         <t-button :loading="loading" type="submit">提交</t-button>
                     </t-space>
-                </t-col>
+                </Col>
             </slot>
-        </t-row>
-    </t-form>
+        </Row>
+    </Form>
 </template>

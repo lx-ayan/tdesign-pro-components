@@ -1,6 +1,6 @@
 import { FormOptionData, OptionData } from "@tdesign-pro-component/utils";
-import { FormComponentType, ProFormOption } from "../ProForm";
-import { BaseTableCol, TableCol, TableProps, TdColProps, TdLoadingProps } from 'tdesign-vue-next';
+import { FormComponentType, ProFormOption, ProFormRef } from "../ProForm";
+import { BaseTableCol, SelectOption, SelectOptions, TableCol, TableInstanceFunctions, TableProps, TdColProps, TdLoadingProps } from 'tdesign-vue-next';
 
 export interface ProTableRequest<T = any> {
     pageNum: number;
@@ -32,6 +32,10 @@ export interface ProTableProps {
     selectAble?: boolean;
     dragAble?: boolean;
     dataSource?: any[];
+    searchText?: string;
+    resetText?: string;
+    moreText?: string;
+    lessText?: string;
     selectType?: 'multiple' | 'single';
 }
 
@@ -47,4 +51,19 @@ export interface ProTableOption<T = any> {
     formProps?: Partial<ProFormOption>;
     tableProps?: BaseTableCol;
     edit?: TableCol['edit'];
+}
+
+export interface SelectData {
+    values: (string | number)[];
+    context: SelectOptions<any>;
+}
+
+export interface ProTableRef {
+    reset: () => void;
+    reload: () => void;
+    getFormInstance: () => ProFormRef
+    getTableInstance: () => TableInstanceFunctions;
+    validate: () => TableInstanceFunctions['validateRowData'];
+    clearValidate: () => TableInstanceFunctions['clearValidateData'];
+    getSelectData: () => Array<any>;
 }
