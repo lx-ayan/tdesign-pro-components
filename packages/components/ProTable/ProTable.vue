@@ -1,5 +1,5 @@
 <script setup generic="T extends Object" lang='tsx'>
-import { Card, Table, Pagination, BaseTableColumns, BaseTableCol, Loading, Icon, PageInfo, TableCol, DragSortContext, TableRowData, TableInstanceFunctions, ValueType, SelectOptions } from 'tdesign-vue-next';
+import { Card, Table, Pagination, BaseTableColumns, Loading, Icon, PageInfo, TableCol, DragSortContext, TableRowData, TableInstanceFunctions, ValueType, SelectOptions } from 'tdesign-vue-next';
 import ProForm from '../ProForm/ProForm.vue';
 import { FormItem } from 'tdesign-vue-next';
 import { ProTableOption, ProTableProps } from './types';
